@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[601px] bg-[#222030] mx-auto mt-24 flex flex-col items-center rounded-md"
+    class="w-[601px] bg-[#222030] mt-24 flex flex-col items-center rounded-md absolute mx-auto left-0 right-0"
   >
     <button
       class="text-white text-5xl self-end mr-2"

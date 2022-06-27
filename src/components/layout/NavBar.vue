@@ -1,7 +1,10 @@
 <template>
   <nav
     class="flex justify-between py-4 bg-[#222030] text-white absolute top-0 left-0 w-full"
-    :class="{ 'blur-[2px] pointer-events-none': active }"
+    :class="{
+      'blur-[2px] pointer-events-none': active,
+      'bg-[#11101A]': landing,
+    }"
   >
     <h1
       class="uppercase ml-12 text-[#DDCCAA] cursor-pointer self-center"
@@ -48,6 +51,9 @@ export default {
         this.$route.fullPath === "/register" ||
         this.$route.fullPath === "/login"
       );
+    },
+    landing() {
+      return this.$route.fullPath === "/";
     },
   },
   methods: {
