@@ -69,30 +69,22 @@ export default {
       email: "",
       password: "",
       confirm_password: "",
-      errors: [],
     };
   },
   methods: {
     submitForm() {
       axios
-        .post(
-          "http://localhost:8000/api/users/create",
-          {
-            name: this.name,
-            email: this.email,
-            password: this.password,
-          },
-          {
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
-          }
-        )
+        .post("http://localhost:8000/api/register-user", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.confirm_password,
+        })
         .then(function (response) {
           console.log(response);
         })
-        .catch(function (errors) {
-          console.log(errors.response.data.errors);
+        .catch(function (error) {
+          console.log(error.response.data.errors);
         });
     },
   },

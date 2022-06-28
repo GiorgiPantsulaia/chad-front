@@ -8,8 +8,16 @@
   </router-view>
 </template>
 <script>
+import { useAuthStore } from "@/stores/auth.js";
+import { mapActions } from "pinia";
 export default {
   name: "App",
+  methods: {
+    ...mapActions(useAuthStore, ["tryLogin"]),
+  },
+  created() {
+    this.tryLogin();
+  },
 };
 </script>
 

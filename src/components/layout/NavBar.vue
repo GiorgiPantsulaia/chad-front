@@ -1,9 +1,9 @@
 <template>
   <nav
-    class="flex justify-between py-4 bg-[#222030] text-white absolute top-0 left-0 w-full"
+    class="flex justify-between py-4 'bg-[#11101A]' text-white absolute top-0 left-0 w-full"
     :class="{
       'blur-[2px] pointer-events-none': active,
-      'bg-[#11101A]': landing,
+      'bg-[#222030]': !landing,
     }"
   >
     <h1
@@ -26,19 +26,34 @@
         <div v-if="showLang" class="absolute text-lg">Geo</div>
       </div>
 
-      <router-link to="/register" class="mx-4 bg-[#E31221] rounded-sm py-1 px-5"
+      <router-link
+        to="/register"
+        class="mx-4 bg-[#E31221] rounded-sm py-1 px-5"
+        v-if="!isAuthenticated"
         >Sign Up</router-link
       >
       <router-link
+        v-if="!isAuthenticated"
         to="/login"
         class="py-1 px-5 mx-4 border border-white rounded-sm"
       >
         Log In</router-link
       >
+      <button
+        type="button"
+        v-else
+        class="py-1 px-5 mx-4 border border-white rounded-sm"
+        @click="logout"
+      >
+        Log out
+      </button>
     </div>
   </nav>
 </template>
 <script>
+import { mapState } from "pinia";
+import { useAuthStore } from "@/stores/auth.js";
+
 export default {
   data() {
     return {
@@ -46,6 +61,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(useAuthStore, ["isAuthenticated", "logout"]),
     active() {
       return (
         this.$route.fullPath === "/register" ||
@@ -57,6 +73,9 @@ export default {
     },
   },
   methods: {
+    log() {
+      console.log(this.isAuthenticated);
+    },
     navigateHome() {
       this.$router.push("/");
     },

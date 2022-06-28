@@ -10,15 +10,18 @@
     </button>
     <h1 class="text-white text-4xl mt-10">Log in to your account</h1>
     <p class="text-[#6C757D]">Welcome back! Please enter your details.</p>
-    <form class="flex flex-col w-[360px] pb-16 mt-6">
+    <Form @submit="login" class="flex flex-col w-[360px] pb-16 mt-6">
       <text-input
         v-model="user"
         name="email"
+        rules="required|min:3"
+        type="text"
         placeholder="At least 3 & max.15 lower case characters"
       />
       <text-input
         v-model="password"
         name="password"
+        rules="required"
         type="password"
         placeholder="At least 8 & max.15 lower case characters"
       />
@@ -34,6 +37,8 @@
       </button>
       <button
         class="w-full h-10 border border-white rounded-md mt-4 text-white"
+        type="button"
+        @click="log"
       >
         Sign in with Google
       </button>
@@ -43,12 +48,50 @@
           Sign up</router-link
         >
       </p>
-    </form>
+    </Form>
   </div>
 </template>
 <script>
 import TextInput from "@/components/inputs/TextInput.vue";
+import axios from "axios";
+import { mapActions, mapState } from "pinia";
+import { Form } from "vee-validate";
+import { useAuthStore } from "@/stores/auth.js";
+
 export default {
-  components: { TextInput },
+  // eslint-disable-next-line vue/no-reserved-component-names
+  components: { TextInput, Form },
+  data() {
+    return {
+      user: "",
+      password: "",
+    };
+  },
+  computed: {
+    ...mapState(useAuthStore, ["getToken"]),
+  },
+  methods: {
+    ...mapActions(useAuthStore, ["storeToken"]),
+    log() {
+      console.log(this.getToken);
+    },
+    login() {
+      axios
+        .post("http://localhost:8000/api/login", {
+          name: this.user,
+          password: this.password,
+        })
+        .then((response) => {
+          console.log(response);
+          this.storeToken({ token: response.data.access_token });
+          localStorage.setItem("token", response.data.access_token);
+          localStorage.setItem("user_id", response.data.user_id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      this.$router.replace("/");
+    },
+  },
 };
 </script>
