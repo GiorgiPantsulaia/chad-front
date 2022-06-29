@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LandingPage from "@/pages/LandingPage.vue";
+import LandingPage from "@/views/LandingPage.vue";
 import SignupForm from "@/components/forms/SignupForm.vue";
 import LoginForm from "@/components/forms/LoginForm.vue";
 const router = createRouter({
