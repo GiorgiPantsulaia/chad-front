@@ -6,6 +6,7 @@ import { useAuthStore } from "@/stores/auth.js";
 import NewsFeed from "@/views/NewsFeed.vue";
 import ViewForbidden from "@/views/ViewForbidden.vue";
 import NotFound from "@/views/NotFound.vue";
+import UserProfile from "@/views/UserProfile.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -42,6 +43,11 @@ const router = createRouter({
       path: "/forbidden",
       name: "forbidden",
       component: ViewForbidden,
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: UserProfile,
     },
   ],
 });

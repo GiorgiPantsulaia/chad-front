@@ -1,13 +1,13 @@
 <template>
   <nav
-    class="flex justify-between py-4 'bg-[#11101A]' text-white absolute top-0 left-0 w-full"
+    class="flex justify-between py-4 'bg-[#11101A]' text-white absolute top-0 left-0 w-full z-50"
     :class="{
       'blur-[2px] pointer-events-none': active,
       'bg-[#222030]': !landing,
     }"
   >
     <h1
-      class="uppercase ml-12 text-[#DDCCAA] cursor-pointer self-center"
+      class="uppercase ml-12 text-[#DDCCAA] cursor-pointer self-center font-bold"
       @click="navigateHome"
     >
       Movie Quotes

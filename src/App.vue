@@ -1,10 +1,10 @@
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="route" mode="out-in">
-      <keep-alive>
-        <component :is="Component"></component>
-      </keep-alive>
-    </transition>
+    <!-- <transition name="route" mode="out-in"> -->
+    <keep-alive>
+      <component :is="Component"></component>
+    </keep-alive>
+    <!-- </transition> -->
   </router-view>
 </template>
 <script>
@@ -26,18 +26,5 @@ export default {
   margin: 0;
   padding: 0;
   font-weight: normal;
-}
-.route-enter-from {
-  opacity: 0.3;
-}
-.route-enter-active {
-  transition: all 0.1s ease-out;
-}
-.route-leave-to {
-  opacity: 1;
-}
-
-.route-leave-active {
-  transition: all 0.1s ease-in;
 }
 </style>

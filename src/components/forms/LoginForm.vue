@@ -15,7 +15,7 @@
       Log in to your account
     </h1>
     <p
-      class="text-[#6C757D]"
+      class="text-[#6C757D] mt-4 font-normal tracking-wider"
       :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
       Welcome back! Please enter your details.
@@ -54,10 +54,16 @@
         Sign in
       </button>
       <button
-        class="w-full h-10 border border-white rounded-md mt-4 text-white"
+        class="w-full h-10 border border-white rounded-md mt-4 text-white flex justify-center items-center"
         type="button"
         @click="log"
       >
+        <img
+          src="@/icons/google-icon.svg"
+          alt="google-icon"
+          width="25"
+          class="mr-2"
+        />
         Sign in with Google
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
@@ -96,7 +102,7 @@ export default {
     ...mapState(useAuthStore, ["getToken"]),
   },
   methods: {
-    ...mapActions(useAuthStore, ["storeToken"]),
+    ...mapActions(useAuthStore, ["storeUser"]),
     login() {
       this.isLoading = true;
       axios
@@ -107,8 +113,12 @@ export default {
         .then((response) => {
           console.log(response);
           this.isLoading = false;
-          this.storeToken({ token: response.data.access_token });
-          localStorage.setItem("token", response.data.access_token);
+          this.storeUser({
+            token: response.data.access_token,
+            user: response.data.user,
+            user_email: response.data.user_email,
+          });
+
           this.$router.push({ name: "home" });
         })
         .catch((error) => {

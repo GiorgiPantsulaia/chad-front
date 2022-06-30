@@ -77,8 +77,14 @@
       </button>
       <button
         type="button"
-        class="w-full h-10 border border-white rounded-md mt-4 text-white"
+        class="w-full h-10 border border-white rounded-md mt-4 text-white justify-center items-center flex"
       >
+        <img
+          src="@/icons/google-icon.svg"
+          alt="google-icon"
+          width="25"
+          class="mr-2"
+        />
         Sign up with Google
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
