@@ -73,11 +73,8 @@ export default {
     },
   },
   methods: {
-    log() {
-      console.log(this.isAuthenticated);
-    },
     navigateHome() {
-      this.$router.push("/");
+      this.$router.push({ name: "home" });
     },
   },
 };

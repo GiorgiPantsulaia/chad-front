@@ -4,26 +4,26 @@
   >
     <button
       class="text-white text-5xl self-end mr-2"
-      @click="this.$router.replace('/')"
+      @click="this.$router.replace({ name: 'home' })"
     >
       ✕
     </button>
     <h1
       class="text-white text-4xl mt-10"
-      :class="{ 'blur-sm pointer-events-none': isLoading }"
+      :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
       Log in to your account
     </h1>
     <p
       class="text-[#6C757D]"
-      :class="{ 'blur-sm pointer-events-none': isLoading }"
+      :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
       Welcome back! Please enter your details.
     </p>
     <Form
       @submit="login"
       class="flex flex-col w-[360px] pb-16 mt-6"
-      :class="{ 'blur-sm pointer-events-none': isLoading }"
+      :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
       <text-input
         v-model="user"
@@ -105,11 +105,11 @@ export default {
           password: this.password,
         })
         .then((response) => {
+          console.log(response);
           this.isLoading = false;
           this.storeToken({ token: response.data.access_token });
           localStorage.setItem("token", response.data.access_token);
-          localStorage.setItem("user_id", response.data.user_id);
-          this.$router.replace("/");
+          this.$router.push({ name: "home" });
         })
         .catch((error) => {
           this.isLoading = false;

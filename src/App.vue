@@ -21,23 +21,23 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   margin: 0;
   padding: 0;
   font-weight: normal;
 }
 .route-enter-from {
-  opacity: 0;
+  opacity: 0.3;
 }
 .route-enter-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.1s ease-out;
 }
 .route-leave-to {
-  opacity: 0;
+  opacity: 1;
 }
 
 .route-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.1s ease-in;
 }
 </style>

@@ -8,11 +8,14 @@
         'blur-[2px] pointer-events-none': active,
       }"
     >
-      <h1 class="pt-96 text-5xl font-black leading-snug text-[#DDCCAA]">
+      <h1 class="pt-96 text-6xl font-black leading-snug text-[#DDCCAA]">
         Find any quote in <br />
         millions of movie lines
       </h1>
-      <button class="mt-8 bg-[#E31221] text-white rounded-md py-2 px-3">
+      <button
+        class="mt-8 bg-[#E31221] text-white rounded-md py-2 px-3"
+        @click="getStarted"
+      >
         Get Started
       </button>
     </div>
@@ -29,6 +32,11 @@ export default {
         this.$route.fullPath === "/register" ||
         this.$route.fullPath === "/login"
       );
+    },
+  },
+  methods: {
+    getStarted() {
+      this.$router.push({ name: "register" });
     },
   },
 };

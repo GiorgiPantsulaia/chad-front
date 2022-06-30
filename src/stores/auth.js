@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
-
+import axios from "axios";
 export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     token: "",
-    user_id: null,
   }),
   actions: {
     storeToken(payload) {
@@ -12,16 +11,24 @@ export const useAuthStore = defineStore({
     },
     tryLogin() {
       const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("user_id");
-      if (token && userId) {
+      if (token) {
         this.token = token;
-        this.user_id = userId;
       }
     },
     logout() {
-      localStorage.removeItem("token");
-      this.token = "";
-      this.user_id = null;
+      axios
+        .post("http://localhost:8000/api/logout")
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response);
+            localStorage.removeItem("token");
+            this.token = "";
+            this.router.push({ name: "home" });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   getters: {

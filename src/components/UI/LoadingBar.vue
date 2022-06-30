@@ -69,7 +69,7 @@ export default {
       }));
     }, 70);
   },
-  destroyed() {
+  unmounted() {
     clearInterval(this.interval);
   },
 };
