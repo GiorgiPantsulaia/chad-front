@@ -15,15 +15,23 @@ export const useAuthStore = defineStore({
       localStorage.setItem("token", payload.token);
       localStorage.setItem("user", payload.user);
       localStorage.setItem("user_email", payload.user_email);
+      localStorage.setItem(
+        "expire_time",
+        Date.now() + payload.expire_time * 1000
+      );
     },
     tryLogin() {
       const token = localStorage.getItem("token");
       const user = localStorage.getItem("user");
       const user_email = localStorage.getItem("user_email");
-      if (token && user && user_email) {
+      let expire_time = localStorage.getItem("expire_time");
+      expire_time = expire_time > Date.now() ? expire_time : null;
+      if (token && user && user_email && expire_time) {
         this.token = token;
         this.user = user;
         this.user_email = user_email;
+      } else {
+        this.router.replace("/");
       }
     },
     logout() {
@@ -32,9 +40,7 @@ export const useAuthStore = defineStore({
         .then((response) => {
           if (response.status === 200) {
             console.log(response);
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            localStorage.removeItem("user_email");
+            localStorage.clear();
             this.token = "";
             this.user = "";
             this.user_email = "";

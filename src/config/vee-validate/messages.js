@@ -4,19 +4,28 @@ import { localize } from "@vee-validate/i18n";
 configure({
   generateMessage: localize("ka", {
     messages: {
-      required: "",
+      required: "{field} is required",
       email: "",
     },
     fields: {
       name: {
-        min: "",
+        min: "name must be between 3 and 15 characters",
+        max: "name must be between 3 and 15 characters",
+        alpha_num: "name can only contain letters and numbers",
+      },
+      user: {
+        min: "name/email must contain at least 3 characters",
         max: "",
-        alpha: "",
       },
       email: {
         min: "",
         max: "",
         alpha: "",
+      },
+      password: {
+        min: "password must be between 3 and 15 characters",
+        max: "password must be between 3 and 15 characters",
+        alpha_num: "password can only contain letters and numbers",
       },
       "confirm password": {
         confirmed: "passwords do not match.",

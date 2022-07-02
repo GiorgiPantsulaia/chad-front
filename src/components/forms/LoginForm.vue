@@ -27,7 +27,7 @@
     >
       <text-input
         v-model="user"
-        name="email"
+        name="user"
         rules="required|min:3"
         type="text"
         placeholder="At least 3 & max.15 lower case characters"
@@ -82,7 +82,7 @@
 <script>
 import TextInput from "@/components/inputs/TextInput.vue";
 import axios from "axios";
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 import { Form } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
@@ -97,9 +97,6 @@ export default {
       errors: "",
       isLoading: false,
     };
-  },
-  computed: {
-    ...mapState(useAuthStore, ["getToken"]),
   },
   methods: {
     ...mapActions(useAuthStore, ["storeUser"]),
@@ -117,6 +114,7 @@ export default {
             token: response.data.access_token,
             user: response.data.user,
             user_email: response.data.user_email,
+            expire_time: response.data.expires_in,
           });
 
           this.$router.push({ name: "home" });

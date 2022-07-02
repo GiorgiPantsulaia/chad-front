@@ -2,7 +2,9 @@
   <div class="absolute top-0 left-0 max-h-screen w-full overflow-hidden">
     <div class="h-screen bg-[#11101A]">
       <nav-bar></nav-bar>
-      <router-view class="z-50" />
+      <transition name="auth" mode="out-in">
+        <router-view class="z-50" />
+      </transition>
       <div
         class="mx-auto w-9/12 text-center z-50"
         :class="{
@@ -125,5 +127,14 @@ export default {
 <style scoped>
 #movie {
   font-family: "Monsterrat";
+}
+.auth-enter-active,
+.auth-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.auth-enter-from,
+.auth-leave-to {
+  opacity: 0;
 }
 </style>

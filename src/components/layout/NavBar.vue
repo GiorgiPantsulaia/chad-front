@@ -19,11 +19,13 @@
           <img
             src="@/icons/arrow-down.svg"
             alt="arrow-down"
-            class="ml-1"
+            class="ml-1 transition-all"
             :class="{ 'rotate-180': showLang }"
           />
         </div>
-        <div v-if="showLang" class="absolute text-lg">Geo</div>
+        <transition name="localeChanger" mode="out-in">
+          <div v-if="showLang" class="absolute text-lg">Geo</div>
+        </transition>
       </div>
 
       <router-link
@@ -60,6 +62,7 @@ export default {
       showLang: false,
     };
   },
+
   computed: {
     ...mapState(useAuthStore, ["isAuthenticated", "logout"]),
     active() {
@@ -79,3 +82,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+.localeChanger-enter-active,
+.localeChanger-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.localeChanger-enter-from,
+.localeChanger-leave-to {
+  opacity: 0;
+}
+</style>

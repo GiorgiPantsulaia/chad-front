@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-inherit text-white pl-12 self-start">
+  <div class="bg-inherit text-white pl-12 self-start hidden lg:block">
     <ul>
       <li>
         <div class="flex">
@@ -12,7 +12,7 @@
           <div class="flex flex-col ml-6">
             <h2 class="text-3xl">{{ user }}</h2>
             <button
-              class="text-[#CED4DA]"
+              class="text-[#CED4DA] self-start"
               @click="this.$router.push('/profile')"
             >
               Edit your profile
