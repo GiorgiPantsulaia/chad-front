@@ -31,7 +31,7 @@ export const useAuthStore = defineStore({
         this.user = user;
         this.user_email = user_email;
       } else {
-        this.router.replace("/");
+        return;
       }
     },
     logout() {
@@ -39,7 +39,6 @@ export const useAuthStore = defineStore({
         .post("http://localhost:8000/api/logout")
         .then((response) => {
           if (response.status === 200) {
-            console.log(response);
             localStorage.clear();
             this.token = "";
             this.user = "";

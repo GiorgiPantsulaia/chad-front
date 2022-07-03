@@ -5,6 +5,7 @@
       <transition name="auth" mode="out-in">
         <router-view class="z-50" />
       </transition>
+
       <div
         class="mx-auto w-9/12 text-center z-50"
         :class="{

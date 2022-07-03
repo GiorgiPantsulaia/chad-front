@@ -8,7 +8,7 @@
   >
     <h1
       class="uppercase ml-12 text-[#DDCCAA] cursor-pointer self-center font-bold"
-      @click="navigateHome"
+      @click="this.$router.push({ name: 'home' })"
     >
       Movie Quotes
     </h1>
@@ -73,11 +73,6 @@ export default {
     },
     landing() {
       return this.$route.fullPath === "/";
-    },
-  },
-  methods: {
-    navigateHome() {
-      this.$router.push({ name: "home" });
     },
   },
 };

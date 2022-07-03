@@ -48,15 +48,16 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: UserProfile,
+      meta: { requiresAuth: true },
     },
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _2, next) => {
   const store = useAuthStore();
   if (to.meta.requiresAuth && !store.isAuthenticated) {
     next("/forbidden");
-  } else if (to.meta.requiresAuth === false && store.isAuthenticated) {
+  } else if (!to.meta.requiresAuth && store.isAuthenticated) {
     next("/news-feed");
   } else {
     next();
