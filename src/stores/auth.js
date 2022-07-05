@@ -3,7 +3,7 @@ import axios from "axios";
 export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
-    token: "",
+    token: null,
   }),
   actions: {
     storeUser(payload) {
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore({
         .then((response) => {
           if (response.status === 200) {
             localStorage.clear();
-            this.token = "";
+            this.token = null;
             this.router.push({ name: "home" });
           }
         })

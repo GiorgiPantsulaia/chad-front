@@ -21,7 +21,7 @@
               name="username"
               rules="min:3|max:15"
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
-              :value="user"
+              v-model="username"
             />
             <ErrorMessage name="username" class="text-[#D0342C]" />
             <label for="email" class="text-white mt-4">Email</label>
@@ -29,7 +29,7 @@
               type="email"
               name="email"
               rules="email"
-              :value="user_email"
+              v-model="user_email"
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
             />
             <ErrorMessage name="email" class="text-[#D0342C]" />
@@ -56,14 +56,23 @@
 <script>
 import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
-import { useAuthStore } from "@/stores/auth";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { mapState } from "pinia";
+import axios from "@/config/axios/index.js";
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
-  components: { NavBar, SideBar, Form, Field, ErrorMessage },
-  computed: {
-    ...mapState(useAuthStore, ["user", "user_email"]),
+  data() {
+    return {
+      username: "",
+      user_email: "",
+    };
   },
+
+  // eslint-disable-next-line vue/no-reserved-component-names
+  beforeMount() {
+    axios.post("logged-user").then((response) => {
+      this.username = response.data.user.name;
+      this.user_email = response.data.user.email;
+    });
+  },
+  components: { NavBar, SideBar, Form, Field, ErrorMessage },
 };
 </script>

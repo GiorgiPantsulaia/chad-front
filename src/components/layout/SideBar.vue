@@ -10,7 +10,7 @@
             :class="{ 'border-2 border-[#E31221]': active === 'profile' }"
           />
           <div class="flex flex-col ml-6">
-            <h2 class="text-3xl">{{ user }}</h2>
+            <h2 class="text-3xl">{{ username }}</h2>
             <button
               class="text-[#CED4DA] self-start"
               @click="this.$router.push('/profile')"
@@ -40,13 +40,21 @@
   </div>
 </template>
 <script>
-import { useAuthStore } from "@/stores/auth";
-import { mapState } from "pinia";
 import CameraIcon from "@/components/icons/CameraIcon.vue";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
+import axios from "@/config/axios/index.js";
 export default {
+  data() {
+    return {
+      username: "",
+    };
+  },
+  beforeMount() {
+    axios.post("logged-user").then((response) => {
+      this.username = response.data.user.name;
+    });
+  },
   computed: {
-    ...mapState(useAuthStore, ["user"]),
     active() {
       return this.$route.fullPath === "/news-feed"
         ? "feed"

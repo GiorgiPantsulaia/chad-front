@@ -120,6 +120,7 @@ export default {
           this.storeUser({
             token: response.data.access_token,
             expire_time: response.data.expires_in,
+            user: response.data.user,
           });
         })
         .catch((error) => {

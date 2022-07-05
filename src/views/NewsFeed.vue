@@ -143,7 +143,6 @@ export default {
       page: 0,
       lastPage: false,
       loading: false,
-      counter: 0,
       newComment: "",
     };
   },
@@ -166,13 +165,12 @@ export default {
           console.log(response);
         });
     },
-    likePost(index, id) {
+    likePost(id) {
       // WIP : user still can like post twice if they refresh the page
       if (this.counter === 0) {
         this.loading = true;
         axios.post("like-post", { id: id }).then((response) => {
           if (response.status === 200) {
-            this.counter++;
             this.loading = false;
           }
         });
@@ -181,7 +179,6 @@ export default {
         axios.post("unlike-post", { id: id }).then((response) => {
           if (response.status === 200) {
             this.loading = false;
-            this.counter--;
           }
         });
       }
