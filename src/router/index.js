@@ -7,6 +7,7 @@ import NewsFeed from "@/views/NewsFeed.vue";
 import ViewForbidden from "@/views/ViewForbidden.vue";
 import NotFound from "@/views/NotFound.vue";
 import UserProfile from "@/views/UserProfile.vue";
+import RedirectUser from "@/views/RedirectUser.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -49,6 +50,12 @@ const router = createRouter({
       name: "profile",
       component: UserProfile,
       meta: { requiresAuth: true },
+    },
+    {
+      path: "/redirecting",
+      name: "redirecting",
+      component: RedirectUser,
+      meta: { requiresAuth: false },
     },
   ],
 });

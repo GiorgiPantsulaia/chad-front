@@ -78,6 +78,7 @@
       <button
         type="button"
         class="w-full h-10 border border-white rounded-md mt-4 text-white justify-center items-center flex"
+        @click="googleAuth"
       >
         <img
           src="@/icons/google-icon.svg"
@@ -103,7 +104,7 @@
 </template>
 <script>
 import TextInput from "@/components/inputs/TextInput.vue";
-import axios from "axios";
+import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import UserRegistered from "@/components/UI/UserRegistered.vue";
@@ -141,6 +142,13 @@ export default {
           this.isLoading = false;
           this.errors = error.response.data.errors;
         });
+    },
+    googleAuth() {
+      axios.post("auth-redirect").then((response) => {
+        if (response.data.url) {
+          window.location.href = response.data.url;
+        }
+      });
     },
   },
   // eslint-disable-next-line vue/no-reserved-component-names

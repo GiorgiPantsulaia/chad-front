@@ -21,11 +21,11 @@
           </div>
           <p class="text-base w-11/12 mx-auto py-6">
             "{{ quote.body }}" movie -
-            <span class="text-[#DDCCAA]"
-              >{{ quote.movie.title }} ({{
+            <button type="button" class="text-[#DDCCAA] underline">
+              {{ quote.movie.title }} ({{
                 quote.movie.release_date.substring(0, 4)
               }})
-            </span>
+            </button>
           </p>
           <img
             src="@/icons/interstellar.png"
@@ -37,7 +37,7 @@
               <p class="font-black pointer-events-none">
                 {{ quote.comments.length }}
               </p>
-              <button class="mx-2">
+              <button class="mx-2" @click="focusCommentField()">
                 <img src="@/icons/comment-icon.svg" alt="comment" />
               </button>
             </div>
@@ -120,7 +120,7 @@
           <button
             v-if="quote.comments.length > 1"
             class="text-[#DDCCAA] mt-8"
-            @click="toggleElement(index)"
+            @click="toggleShow(index)"
           >
             {{ quote.isShown && quote.comments.length > 1 ? "Hide" : "Show" }}
             all comments
@@ -163,7 +163,6 @@ export default {
           body: this.newComment,
         })
         .then((response) => {
-          this.quotes = response.data.data.data;
           console.log(response);
         });
     },
@@ -173,7 +172,6 @@ export default {
         this.loading = true;
         axios.post("like-post", { id: id }).then((response) => {
           if (response.status === 200) {
-            this.quotes[index].likes_number++;
             this.counter++;
             this.loading = false;
           }
@@ -182,14 +180,13 @@ export default {
         this.loading = true;
         axios.post("unlike-post", { id: id }).then((response) => {
           if (response.status === 200) {
-            this.quotes[index].likes_number--;
             this.loading = false;
             this.counter--;
           }
         });
       }
     },
-    toggleElement(index) {
+    toggleShow(index) {
       this.quotes[index].isShown = !this.quotes[index].isShown;
     },
     getInitialQuotes() {

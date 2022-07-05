@@ -56,7 +56,7 @@
       <button
         class="w-full h-10 border border-white rounded-md mt-4 text-white flex justify-center items-center"
         type="button"
-        @click="log"
+        @click="googleAuth"
       >
         <img
           src="@/icons/google-icon.svg"
@@ -81,7 +81,7 @@
 </template>
 <script>
 import TextInput from "@/components/inputs/TextInput.vue";
-import axios from "axios";
+import axios from "@/config/axios/index.js";
 import { mapActions } from "pinia";
 import { Form } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
@@ -100,6 +100,13 @@ export default {
   },
   methods: {
     ...mapActions(useAuthStore, ["storeUser"]),
+    googleAuth() {
+      axios.post("auth-redirect").then((response) => {
+        if (response.data.url) {
+          window.location.href = response.data.url;
+        }
+      });
+    },
     login() {
       this.isLoading = true;
       axios
@@ -112,12 +119,8 @@ export default {
           this.isLoading = false;
           this.storeUser({
             token: response.data.access_token,
-            user: response.data.user,
-            user_email: response.data.user_email,
             expire_time: response.data.expires_in,
           });
-
-          this.$router.push({ name: "home" });
         })
         .catch((error) => {
           this.isLoading = false;
