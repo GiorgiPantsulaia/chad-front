@@ -9,16 +9,19 @@ export default {
     log() {
       console.log(this.isAuthenticated);
     },
-    ...mapActions(useAuthStore, ["storeUser"]),
+    ...mapActions(useAuthStore, ["storeLoginUser"]),
   },
   computed: {
     ...mapState(useAuthStore, ["isAuthenticated"]),
   },
   beforeMount() {
     if (this.$route.query.token && this.$route.query.expires_in) {
-      this.storeUser({
+      this.storeLoginUser({
         token: this.$route.query.token,
+        username: this.$route.query.username,
+        user_email: this.$route.query.email,
         expire_time: Number(this.$route.query.expires_in),
+        user_pfp: this.$route.query.user_pfp,
       });
     }
   },

@@ -1,11 +1,50 @@
 <template>
-  <div
+  <main
     class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen overflow-hidden"
   >
     <nav-bar></nav-bar>
     <div class="flex pt-24 h-full overflow-auto w-full" id="infinite-list">
-      <side-bar id="sidebar"></side-bar>
-      <div class="lg:w-9/12 w-full h-full">
+      <side-bar
+        id="sidebar"
+        :class="{ 'opacity-30 pointer-events-none': addNewQuote }"
+      ></side-bar>
+      <transition name="newQuote" mode="out-in">
+        <new-quote
+          v-if="addNewQuote"
+          :username="username"
+          @onClick="addNewQuote = false"
+        >
+        </new-quote>
+      </transition>
+      <section
+        class="lg:w-9/12 w-full h-full"
+        :class="{ 'opacity-30 pointer-events-none': addNewQuote }"
+      >
+        <div class="flex mb-4">
+          <button
+            type="button"
+            class="text-white lg:ml-[21%] bg-[#24222F] h-12 flex items-center justify-center px-4 rounded-lg"
+            @click="addNewQuote = !addNewQuote"
+          >
+            <img
+              src="@/icons/write-icon.svg"
+              alt="new-quote"
+              width="25"
+              class="mr-3"
+            />
+            Write a new quote
+          </button>
+          <form
+            class="2xl:w-[40%] xl:w-[33%] lg:w-[27%] hidden mx-5 border-b border-gray-600 items-center md:flex text-white"
+          >
+            <button><img src="@/icons/search-icon.svg" alt="search" /></button>
+            <input
+              type="search"
+              class="bg-inherit h-12 ml-4 w-full outline-none"
+              placeholder="Enter @ to search movies, Enter # to search quotes"
+            />
+          </form>
+        </div>
         <div
           class="lg:w-7/12 w-full mx-auto flex flex-col h-fit text-white bg-[#11101A] rounded-lg mb-10 pb-6"
           v-for="(quote, index) in quotes"
@@ -20,15 +59,13 @@
             <p class="mx-4 text-base">{{ quote.author.name }}</p>
           </div>
           <p class="text-base w-11/12 mx-auto py-6">
-            "{{ quote.body }}" movie -
+            "{{ quote.body["en"] }}" movie -
             <button type="button" class="text-[#DDCCAA] underline">
-              {{ quote.movie.title }} ({{
-                quote.movie.release_date.substring(0, 4)
-              }})
+              {{ quote.movie.title }} ({{ quote.movie.release_date }})
             </button>
           </p>
           <img
-            src="@/icons/interstellar.png"
+            :src="back_url + quote.thumbnail"
             alt="quote-poster"
             class="w-11/12 mx-auto rounded-lg md:h-full h-2/5"
           />
@@ -37,7 +74,7 @@
               <p class="font-black pointer-events-none">
                 {{ quote.comments.length }}
               </p>
-              <button class="mx-2" @click="focusCommentField()">
+              <button class="mx-2">
                 <img src="@/icons/comment-icon.svg" alt="comment" />
               </button>
             </div>
@@ -48,7 +85,7 @@
               <button
                 class="mx-2"
                 :class="{ 'pointer-events-none': loading }"
-                @click="likePost(index, quote.id)"
+                @click="likePost(quote.id)"
               >
                 <img src="@/icons/heart-icon.svg" alt="like" />
               </button>
@@ -126,17 +163,20 @@
             all comments
           </button>
         </div>
-      </div>
+      </section>
     </div>
-  </div>
+  </main>
 </template>
 <script>
 import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import axios from "@/config/axios/index.js";
 import { Form, Field } from "vee-validate";
+import NewQuote from "@/components/UI/NewQuote.vue";
+import { mapState } from "pinia";
+import { useAuthStore } from "../stores/auth";
 export default {
-  components: { NavBar, SideBar, Form, Field },
+  components: { NavBar, SideBar, Form, Field, NewQuote },
   data() {
     return {
       quotes: [],
@@ -144,15 +184,23 @@ export default {
       lastPage: false,
       loading: false,
       newComment: "",
+      addNewQuote: false,
+      back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
   mounted() {
-    const myDiv = document.getElementById("infinite-list");
-    myDiv.addEventListener("scroll", () => {
-      if (myDiv.offsetHeight + myDiv.scrollTop >= myDiv.scrollHeight) {
+    const scrollDiv = document.getElementById("infinite-list");
+    scrollDiv.addEventListener("scroll", () => {
+      if (
+        scrollDiv.offsetHeight + scrollDiv.scrollTop >=
+        scrollDiv.scrollHeight
+      ) {
         this.addQuotes();
       }
     });
+  },
+  computed: {
+    ...mapState(useAuthStore, ["username"]),
   },
   methods: {
     addComment(quote_id) {
@@ -163,45 +211,49 @@ export default {
         })
         .then((response) => {
           console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     likePost(id) {
       // WIP : user still can like post twice if they refresh the page
-      if (this.counter === 0) {
-        this.loading = true;
-        axios.post("like-post", { id: id }).then((response) => {
-          if (response.status === 200) {
-            this.loading = false;
-          }
-        });
-      } else {
-        this.loading = true;
-        axios.post("unlike-post", { id: id }).then((response) => {
-          if (response.status === 200) {
-            this.loading = false;
-          }
-        });
-      }
+      this.loading = true;
+      axios.post("like-post", { id: id }).then((response) => {
+        if (response.status === 200) {
+          this.loading = false;
+        }
+      });
     },
     toggleShow(index) {
       this.quotes[index].isShown = !this.quotes[index].isShown;
     },
     getInitialQuotes() {
-      axios.get("all-quotes").then((response) => {
-        this.quotes = response.data.data.data;
-        this.page = 2;
-      });
+      axios
+        .get("all-quotes")
+        .then((response) => {
+          this.quotes = response.data.data.data;
+          this.page++;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     addQuotes() {
       if (!this.lastPage) {
-        axios.get(`all-quotes?page=${this.page}`).then((response) => {
-          this.quotes.push.apply(this.quotes, response.data.data.data);
-          this.page++;
-          // prevent from requesting after last page reached
-          response.data.data.current_page === response.data.data.last_page
-            ? (this.lastPage = true)
-            : false;
-        });
+        axios
+          .get(`all-quotes?page=${this.page}`)
+          .then((response) => {
+            this.quotes.push.apply(this.quotes, response.data.data.data);
+            this.page++;
+            // prevent from requesting after last page reached
+            response.data.data.current_page === response.data.data.last_page
+              ? (this.lastPage = true)
+              : false;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
@@ -221,6 +273,15 @@ export default {
 
 .comments-enter-from,
 .comments-leave-to {
+  opacity: 0;
+}
+.newQuote-enter-active,
+.newQuote-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.newQuote-enter-from,
+.newQuote-leave-to {
   opacity: 0;
 }
 </style>

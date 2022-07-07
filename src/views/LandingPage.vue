@@ -2,9 +2,7 @@
   <div class="absolute top-0 left-0 max-h-screen w-full overflow-hidden">
     <div class="h-screen bg-[#11101A]">
       <nav-bar></nav-bar>
-      <transition name="auth" mode="out-in">
-        <router-view class="z-50" />
-      </transition>
+      <router-view class="z-50" />
 
       <div
         class="mx-auto w-9/12 text-center z-50"

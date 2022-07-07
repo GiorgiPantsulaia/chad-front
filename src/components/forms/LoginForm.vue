@@ -99,7 +99,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useAuthStore, ["storeUser"]),
+    ...mapActions(useAuthStore, ["storeLoginUser"]),
     googleAuth() {
       axios.post("auth-redirect").then((response) => {
         if (response.data.url) {
@@ -115,12 +115,13 @@ export default {
           password: this.password,
         })
         .then((response) => {
-          console.log(response);
           this.isLoading = false;
-          this.storeUser({
+          this.storeLoginUser({
             token: response.data.access_token,
+            username: response.data.username,
+            user_email: response.data.user_email,
             expire_time: response.data.expires_in,
-            user: response.data.user,
+            user_pfp: response.data.user_pfp,
           });
         })
         .catch((error) => {

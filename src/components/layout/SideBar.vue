@@ -4,7 +4,7 @@
       <li>
         <div class="flex">
           <img
-            src="@/icons/interstellar.png"
+            :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
             alt="profile picture"
             class="rounded-full w-16 h-16"
             :class="{ 'border-2 border-[#E31221]': active === 'profile' }"
@@ -42,18 +42,9 @@
 <script>
 import CameraIcon from "@/components/icons/CameraIcon.vue";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
-import axios from "@/config/axios/index.js";
+import { mapState } from "pinia";
+import { useAuthStore } from "../../stores/auth";
 export default {
-  data() {
-    return {
-      username: "",
-    };
-  },
-  beforeMount() {
-    axios.post("logged-user").then((response) => {
-      this.username = response.data.user.name;
-    });
-  },
   computed: {
     active() {
       return this.$route.fullPath === "/news-feed"
@@ -64,6 +55,12 @@ export default {
         ? "profile"
         : "";
     },
+    ...mapState(useAuthStore, ["username", "user_pfp"]),
+  },
+  data() {
+    return {
+      back_url: import.meta.env.VITE_BACKEND_BASE_URL,
+    };
   },
   components: { CameraIcon, HomeIcon },
 };

@@ -9,11 +9,16 @@
           class="w-full h-full flex flex-col items-center mt-24 rounded-lg bg-[#11101A]"
         >
           <img
-            src="@/icons/interstellar.png"
+            :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
             alt="profile picture"
             class="w-32 h-32 rounded-full -mt-16"
           />
-          <button class="text-white">Upload a new photo</button>
+          <form class="text-white">
+            <label class="cursor-pointer">
+              <input type="file" class="text-white hidden" />
+              Upload a new photo</label
+            >
+          </form>
           <Form @submit="saveChanges" class="flex flex-col w-6/12 pb-24">
             <label for="username" class="text-white mt-4">Username</label>
             <Field
@@ -42,7 +47,9 @@
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
             /><ErrorMessage name="password" class="text-[#D0342C]" />
             <button
+              type="button"
               class="bg-[#E31221] px-3 w-1/3 h-9 rounded-md text-white self-end relative top-40 left-48"
+              @click="log"
             >
               Save Changes
             </button>
@@ -57,21 +64,17 @@
 import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import axios from "@/config/axios/index.js";
+import { mapState } from "pinia";
+import { useAuthStore } from "../stores/auth";
 export default {
+  // eslint-disable-next-line vue/no-reserved-component-names
+  computed: {
+    ...mapState(useAuthStore, ["username", "user_email", "user_pfp"]),
+  },
   data() {
     return {
-      username: "",
-      user_email: "",
+      back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
-  },
-
-  // eslint-disable-next-line vue/no-reserved-component-names
-  beforeMount() {
-    axios.post("logged-user").then((response) => {
-      this.username = response.data.user.name;
-      this.user_email = response.data.user.email;
-    });
   },
   components: { NavBar, SideBar, Form, Field, ErrorMessage },
 };
