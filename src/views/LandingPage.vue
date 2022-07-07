@@ -7,7 +7,7 @@
       <div
         class="mx-auto w-9/12 text-center z-50"
         :class="{
-          'blur-[2px] pointer-events-none': active,
+          'blur-[2px] pointer-events-none': active || email_verified,
         }"
         @wheel="showFirst = true"
       >
@@ -91,16 +91,19 @@
       </div>
     </div>
   </div>
+  <email-verified v-if="email_verified" @onClose="handleClose" />
 </template>
 <script>
 import NavBar from "@/components/layout/NavBar.vue";
+import EmailVerified from "../components/UI/EmailVerified.vue";
 export default {
-  components: { NavBar },
+  components: { NavBar, EmailVerified },
   data() {
     return {
       showFirst: false,
       showSecond: false,
       showThird: false,
+      email_verified: false,
     };
   },
   computed: {
@@ -112,6 +115,10 @@ export default {
     },
   },
   methods: {
+    handleClose() {
+      this.email_verified = false;
+      this.$router.replace("/");
+    },
     getStarted() {
       this.$router.push({ name: "register" });
     },
@@ -120,6 +127,11 @@ export default {
       this.showSecond = false;
       this.showThird = false;
     },
+  },
+  beforeMount() {
+    if (this.$route.query.verified === "true") {
+      this.email_verified = true;
+    }
   },
 };
 </script>

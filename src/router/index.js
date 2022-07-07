@@ -8,6 +8,7 @@ import ViewForbidden from "@/views/ViewForbidden.vue";
 import NotFound from "@/views/NotFound.vue";
 import UserProfile from "@/views/UserProfile.vue";
 import RedirectUser from "@/views/RedirectUser.vue";
+import VerifyEmail from "@/views/VerifyEmail.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -55,6 +56,12 @@ const router = createRouter({
       path: "/redirecting",
       name: "redirecting",
       component: RedirectUser,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: "/verify",
+      name: "email-verification",
+      component: VerifyEmail,
       meta: { requiresAuth: false },
     },
   ],

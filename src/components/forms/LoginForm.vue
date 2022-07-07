@@ -116,13 +116,17 @@ export default {
         })
         .then((response) => {
           this.isLoading = false;
-          this.storeLoginUser({
-            token: response.data.access_token,
-            username: response.data.username,
-            user_email: response.data.user_email,
-            expire_time: response.data.expires_in,
-            user_pfp: response.data.user_pfp,
-          });
+          if (response.data.error) {
+            this.errors = response.data.error;
+          } else {
+            this.storeLoginUser({
+              token: response.data.access_token,
+              username: response.data.username,
+              user_email: response.data.user_email,
+              expire_time: response.data.expires_in,
+              user_pfp: response.data.user_pfp,
+            });
+          }
         })
         .catch((error) => {
           this.isLoading = false;
