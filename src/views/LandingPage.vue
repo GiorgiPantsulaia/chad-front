@@ -95,7 +95,7 @@
 </template>
 <script>
 import NavBar from "@/components/layout/NavBar.vue";
-import EmailVerified from "../components/UI/EmailVerified.vue";
+import EmailVerified from "@/components/modals/EmailVerified.vue";
 export default {
   components: { NavBar, EmailVerified },
   data() {

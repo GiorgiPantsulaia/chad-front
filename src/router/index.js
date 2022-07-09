@@ -9,6 +9,7 @@ import NotFound from "@/views/NotFound.vue";
 import UserProfile from "@/views/UserProfile.vue";
 import RedirectUser from "@/views/RedirectUser.vue";
 import VerifyEmail from "@/views/VerifyEmail.vue";
+import MoviesList from "@/views/MoviesList.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -63,6 +64,12 @@ const router = createRouter({
       name: "email-verification",
       component: VerifyEmail,
       meta: { requiresAuth: false },
+    },
+    {
+      path: "/my-movies",
+      name: "movies-list",
+      component: MoviesList,
+      meta: { requiresAuth: true },
     },
   ],
 });

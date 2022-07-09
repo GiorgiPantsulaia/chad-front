@@ -107,7 +107,7 @@ import TextInput from "@/components/inputs/TextInput.vue";
 import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
-import UserRegistered from "@/components/UI/UserRegistered.vue";
+import UserRegistered from "@/components/modals/UserRegistered.vue";
 export default {
   data() {
     return {

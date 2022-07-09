@@ -172,10 +172,11 @@ import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import axios from "@/config/axios/index.js";
 import { Form, Field } from "vee-validate";
-import NewQuote from "@/components/UI/NewQuote.vue";
+import NewQuote from "@/components/modals/NewQuote.vue";
 import { mapState } from "pinia";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
 export default {
+  // eslint-disable-next-line vue/no-reserved-component-names
   components: { NavBar, SideBar, Form, Field, NewQuote },
   data() {
     return {
