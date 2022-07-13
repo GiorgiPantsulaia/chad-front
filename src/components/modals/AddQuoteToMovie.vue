@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute w-[45%] left-0 right-0 mx-auto z-50 h-3/4 rounded-lg"
+    class="flex flex-col bg-[#11101A] absolute w-[45%] left-0 right-0 mx-auto z-50 h-fit pb-6 rounded-lg"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-48 mx-auto font-semibold text-xl">
@@ -44,46 +44,36 @@
         <img
           src="@/icons/upload-photo-icon.svg"
           alt="upload photo"
-          width="30"
+          width="40"
           class="mr-4"
         />
         {{ image ? image.name : "Upload Photo" }}
       </label>
-      <div class="mx-10" v-if="movies.length > 0">
-        <select
-          name="chosenMovie"
-          class="text-white bg-black pl-14 h-20 items-center cursor-pointer rounded-md mt-4 w-full outline-none"
-          placeholder="Choose movie"
-          v-model="chosenMovie"
-        >
-          <option :value="null" disabled hidden>Choose Movie</option>
-          <option
-            v-for="movie in movies"
-            selected="false"
-            :key="movie.slug"
-            :value="movie.id"
-          >
-            {{ movie.title["en"] }} ({{ movie.release_date }})
-          </option>
-        </select>
+      <div
+        class="flex mx-10 pl-2 h-28 bg-black text-white items-center cursor-pointer rounded-md mt-6"
+      >
         <img
-          src="@/icons/camera-icon.svg"
+          :src="back_url + movie.thumbnail"
           alt=""
-          width="30"
-          class="relative bottom-14 left-4 pointer-events-none"
+          class="h-24 w-36 rounded-md"
         />
-      </div>
-      <div v-else class="flex flex-col text-white mt-10 text-center">
-        <p>You do not have any movies added.</p>
-        <button
-          class="bg-[#E31221] h-10 font-black text-lg mt-10 w-48 mx-auto rounded-md"
-        >
-          Add Movie
-        </button>
+        <div class="flex flex-col ml-4">
+          <div class="flex items-center text-xl font-semibold">
+            <img
+              src="@/icons/camera-icon.svg"
+              alt="upload photo"
+              width="30"
+              class="mr-2"
+            />
+            <p>{{ movie.title["en"] }} ({{ movie.release_date }})</p>
+          </div>
+          <div class="mt-4 font-medium text-lg">
+            Director : {{ movie.director["en"] }}
+          </div>
+        </div>
       </div>
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
-        v-if="movies.length > 0"
       >
         Post
       </button>
@@ -96,9 +86,10 @@ import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 
 export default {
+  emits: ["onClick"],
   props: {
-    username: {
-      type: String,
+    movie: {
+      type: Object,
       required: true,
     },
   },
@@ -106,14 +97,12 @@ export default {
     return {
       english_quote: "",
       georgian_quote: "",
-      movies: [],
-      chosenMovie: null,
       image: null,
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp"]),
+    ...mapState(useAuthStore, ["user_pfp", "username"]),
   },
   methods: {
     handleImageUpload(e) {
@@ -124,7 +113,7 @@ export default {
       formData.append("img", this.image);
       formData.append("english_quote", this.english_quote);
       formData.append("georgian_quote", this.georgian_quote);
-      formData.append("movie_id", this.chosenMovie);
+      formData.append("movie_id", this.$props.movie.id);
       axios
         .post("post-quote", formData, {
           headers: {
@@ -139,14 +128,6 @@ export default {
           console.log(error);
         });
     },
-    getMovies() {
-      axios.get("user-movies").then((response) => {
-        this.movies = response.data.data;
-      });
-    },
-  },
-  beforeMount() {
-    this.getMovies();
   },
 };
 </script>

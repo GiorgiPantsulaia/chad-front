@@ -38,7 +38,7 @@
           <img src="@/icons/eye-icon.svg" alt="view post" class="mr-2" /> View
           Post
         </li>
-        <li class="flex my-3 cursor-pointer">
+        <li class="flex my-3 cursor-pointer" @click="this.$emit('handleEdit')">
           <img src="@/icons/edit-pencil-icon.svg" alt="edit" class="mr-2" />
           Edit
         </li>
@@ -65,7 +65,7 @@ export default {
       required: true,
     },
   },
-  emits: ["onClick"],
+  emits: ["onClick", "handleEdit"],
   methods: {
     deleteQuote(id) {
       axios

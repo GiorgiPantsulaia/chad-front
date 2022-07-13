@@ -129,7 +129,7 @@
       </label>
 
       <button
-        class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6"
+        class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
       >
         Post
       </button>
@@ -206,9 +206,6 @@ export default {
       } else {
         return;
       }
-    },
-    log() {
-      console.log(this.chosen_genres);
     },
     handleImageUpload(e) {
       this.image = e.target.files[0];

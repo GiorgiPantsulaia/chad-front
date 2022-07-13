@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     goToMovie(slug) {
-      this.$router.push("/movies/" + slug);
+      this.$router.push("/my-movies/" + slug);
     },
     getMovies() {
       axios
