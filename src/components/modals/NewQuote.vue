@@ -25,7 +25,6 @@
     <form class="flex flex-col mt-4" @submit.prevent="postQuote">
       <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
       <textarea
-        type="text"
         name="english_quote"
         v-model="english_quote"
         placeholder="New Quote..."
@@ -33,7 +32,6 @@
       />
       <label for="georgian_quote" class="text-white mx-10 mt-4">ქარ</label>
       <textarea
-        type="text"
         name="georgian_quote"
         v-model="georgian_quote"
         placeholder="ახალი ციტატა..."
@@ -65,7 +63,7 @@
             :key="movie.slug"
             :value="movie.id"
           >
-            {{ movie.title }} ({{ movie.release_date }})
+            {{ movie.title["en"] }} ({{ movie.release_date }})
           </option>
         </select>
         <img
@@ -114,7 +112,6 @@ export default {
       this.image = e.target.files[0];
     },
     postQuote() {
-      console.log(this.image);
       let formData = new FormData();
       formData.append("img", this.image);
       formData.append("english_quote", this.english_quote);
@@ -128,13 +125,14 @@ export default {
         })
         .then((response) => {
           console.log(response);
+          location.reload();
         })
         .catch((error) => {
           console.log(error);
         });
     },
     getMovies() {
-      axios.get("all-movies").then((response) => {
+      axios.get("user-movies").then((response) => {
         this.movies = response.data.data;
       });
     },

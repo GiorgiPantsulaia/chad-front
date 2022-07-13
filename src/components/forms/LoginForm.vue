@@ -119,6 +119,7 @@ export default {
           if (response.data.error) {
             this.errors = response.data.error;
           } else {
+            console.log(response.data);
             this.storeLoginUser({
               token: response.data.access_token,
               username: response.data.username,

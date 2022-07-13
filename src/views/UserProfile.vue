@@ -77,5 +77,8 @@ export default {
     };
   },
   components: { NavBar, SideBar, Form, Field, ErrorMessage },
+  beforeMount() {
+    console.log(this.user_pfp);
+  },
 };
 </script>

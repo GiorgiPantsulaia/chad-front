@@ -61,7 +61,7 @@
           <p class="text-base w-11/12 mx-auto py-6">
             "{{ quote.body["en"] }}" movie -
             <button type="button" class="text-[#DDCCAA] underline">
-              {{ quote.movie.title }} ({{ quote.movie.release_date }})
+              {{ quote.movie.title["en"] }} ({{ quote.movie.release_date }})
             </button>
           </p>
           <img

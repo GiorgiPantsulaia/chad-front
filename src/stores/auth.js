@@ -35,7 +35,7 @@ export const useAuthStore = defineStore({
         this.token = token;
         this.username = username;
         this.user_email = user_email;
-        this.user_pfp = user_pfp;
+        this.user_pfp = user_pfp === "null" ? null : user_pfp;
       } else {
         return;
       }

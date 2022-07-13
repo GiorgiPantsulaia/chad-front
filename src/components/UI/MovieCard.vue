@@ -6,7 +6,7 @@
       class="w-full h-[370px] rounded-xl"
     />
     <h1 class="pt-4 text-xl font-medium tracking-wide">
-      {{ title }}({{ releaseDate }})
+      {{ title["en"] }}({{ releaseDate }})
     </h1>
     <div class="flex mt-4">
       <p class="text-2xl">
@@ -24,7 +24,7 @@ export default {
       required: true,
     },
     title: {
-      type: String,
+      type: Object,
       required: true,
     },
     releaseDate: {

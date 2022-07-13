@@ -10,6 +10,7 @@ import UserProfile from "@/views/UserProfile.vue";
 import RedirectUser from "@/views/RedirectUser.vue";
 import VerifyEmail from "@/views/VerifyEmail.vue";
 import MoviesList from "@/views/MoviesList.vue";
+import MovieDescription from "@/views/MovieDescription.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -69,6 +70,13 @@ const router = createRouter({
       path: "/my-movies",
       name: "movies-list",
       component: MoviesList,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/movies/:slug",
+      props: true,
+      name: "movie-view",
+      component: MovieDescription,
       meta: { requiresAuth: true },
     },
   ],

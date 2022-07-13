@@ -6,6 +6,7 @@ import router from "./router";
 import "@vee-validate/rules";
 import "@/config/vee-validate/rules.js";
 import "@/config/vee-validate/messages";
+
 const app = createApp(App);
 const pinia = createPinia();
 
