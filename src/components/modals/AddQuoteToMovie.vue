@@ -50,7 +50,7 @@
         {{ image ? image.name : "Upload Photo" }}
       </label>
       <div
-        class="flex mx-10 pl-2 h-28 bg-black text-white items-center cursor-pointer rounded-md mt-6"
+        class="flex mx-10 pl-2 h-28 bg-black text-white items-center cursor-default rounded-md mt-6"
       >
         <img
           :src="back_url + movie.thumbnail"

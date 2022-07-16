@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute w-[45%] left-0 right-0 mx-auto z-50 h-3/4 rounded-lg"
+    class="flex flex-col bg-[#11101A] absolute md:w-[45%] left-0 right-0 mx-auto z-50 h-fit pb-6 rounded-lg"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-48 mx-auto font-semibold text-xl">
@@ -22,21 +22,27 @@
       />
       <p>{{ username }}</p>
     </div>
-    <form class="flex flex-col mt-4" @submit.prevent="postQuote">
+    <Form class="flex flex-col mt-4" @submit="postQuote">
       <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
-      <textarea
+      <Field
+        as="textarea"
+        rules="required"
         name="english_quote"
         v-model="english_quote"
         placeholder="New Quote..."
         class="bg-inherit border border-gray-600 mx-10 h-20 resize-none outline-none rounded-md p-2 text-white"
       />
+      <ErrorMessage name="english_quote" class="text-red-500 text-sm mx-10" />
       <label for="georgian_quote" class="text-white mx-10 mt-4">ქარ</label>
-      <textarea
+      <Field
+        as="textarea"
+        rules="required"
         name="georgian_quote"
         v-model="georgian_quote"
         placeholder="ახალი ციტატა..."
         class="bg-inherit border border-gray-600 mx-10 h-20 resize-none outline-none rounded-md p-2 text-white"
       />
+      <ErrorMessage name="georgian_quote" class="text-red-500 text-sm mx-10" />
       <label
         class="flex mx-10 pl-4 h-20 bg-black text-white items-center cursor-pointer rounded-md mt-6"
       >
@@ -77,6 +83,7 @@
         <p>You do not have any movies added.</p>
         <button
           class="bg-[#E31221] h-10 font-black text-lg mt-10 w-48 mx-auto rounded-md"
+          @click="this.$router.push('/movies')"
         >
           Add Movie
         </button>
@@ -87,15 +94,16 @@
       >
         Post
       </button>
-    </form>
+    </Form>
   </div>
 </template>
 <script>
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
-
+import { Field, Form, ErrorMessage } from "vee-validate";
 export default {
+  components: { Field, Form, ErrorMessage },
   props: {
     username: {
       type: String,

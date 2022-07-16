@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-inherit text-white pl-12 self-start hidden lg:block">
+  <div
+    class="bg-inherit text-white pl-12 self-start hidden lg:block"
+    :class="{ fixed: this.$route.fullPath === '/news-feed' }"
+  >
     <ul>
       <li>
         <div class="flex">
@@ -25,7 +28,7 @@
           <home-icon
             :fill="active === 'feed' ? '#E31221' : 'white'"
           ></home-icon>
-          <p class="text-xl ml-10">News Feed</p>
+          <p class="text-xl ml-6">News Feed</p>
         </button>
       </li>
       <li>
@@ -34,9 +37,15 @@
           @click="this.$router.push({ name: 'movies-list' })"
         >
           <camera-icon
-            :fill="active === 'movies' ? '#E31221' : 'white'"
+            :fill="
+              active === 'movies'
+                ? '#E31221'
+                : active === 'view'
+                ? '#E31221'
+                : 'white'
+            "
           ></camera-icon>
-          <p class="text-xl ml-10">List of movies</p>
+          <p class="text-xl ml-6">List of movies</p>
         </button>
       </li>
     </ul>
@@ -52,10 +61,12 @@ export default {
     active() {
       return this.$route.fullPath === "/news-feed"
         ? "feed"
-        : this.$route.fullPath === "/my-movies"
+        : this.$route.fullPath === "/movies"
         ? "movies"
         : this.$route.fullPath === "/profile"
         ? "profile"
+        : this.$route.name === "movie-view"
+        ? "view"
         : "";
     },
     ...mapState(useAuthStore, ["username", "user_pfp"]),

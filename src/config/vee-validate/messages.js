@@ -2,9 +2,9 @@ import { configure } from "vee-validate";
 import { localize } from "@vee-validate/i18n";
 
 configure({
-  generateMessage: localize("ka", {
+  generateMessage: localize("en", {
     messages: {
-      required: "{field} is required",
+      required: "This field is required",
       email: "",
     },
     fields: {

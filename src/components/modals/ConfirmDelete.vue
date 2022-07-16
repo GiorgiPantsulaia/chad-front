@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute left-0 right-0 mx-auto w-64 text-white z-50 top-[40%] bg-[#11101A] flex flex-col text-center items-center pb-4 rounded-md"
+    class="absolute left-0 right-0 mx-auto w-64 text-white z-50 top-[40%] bg-[#11101A] flex flex-col text-center items-center pb-4 rounded-md font-bold"
   >
     <p class="text-red-500 text-2xl mt-4 font-black">Are you sure?</p>
     <div class="flex mt-12">

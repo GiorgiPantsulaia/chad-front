@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute w-[35%] left-0 right-0 mx-auto z-50 h-fit pb-4 rounded-lg"
+    class="flex flex-col bg-[#11101A] absolute md:w-[35%] left-0 right-0 mx-auto z-50 h-fit pb-4 rounded-lg"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-28 mx-auto font-semibold text-xl">Edit Quote</h1>

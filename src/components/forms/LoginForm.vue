@@ -45,7 +45,12 @@
       <p v-if="errors !== ''" class="text-red-500 text-sm">{{ errors }}</p>
       <div class="text-white flex justify-between">
         <div>
-          <input type="checkbox" name="remember_me" class="mr-2" />
+          <input
+            type="checkbox"
+            name="remember_me"
+            class="mr-2"
+            v-model="remember_me"
+          />
           <label for="remember_me">Remember me</label>
         </div>
         <p class="text-[#0D6EFD] cursor-pointer">Forgot password?</p>
@@ -96,6 +101,7 @@ export default {
       password: "",
       errors: "",
       isLoading: false,
+      remember_me: null,
     };
   },
   methods: {

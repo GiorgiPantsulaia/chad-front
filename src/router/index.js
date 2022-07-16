@@ -67,13 +67,13 @@ const router = createRouter({
       meta: { requiresAuth: false },
     },
     {
-      path: "/my-movies",
+      path: "/movies",
       name: "movies-list",
       component: MoviesList,
       meta: { requiresAuth: true },
     },
     {
-      path: "/my-movies/:slug",
+      path: "/movies/:slug",
       props: true,
       name: "movie-view",
       component: MovieDescription,

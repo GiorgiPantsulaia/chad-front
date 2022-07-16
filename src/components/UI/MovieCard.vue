@@ -5,7 +5,10 @@
       alt="movie poster"
       class="w-full h-[370px] rounded-xl"
     />
-    <h1 class="pt-4 text-xl font-medium tracking-wide">
+    <h1
+      class="pt-4 text-xl font-medium tracking-wide"
+      @click="this.$router.push('/movies/' + slug)"
+    >
       {{ title["en"] }}({{ releaseDate }})
     </h1>
     <div class="flex mt-4">

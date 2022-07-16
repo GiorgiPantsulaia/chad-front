@@ -10,7 +10,7 @@
       <side-bar></side-bar>
       <section
         class="lg:w-9/12 w-full h-full flex flex-col md:ml-32 mx-4"
-        v-if="!addQuote && editQuote === false"
+        v-if="!addQuote && editQuote === false && viewQuote === false"
       >
         <div class="flex mb-4 justify-between">
           <p class="text-white text-xl">Movie Description</p>
@@ -27,6 +27,7 @@
                 {{ movie.title["en"] }} ({{ movie.release_date }})
               </p>
               <div
+                v-if="user_email === movie.author.email"
                 class="w-36 bg-[#24222F] py-2 items-center rounded-lg flex justify-center mr-24 text-gray-600 font-light"
               >
                 <button class="pr-4 mx-2">
@@ -44,7 +45,7 @@
             </div>
             <div class="flex" v-for="genre in movie.genres" :key="genre.title">
               <p
-                class="px-2 py-1 bg-[#6C757D] font-black text-white rounded-md"
+                class="px-2 py-1 bg-[#6C757D] font-black text-white rounded-md cursor-pointer"
               >
                 {{ genre.title }}
               </p>
@@ -55,8 +56,8 @@
             <p class="text-white mt-6 font-medium text-lg">
               Budget : {{ movie.income }}$
             </p>
-            <p class="text-white mt-6 text-base leading-6">
-              {{ movie.description["en"] }}
+            <p class="text-white mt-6 text-base leading-6 w-11/12">
+              {{ movie.description["ka"] }}
             </p>
           </div>
         </div>
@@ -64,6 +65,7 @@
           <p class="text-xl">Quotes (total {{ movie.quotes.length }})</p>
           <p class="text-gray-600 mx-2 text-2xl">|</p>
           <button
+            v-if="user_email === movie.author.email"
             type="button"
             class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-32"
             @click="addQuote = !addQuote"
@@ -77,21 +79,35 @@
             Add Quote
           </button>
         </div>
-        <div class="flex flex-col w-6/12 mt-10">
+        <div class="flex flex-col md:w-6/12 mt-2 w-full">
           <quote-card
             v-for="quote in movie.quotes"
             :key="quote.id"
             :quote="quote"
             @handle-edit="showEdit(quote)"
+            @handle-view="showView(quote)"
           />
         </div>
       </section>
-      <div v-else-if="addQuote && !editQuote">
+      <div v-else-if="addQuote && !editQuote && !viewQuote">
         <add-quote-to-movie @on-click="addQuote = false" :movie="movie" />
       </div>
-      <div v-if="editQuote">
-        <edit-quote :quote="quoteToEdit" @onClick="editQuote = !editQuote" />
-      </div>
+      <transition name="edit" mode="out-in">
+        <div v-if="editQuote">
+          <edit-quote
+            :quote="quoteToEdit"
+            @on-click="editQuote = !editQuote"
+          /></div
+      ></transition>
+      <transition name="view" mode="out-in">
+        <div v-if="viewQuote">
+          <view-quote
+            :quote="quoteToView"
+            @on-click="viewQuote = !viewQuote"
+            @handle-click-edit="showEdit(quoteToView)"
+          />
+        </div>
+      </transition>
     </div>
     <confirm-delete
       v-if="showConfirmation"
@@ -106,9 +122,12 @@ import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import QuoteCard from "@/components/UI/QuoteCard.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
-import AddQuoteToMovie from "../components/modals/AddQuoteToMovie.vue";
-import DeleteIcon from "../components/icons/DeleteIcon.vue";
-import EditQuote from "../components/modals/EditQuote.vue";
+import AddQuoteToMovie from "@/components/modals/AddQuoteToMovie.vue";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue";
+import EditQuote from "@/components/modals/EditQuote.vue";
+import { mapState } from "pinia";
+import { useAuthStore } from "@/stores/auth.js";
+import ViewQuote from "@/components/modals/ViewQuote.vue";
 export default {
   props: {
     slug: {
@@ -123,8 +142,13 @@ export default {
       showConfirmation: false,
       addQuote: false,
       editQuote: false,
+      viewQuote: false,
       quoteToEdit: null,
+      quoteToView: null,
     };
+  },
+  computed: {
+    ...mapState(useAuthStore, ["user_email"]),
   },
   methods: {
     getMovie() {
@@ -132,18 +156,24 @@ export default {
         .post("movie-description", { slug: this.$props.slug })
         .then((response) => {
           this.movie = response.data.data;
+          console.log(this.movie);
         });
     },
     showEdit(quote) {
       this.quoteToEdit = quote;
       this.editQuote = true;
+      this.viewQuote = false;
+    },
+    showView(quote) {
+      this.quoteToView = quote;
+      this.viewQuote = true;
     },
     deleteMovie() {
       axios
         .post("delete-movie", { _method: "delete", id: this.movie.id })
         .then((response) => {
           console.log(response);
-          this.$router.replace("/my-movies");
+          this.$router.replace("/movies");
         });
     },
   },
@@ -158,6 +188,22 @@ export default {
     AddQuoteToMovie,
     DeleteIcon,
     EditQuote,
+    ViewQuote,
   },
 };
 </script>
+<style scoped>
+.edit-enter-active,
+.edit-leave-active,
+.view-enter-active,
+.view-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.edit-enter-from,
+.view-enter-from,
+.edit-leave-to,
+.view-leave-to {
+  opacity: 0;
+}
+</style>
