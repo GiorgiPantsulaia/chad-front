@@ -14,8 +14,8 @@
       />
       <p class="mx-4 text-base">{{ quote.author.name }}</p>
     </div>
-    <p class="text-base w-11/12 mx-auto py-6">
-      "{{ quote.body["en"] }}" movie -
+    <p class="text-base w-11/12 mx-auto py-6 break-words">
+      "{{ quote.body["en"] }}" Movie -
       <button
         type="button"
         class="text-[#DDCCAA] underline"

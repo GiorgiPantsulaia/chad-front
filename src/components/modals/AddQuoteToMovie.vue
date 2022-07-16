@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute w-[45%] left-0 right-0 mx-auto z-50 h-fit pb-6 rounded-lg"
+    class="flex flex-col bg-[#11101A] absolute sm:w-[45%] left-0 right-0 mx-auto z-50 h-fit pb-6 rounded-lg"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-48 mx-auto font-semibold text-xl">
@@ -14,7 +14,7 @@
         ✕
       </button>
     </div>
-    <div class="flex w-full text-white items-center mx-10 mt-4">
+    <div class="flex sm:w-full text-white items-center mx-10 mt-4">
       <img
         :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
         alt=""

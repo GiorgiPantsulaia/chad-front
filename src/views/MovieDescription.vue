@@ -9,26 +9,26 @@
     >
       <side-bar></side-bar>
       <section
-        class="lg:w-9/12 w-full h-full flex flex-col md:ml-32 mx-4"
+        class="lg:w-9/12 w-full h-full flex flex-col md:ml-32 sm:mx-4 px-4 sm:px-0"
         v-if="!addQuote && editQuote === false && viewQuote === false"
       >
-        <div class="flex mb-4 justify-between">
+        <div class="hidden sm:flex mb-4 justify-between">
           <p class="text-white text-xl">Movie Description</p>
         </div>
-        <div class="flex">
+        <div class="sm:flex mt-6 sm:mt-0">
           <img
             :src="back_url + movie.thumbnail"
             alt="movie poster"
-            class="w-6/12 rounded-2xl"
+            class="sm:w-6/12 rounded-2xl aspect-[4/3]"
           />
-          <div class="flex flex-col ml-4 w-full">
-            <div class="flex justify-between w-full">
+          <div class="flex flex-col sm:ml-4 w-full">
+            <div class="flex justify-between w-full mt-4">
               <p class="text-[#DDCCAA] text-xl font-bold">
                 {{ movie.title["en"] }} ({{ movie.release_date }})
               </p>
               <div
                 v-if="user_email === movie.author.email"
-                class="w-36 bg-[#24222F] py-2 items-center rounded-lg flex justify-center mr-24 text-gray-600 font-light"
+                class="w-36 bg-[#24222F] py-2 items-center rounded-lg flex justify-center sm:mr-24 mr-4 text-gray-600 font-light"
               >
                 <button class="pr-4 mx-2">
                   <img src="@/icons/edit-pencil-icon.svg" alt="edit" />

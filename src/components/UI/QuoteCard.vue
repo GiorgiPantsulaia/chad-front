@@ -1,6 +1,9 @@
 <template>
   <main class="flex bg-[#11101A] rounded-lg my-4 w-full">
-    <div class="flex flex-col w-full">
+    <div
+      class="flex flex-col sm:w-full w-screen"
+      :class="{ 'md:flex hidden': showOptions }"
+    >
       <button
         class="items-center relative text-white font-black text-3xl self-end mr-6 tracking-wide"
         type="button"
@@ -14,8 +17,11 @@
           alt=""
           class="w-44 h-28 rounded-md"
         />
-        <p class="text-white italic font-light ml-6 self-center md:w-full">
-          "{{ quote.body["en"] }}"
+        <p
+          class="text-white italic font-light ml-6 self-center sm:w-full break-words w-56"
+        >
+          "{{ quote.body["en"].slice(0, 60)
+          }}{{ quote.body["en"].length > 60 ? "..." : "" }}"
         </p>
       </div>
       <div class="flex mx-4 text-white pb-4">
@@ -32,18 +38,18 @@
     <transition name="options" mode="out-in">
       <ul
         v-if="showOptions"
-        class="relative w-48 bg-[#24222F] h-full text-lg p-4 text-white rounded-lg flex flex-col justify-evenly"
+        class="relative md:w-48 w-full bg-[#24222F] sm:h-full sm:text-lg text-2xl p-4 text-white rounded-lg flex flex-col justify-evenly"
       >
         <li class="flex cursor-pointer" @click="this.$emit('handleView')">
-          <img src="@/icons/eye-icon.svg" alt="view post" class="mr-2" /> View
-          Post
+          <img src="@/icons/eye-icon.svg" alt="view post" class="mr-2 w-6" />
+          View Post
         </li>
         <li
           class="flex cursor-pointer"
           @click="this.$emit('handleEdit')"
           v-if="user_email === quote.author.email"
         >
-          <img src="@/icons/edit-pencil-icon.svg" alt="edit" class="mr-2" />
+          <img src="@/icons/edit-pencil-icon.svg" alt="edit" class="mr-2 w-6" />
           Edit
         </li>
         <li
@@ -51,7 +57,20 @@
           @click="deleteQuote(quote.id)"
           v-if="user_email === quote.author.email"
         >
-          <img src="@/icons/delete-icon.svg" alt="delete" class="mr-2" /> Delete
+          <img src="@/icons/delete-icon.svg" alt="delete" class="mr-2 w-6" />
+          Delete
+        </li>
+        <li
+          :class="{ 'sm:hidden flex': showOptions }"
+          @click="showOptions = false"
+        >
+          <img
+            src="@/icons/return-icon.svg"
+            alt="go back"
+            class="mr-2 w-6"
+            width="20"
+          />
+          Quote
         </li>
       </ul>
     </transition>

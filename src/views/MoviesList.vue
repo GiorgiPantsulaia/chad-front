@@ -20,8 +20,8 @@
         class="lg:w-9/12 w-full h-full flex flex-col md:mx-16 mx-4"
         :class="{ 'opacity-30 pointer-events-none': addNewMovie }"
       >
-        <div class="flex mb-4 justify-between">
-          <p type="button" class="text-white text-xl">
+        <div class="flex mb-4 justify-between mt-4 sm:mt-0">
+          <p type="button" class="text-white text-xl w-40 sm:w-auto">
             My list of movies (Total {{ movies.length }})
           </p>
           <div class="flex">
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div
-          class="mt-6 flex flex-wrap justify-between basis-1/3 w-full"
+          class="mt-6 sm:flex sm:flex-row sm:flex-wrap flex-col justify-between sm:basis-1/3 w-full"
           v-if="search === null"
         >
           <movie-card

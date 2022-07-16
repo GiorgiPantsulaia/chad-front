@@ -103,6 +103,7 @@ import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import { Field, Form, ErrorMessage } from "vee-validate";
 export default {
+  // eslint-disable-next-line vue/no-reserved-component-names
   components: { Field, Form, ErrorMessage },
   props: {
     username: {

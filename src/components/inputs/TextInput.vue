@@ -8,7 +8,7 @@
       :name="name"
       :rules="rules"
       :placeholder="placeholder"
-      class="border border-gray-200 bg-[#CED4DA] mt-1 h-9 rounded-sm pl-3 outline-none"
+      class="border border-gray-200 bg-[#CED4DA] mt-1 h-9 rounded-md pl-3 outline-none"
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <ErrorMessage :name="name" class="text-[#D0342C]" />

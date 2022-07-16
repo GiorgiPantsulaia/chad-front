@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[601px] bg-[#222030] mt-24 flex flex-col items-center rounded-md absolute mx-auto left-0 right-0"
+    class="sm:w-[601px] bg-[#222030] sm:mt-24 h-full sm:h-auto flex flex-col items-center rounded-md absolute mx-auto left-0 right-0"
   >
     <button
       class="text-white text-5xl self-end mr-2"
@@ -10,7 +10,7 @@
       ✕
     </button>
     <h1
-      class="text-white text-4xl mt-10"
+      class="text-white text-4xl sm:mt-10"
       :class="{
         'blur-[2px] pointer-events-none': isLoading,
         hidden: registered,
@@ -29,7 +29,7 @@
     </p>
     <Form
       @submit="submitForm"
-      class="flex flex-col w-7/12 pb-16 mt-6"
+      class="flex flex-col sm:w-7/12 w-10/12 pb-16 sm:mt-6 mt-14"
       :class="{
         'blur-[2px] pointer-events-none': isLoading,
         hidden: registered,

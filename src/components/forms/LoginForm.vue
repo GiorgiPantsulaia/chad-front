@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[601px] bg-[#222030] mt-24 flex flex-col items-center rounded-md absolute mx-auto left-0 right-0"
+    class="sm:w-[601px] bg-[#222030] sm:mt-24 flex flex-col items-center rounded-md absolute mx-auto left-0 right-0 h-full sm:h-auto"
   >
     <button
       class="text-white text-5xl self-end mr-2"
@@ -9,7 +9,7 @@
       ✕
     </button>
     <h1
-      class="text-white text-4xl mt-10"
+      class="text-white text-4xl sm:mt-10 mt-24"
       :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
       Log in to your account
@@ -22,7 +22,7 @@
     </p>
     <Form
       @submit="login"
-      class="flex flex-col w-[360px] pb-16 mt-6"
+      class="flex flex-col sm:w-7/12 w-10/12 pb-16 sm:mt-6"
       :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
       <text-input

@@ -1,5 +1,7 @@
 <template>
-  <div class="flex flex-col text-white h-[470px] w-[30%] my-6 cursor-pointer">
+  <div
+    class="flex flex-col text-white h-[470px] sm:w-[30%] my-6 cursor-pointer"
+  >
     <img
       :src="back_url + thumbnail"
       alt="movie poster"

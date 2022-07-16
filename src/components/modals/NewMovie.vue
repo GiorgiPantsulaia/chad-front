@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute w-[45%] left-0 right-0 mx-auto z-50 h-fit rounded-lg pb-6 top-5"
+    class="flex flex-col bg-[#11101A] absolute sm:w-[45%] left-0 right-0 mx-auto z-50 h-fit rounded-lg pb-6 top-5"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-28 mx-auto font-semibold text-xl">Add Movie</h1>
@@ -12,7 +12,9 @@
         ✕
       </button>
     </div>
-    <div class="flex w-full text-white items-center mx-10 mt-4">
+    <div
+      class="flex w-full text-white items-center sm:mx-10 px-10 sm:px-0 mt-4"
+    >
       <img
         src="@/icons/interstellar.png"
         alt=""
