@@ -11,7 +11,7 @@
       class="border border-gray-200 bg-[#CED4DA] mt-1 h-9 rounded-md pl-3 outline-none"
       @input="$emit('update:modelValue', $event.target.value)"
     />
-    <ErrorMessage :name="name" class="text-[#D0342C]" />
+    <ErrorMessage :name="name" class="text-[#D0342C] text-sm" />
   </div>
 </template>
 <script>

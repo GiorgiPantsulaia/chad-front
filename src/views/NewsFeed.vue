@@ -23,7 +23,8 @@
         <div class="flex mb-4 mx-auto lg:w-7/12 mt-2">
           <button
             type="button"
-            class="text-white bg-[#24222F] h-12 flex items-center justify-center px-4 rounded-lg md:w-2/5"
+            class="text-white bg-[#24222F] h-12 flex items-center justify-center px-4 rounded-lg w-full transition-all"
+            :class="{ 'md:w-2/5': search }"
             @click="addNewQuote = !addNewQuote"
           >
             <img
@@ -32,16 +33,19 @@
               width="25"
               class="mr-3"
             />
-            Write a new quote
+            {{ $t("new_post") }}
           </button>
           <form
-            class="hidden mx-5 w-full border-b border-gray-600 items-center md:flex text-white"
+            class="hidden mx-5 border-b border-gray-600 items-center md:flex text-white transition-all"
+            :class="{ 'w-full': search }"
           >
             <button><img src="@/icons/search-icon.svg" alt="search" /></button>
             <input
               type="search"
               class="bg-inherit h-12 ml-4 w-full outline-none"
-              placeholder="Enter @ to search movies, Enter # to search quotes"
+              :placeholder="search ? $t('search_placeholder') : $t('search')"
+              @focus="search = true"
+              @focusout="search = false"
             />
           </form>
         </div>
@@ -68,6 +72,7 @@ export default {
       lastPage: false,
       loading: false,
       addNewQuote: false,
+      search: false,
     };
   },
   mounted() {

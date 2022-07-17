@@ -4,7 +4,7 @@
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-48 mx-auto font-semibold text-xl">
-        Write New Quote
+        {{ $t("new_quote") }}
       </h1>
       <button
         type="button"
@@ -46,15 +46,23 @@
       <label
         class="flex mx-10 pl-4 h-20 bg-black text-white items-center cursor-pointer rounded-md mt-6"
       >
-        <input type="file" class="hidden" @change="handleImageUpload" />
+        <input
+          type="file"
+          class="hidden"
+          @change="handleImageUpload"
+          rules="required|image"
+        />
         <img
           src="@/icons/upload-photo-icon.svg"
           alt="upload photo"
           width="30"
           class="mr-4"
         />
-        {{ image ? image.name : "Upload Photo" }}
+        {{ image ? image.name : $t("upload_photo") }}
       </label>
+      <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
+        {{ errorMessage }}
+      </p>
       <div class="mx-10" v-if="movies.length > 0">
         <select
           name="chosenMovie"
@@ -62,14 +70,16 @@
           placeholder="Choose movie"
           v-model="chosenMovie"
         >
-          <option :value="null" disabled hidden>Choose Movie</option>
+          <option :value="null" disabled hidden>
+            {{ $t("choose_movie") }}
+          </option>
           <option
             v-for="movie in movies"
             selected="false"
             :key="movie.slug"
             :value="movie.id"
           >
-            {{ movie.title["en"] }} ({{ movie.release_date }})
+            {{ movie.title[$i18n.locale] }} ({{ movie.release_date }})
           </option>
         </select>
         <img
@@ -80,19 +90,19 @@
         />
       </div>
       <div v-else class="flex flex-col text-white mt-10 text-center">
-        <p>You do not have any movies added.</p>
+        <p>{{ $t("no_movies") }}</p>
         <button
           class="bg-[#E31221] h-10 font-black text-lg mt-10 w-48 mx-auto rounded-md"
           @click="this.$router.push('/movies')"
         >
-          Add Movie
+          {{ $t("add_movie") }}
         </button>
       </div>
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
         v-if="movies.length > 0"
       >
-        Post
+        {{ $t("post") }}
       </button>
     </Form>
   </div>
@@ -123,30 +133,40 @@ export default {
   },
   computed: {
     ...mapState(useAuthStore, ["user_pfp"]),
+    imageValid() {
+      return this.image.type.slice(0, 5) === "image";
+    },
+    errorMessage() {
+      return this.$t("invalid_image");
+    },
   },
   methods: {
     handleImageUpload(e) {
       this.image = e.target.files[0];
     },
     postQuote() {
-      let formData = new FormData();
-      formData.append("img", this.image);
-      formData.append("english_quote", this.english_quote);
-      formData.append("georgian_quote", this.georgian_quote);
-      formData.append("movie_id", this.chosenMovie);
-      axios
-        .post("post-quote", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.imageValid) {
+        let formData = new FormData();
+        formData.append("img", this.image);
+        formData.append("english_quote", this.english_quote);
+        formData.append("georgian_quote", this.georgian_quote);
+        formData.append("movie_id", this.chosenMovie);
+        axios
+          .post("post-quote", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        return;
+      }
     },
     getMovies() {
       axios.get("user-movies").then((response) => {

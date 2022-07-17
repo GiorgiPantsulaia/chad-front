@@ -13,7 +13,7 @@
         v-if="!addQuote && editQuote === false && viewQuote === false"
       >
         <div class="hidden sm:flex mb-4 justify-between">
-          <p class="text-white text-xl">Movie Description</p>
+          <p class="text-white text-xl">{{ $t("movie_description") }}</p>
         </div>
         <div class="sm:flex mt-6 sm:mt-0">
           <img
@@ -24,7 +24,7 @@
           <div class="flex flex-col sm:ml-4 w-full">
             <div class="flex justify-between w-full mt-4">
               <p class="text-[#DDCCAA] text-xl font-bold">
-                {{ movie.title["en"] }} ({{ movie.release_date }})
+                {{ movie.title[$i18n.locale] }} ({{ movie.release_date }})
               </p>
               <div
                 v-if="user_email === movie.author.email"
@@ -51,23 +51,23 @@
               </p>
             </div>
             <p class="text-white mt-6 font-medium text-lg">
-              Director : {{ movie.director["en"] }}
+              {{ $t("director") }} : {{ movie.director[$i18n.locale] }}
             </p>
             <p class="text-white mt-6 font-medium text-lg">
-              Budget : {{ movie.income }}$
+              {{ $t("budget") }} : {{ movie.income }}$
             </p>
             <p class="text-white mt-6 text-base leading-6 w-11/12">
-              {{ movie.description["ka"] }}
+              {{ movie.description[$i18n.locale] }}
             </p>
           </div>
         </div>
         <div class="flex text-white mt-8 items-center">
-          <p class="text-xl">Quotes (total {{ movie.quotes.length }})</p>
-          <p class="text-gray-600 mx-2 text-2xl">|</p>
+          <p class="text-xl">{{ $t("quotes") }} {{ movie.quotes.length }})</p>
+          <p class="text-gray-600 mx-2 text-2xl cursor-default">|</p>
           <button
             v-if="user_email === movie.author.email"
             type="button"
-            class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-32"
+            class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-32 py-6 px-2"
             @click="addQuote = !addQuote"
           >
             <img
@@ -76,7 +76,7 @@
               width="20"
               class="mr-2"
             />
-            Add Quote
+            {{ $t("add_quote") }}
           </button>
         </div>
         <div class="flex flex-col md:w-6/12 mt-2 w-full">
@@ -156,7 +156,6 @@ export default {
         .post("movie-description", { slug: this.$props.slug })
         .then((response) => {
           this.movie = response.data.data;
-          console.log(this.movie);
         });
     },
     showEdit(quote) {
@@ -171,14 +170,14 @@ export default {
     deleteMovie() {
       axios
         .post("delete-movie", { _method: "delete", id: this.movie.id })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.$router.replace("/movies");
         });
     },
   },
   beforeMount() {
     this.getMovie();
+    console.log(this.$route);
   },
   components: {
     NavBar,

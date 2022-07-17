@@ -1,9 +1,11 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute sm:w-[45%] left-0 right-0 mx-auto z-50 h-fit rounded-lg pb-6 top-5"
+    class="flex flex-col bg-[#11101A] absolute lg:w-[45%] md:w-[80%] left-0 right-0 mx-auto z-50 h-fit rounded-lg pb-6 sm:top-5 top-0"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
-      <h1 class="text-white w-28 mx-auto font-semibold text-xl">Add Movie</h1>
+      <h1 class="text-white w-44 mx-auto font-semibold text-xl">
+        {{ $t("add_movie") }}
+      </h1>
       <button
         type="button"
         @click="this.$emit('onClick')"
@@ -127,13 +129,13 @@
           width="30"
           class="mr-4"
         />
-        {{ image ? image.name : "Upload Photo" }}
+        {{ image ? image.name : $t("upload_photo") }}
       </label>
 
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
       >
-        Post
+        {{ $t("post") }}
       </button>
     </form>
   </div>

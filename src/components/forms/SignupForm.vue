@@ -16,20 +16,20 @@
         hidden: registered,
       }"
     >
-      Create an account
+      {{ $t("create_account") }}
     </h1>
     <p
-      class="text-[#6C757D]"
+      class="text-[#6C757D] mt-2"
       :class="{
         'blur-[2px] pointer-events-none': isLoading,
         hidden: registered,
       }"
     >
-      Start your journey!
+      {{ $t("start_journey") }}
     </p>
     <Form
       @submit="submitForm"
-      class="flex flex-col sm:w-7/12 w-10/12 pb-16 sm:mt-6 mt-14"
+      class="flex flex-col sm:w-7/12 w-10/12 pb-16 sm:mt-6 mt-12"
       :class="{
         'blur-[2px] pointer-events-none': isLoading,
         hidden: registered,
@@ -39,8 +39,8 @@
         v-model="name"
         type="text"
         rules="required|min:3|max:15|alpha_num"
-        name="name"
-        placeholder="At least 3 & max.15 lower case characters"
+        :name="$i18n.locale === 'en' ? 'name' : 'სახელი'"
+        :placeholder="$t('name_placeholder')"
         @focusout="errors = {}"
       />
       <p v-if="errors.name" class="text-sm text-red-500">
@@ -49,9 +49,9 @@
       <text-input
         v-model="email"
         type="email"
-        name="email"
+        :name="$i18n.locale === 'en' ? 'email' : 'ელ-ფოსტა'"
         rules="required|email"
-        placeholder="Enter your email"
+        :placeholder="$t('email_placeholder')"
         @focusout="errors = {}"
       />
       <p v-if="errors.email" class="text-sm text-red-500">
@@ -62,18 +62,18 @@
         name="password"
         type="password"
         rules="required|min:8|max:15|alpha_num"
-        placeholder="At least 8 & max.15 lower case characters"
+        :placeholder="$t('password_placeholder')"
       />
       <text-input
         v-model="confirm_password"
         type="password"
         name="confirm password"
         rules="confirmed:@password"
-        placeholder="Confirm password"
+        :placeholder="$t('repeat_password')"
       />
 
       <button class="w-full h-10 bg-[#E31221] rounded-md mt-8 text-white">
-        Get Started
+        {{ $t("get_started") }}
       </button>
       <button
         type="button"
@@ -86,13 +86,13 @@
           width="25"
           class="mr-2"
         />
-        Sign up with Google
+        {{ $t("g_signup") }}
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
-        Already have an account?
-        <router-link to="/login" class="text-blue-500 underline"
-          >Log in</router-link
-        >
+        {{ $t("have_account") }}
+        <router-link to="/login" class="text-blue-500 underline">{{
+          $t("login")
+        }}</router-link>
       </p>
     </Form>
     <loading-bar

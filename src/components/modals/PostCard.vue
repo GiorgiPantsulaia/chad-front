@@ -15,13 +15,13 @@
       <p class="mx-4 text-base">{{ quote.author.name }}</p>
     </div>
     <p class="text-base w-11/12 mx-auto py-6 break-words">
-      "{{ quote.body["en"] }}" Movie -
+      "{{ quote.body[$i18n.locale] }}" {{ $t("movie") }} -
       <button
         type="button"
         class="text-[#DDCCAA] underline"
         @click="this.$router.push('/movies/' + quote.movie.slug)"
       >
-        {{ quote.movie.title["en"] }} ({{ quote.movie.release_date }})
+        {{ quote.movie.title[$i18n.locale] }} ({{ quote.movie.release_date }})
       </button>
     </p>
     <img
@@ -110,7 +110,7 @@
           v-model="newComment"
           type="text"
           name="comment"
-          placeholder="Write a comment"
+          :placeholder="$t('write_comment')"
           class="w-full bg-[#24222F] text-[#CED4DA] placeholder-[#CED4DA] pl-4 rounded-md h-10 outline-none"
         />
       </Form>

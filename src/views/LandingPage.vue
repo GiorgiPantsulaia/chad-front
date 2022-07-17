@@ -12,7 +12,7 @@
         @wheel="showFirst = true"
       >
         <h1
-          class="pt-96 text-6xl font-black leading-snug text-[#DDCCAA] pointer-events-none"
+          class="sm:pt-96 pt-72 sm:text-6xl text-4xl font-black leading-snug text-[#DDCCAA] pointer-events-none"
         >
           Find any quote in <br />
           millions of movie lines
@@ -21,7 +21,7 @@
           class="mt-8 bg-[#E31221] text-white rounded-md py-2.5 px-4"
           @click="getStarted"
         >
-          Get Started
+          {{ $t("get_started") }}
         </button>
       </div>
     </div>

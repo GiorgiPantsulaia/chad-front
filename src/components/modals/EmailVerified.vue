@@ -14,14 +14,14 @@
       width="50"
       class="mx-auto mt-16"
     />
-    <h1 class="text-3xl mt-4">Thank you!</h1>
-    <p class="my-8 mx-10">Your account has been activated</p>
+    <h1 class="text-3xl mt-4">{{ $t("thanks") }}</h1>
+    <p class="my-8 mx-10">{{ $t("account_activated") }}</p>
     <button
       type="button"
       class="py-1 px-4 bg-[#E31221] w-7/12 self-center rounded-sm"
       @click="this.$router.replace('/login')"
     >
-      Sign in
+      {{ $t("login") }}
     </button>
   </div>
 </template>

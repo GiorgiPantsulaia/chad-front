@@ -4,7 +4,7 @@
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-48 mx-auto font-semibold text-xl">
-        Write New Quote
+        {{ $t("new_quote") }}
       </h1>
       <button
         type="button"
@@ -47,7 +47,7 @@
           width="40"
           class="mr-4"
         />
-        {{ image ? image.name : "Upload Photo" }}
+        {{ image ? image.name : $t("upload_photo") }}
       </label>
       <div
         class="flex mx-10 pl-2 h-28 bg-black text-white items-center cursor-default rounded-md mt-6"
@@ -65,17 +65,17 @@
               width="30"
               class="mr-2"
             />
-            <p>{{ movie.title["en"] }} ({{ movie.release_date }})</p>
+            <p>{{ movie.title[$i18n.locale] }} ({{ movie.release_date }})</p>
           </div>
           <div class="mt-4 font-medium text-lg">
-            Director : {{ movie.director["en"] }}
+            {{ $t("director") }} : {{ movie.director[$i18n.locale] }}
           </div>
         </div>
       </div>
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
       >
-        Post
+        {{ $t("post") }}
       </button>
     </form>
   </div>

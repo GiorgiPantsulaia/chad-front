@@ -6,6 +6,7 @@
 <script>
 import { useAuthStore } from "@/stores/auth.js";
 import { mapActions } from "pinia";
+import { setLocale } from "@vee-validate/i18n";
 export default {
   name: "App",
   methods: {
@@ -13,6 +14,7 @@ export default {
   },
   created() {
     this.tryLogin();
+    setLocale(localStorage.getItem("locale") || "en");
   },
 };
 </script>

@@ -12,13 +12,13 @@
       class="text-white text-4xl sm:mt-10 mt-24"
       :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
-      Log in to your account
+      {{ $t("login_message") }}
     </h1>
     <p
       class="text-[#6C757D] mt-4 font-normal tracking-wider"
       :class="{ 'blur-[2px] pointer-events-none': isLoading }"
     >
-      Welcome back! Please enter your details.
+      {{ $t("welcome_back") }}
     </p>
     <Form
       @submit="login"
@@ -30,7 +30,7 @@
         name="user"
         rules="required|min:3"
         type="text"
-        placeholder="At least 3 & max.15 lower case characters"
+        :placeholder="$t('username_email')"
         @focusout="errors = ''"
       />
       <p v-if="errors !== ''" class="text-red-500 text-sm">{{ errors }}</p>
@@ -39,7 +39,7 @@
         name="password"
         rules="required"
         type="password"
-        placeholder="At least 8 & max.15 lower case characters"
+        :placeholder="$t('password')"
         @focusout="errors = ''"
       />
       <p v-if="errors !== ''" class="text-red-500 text-sm">{{ errors }}</p>
@@ -51,12 +51,12 @@
             class="mr-2"
             v-model="remember_me"
           />
-          <label for="remember_me">Remember me</label>
+          <label for="remember_me">{{ $t("remember_me") }}</label>
         </div>
-        <p class="text-[#0D6EFD] cursor-pointer">Forgot password?</p>
+        <p class="text-[#0D6EFD] cursor-pointer">{{ $t("forgot_password") }}</p>
       </div>
       <button class="w-full h-10 bg-[#E31221] rounded-md mt-4 text-white">
-        Sign in
+        {{ $t("signin") }}
       </button>
       <button
         class="w-full h-10 border border-white rounded-md mt-4 text-white flex justify-center items-center"
@@ -69,12 +69,12 @@
           width="25"
           class="mr-2"
         />
-        Sign in with Google
+        {{ $t("g_signin") }}
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
-        Don't have an account?
+        {{ $t("no_account") }}
         <router-link to="/register" class="text-[#0D6EFD] underline mx-1">
-          Sign up</router-link
+          {{ $t("signup") }}</router-link
         >
       </p>
     </Form>

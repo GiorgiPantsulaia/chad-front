@@ -4,7 +4,7 @@
     <div class="flex mt-24 w-full">
       <side-bar></side-bar>
       <div class="ml-64 flex flex-col w-5/12 h-1/2">
-        <h1 class="text-white text-xl font-black">My Profile</h1>
+        <h1 class="text-white text-xl font-black">{{ $t("profile") }}</h1>
         <div
           class="w-full h-full flex flex-col items-center mt-24 rounded-lg bg-[#11101A]"
         >
@@ -16,11 +16,13 @@
           <form class="text-white">
             <label class="cursor-pointer">
               <input type="file" class="text-white hidden" />
-              Upload a new photo</label
+              {{ $t("new_photo") }}</label
             >
           </form>
           <Form @submit="saveChanges" class="flex flex-col w-6/12 pb-24">
-            <label for="username" class="text-white mt-4">Username</label>
+            <label for="username" class="text-white mt-4">{{
+              $t("username")
+            }}</label>
             <Field
               type="text"
               name="username"
@@ -29,7 +31,7 @@
               v-model="username"
             />
             <ErrorMessage name="username" class="text-[#D0342C]" />
-            <label for="email" class="text-white mt-4">Email</label>
+            <label for="email" class="text-white mt-4">{{ $t("email") }}</label>
             <Field
               type="email"
               name="email"
@@ -38,7 +40,9 @@
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
             />
             <ErrorMessage name="email" class="text-[#D0342C]" />
-            <label for="password" class="text-white mt-4">Password</label>
+            <label for="password" class="text-white mt-4">{{
+              $t("password")
+            }}</label>
             <Field
               type="password"
               rules="min:8|max:15"
@@ -48,10 +52,10 @@
             /><ErrorMessage name="password" class="text-[#D0342C]" />
             <button
               type="button"
-              class="bg-[#E31221] px-3 w-1/3 h-9 rounded-md text-white self-end relative top-40 left-48"
+              class="bg-[#E31221] px-3 w-auto h-9 rounded-md text-white self-end relative top-40 left-48 whitespace-nowrap"
               @click="log"
             >
-              Save Changes
+              {{ $t("save") }}
             </button>
           </Form>
         </div>

@@ -22,7 +22,7 @@
       >
         <div class="flex mb-4 justify-between mt-4 sm:mt-0">
           <p type="button" class="text-white text-xl w-40 sm:w-auto">
-            My list of movies (Total {{ movies.length }})
+            {{ $t("movies_list") }} {{ movies.length }})
           </p>
           <div class="flex">
             <div class="w-32 hidden items-center md:flex text-white">
@@ -33,12 +33,12 @@
                 v-model="search"
                 type="text"
                 class="bg-inherit h-12 ml-4 w-full outline-none"
-                placeholder="Search"
+                :placeholder="$t('search')"
               />
             </div>
             <button
               type="button"
-              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-32"
+              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-32 px-2"
               @click="addNewMovie = !addNewMovie"
             >
               <img
@@ -47,7 +47,7 @@
                 width="25"
                 class="mr-2"
               />
-              Add movie
+              {{ $t("add_movie") }}
             </button>
           </div>
         </div>
@@ -80,9 +80,9 @@
         </div>
         <p
           v-if="search && filteredMovies.length < 1"
-          class="absolute left-0 right-0 w-96 mx-auto text-xl text-white top-[40%]"
+          class="absolute left-0 right-0 w-96 mx-auto text-xl text-white top-[40%] whitespace-nowrap"
         >
-          There's no movie for this keyword 🤔
+          {{ $t("no_movie") }}
         </p>
       </section>
     </div>
@@ -107,9 +107,9 @@ export default {
   },
   computed: {
     filteredMovies() {
-      console.log(this.movies[0].title["en"]);
+      console.log(this.movies[0].title[this.$i18n.locale]);
       return this.movies.filter((movie) => {
-        return movie.title["en"]
+        return movie.title[this.$i18n.locale]
           .toLowerCase()
           .includes(this.search.toLowerCase());
       });
@@ -126,7 +126,6 @@ export default {
         .get("user-movies")
         .then((response) => {
           this.movies = response.data.data;
-          console.log(this.movies[0].title["en"]);
         })
         .catch((err) => {
           console.log(err);

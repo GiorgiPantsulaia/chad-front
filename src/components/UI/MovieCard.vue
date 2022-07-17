@@ -11,7 +11,7 @@
       class="pt-4 text-xl font-medium tracking-wide"
       @click="this.$router.push('/movies/' + slug)"
     >
-      {{ title["en"] }}({{ releaseDate }})
+      {{ title[$i18n.locale] }}({{ releaseDate }})
     </h1>
     <div class="flex mt-4">
       <p class="text-2xl">

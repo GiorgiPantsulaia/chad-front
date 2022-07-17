@@ -1,7 +1,13 @@
 <template>
   <div
     class="bg-inherit text-white pl-12 self-start hidden lg:block"
-    :class="{ fixed: this.$route.fullPath === '/news-feed' }"
+    :class="{
+      fixed: this.$route.fullPath === '/news-feed',
+      'sm:w-96':
+        this.$route.fullPath === '/movies' ||
+        this.$route.name === 'movie-view' ||
+        this.$route.fullPath === '/profile',
+    }"
   >
     <ul>
       <li>
@@ -18,7 +24,7 @@
               class="text-[#CED4DA] self-start"
               @click="this.$router.push('/profile')"
             >
-              Edit your profile
+              {{ $t("edit_profile") }}
             </button>
           </div>
         </div>
@@ -28,7 +34,7 @@
           <home-icon
             :fill="active === 'feed' ? '#E31221' : 'white'"
           ></home-icon>
-          <p class="text-xl ml-6">News Feed</p>
+          <p class="text-xl ml-6">{{ $t("news_feed") }}</p>
         </button>
       </li>
       <li>
@@ -45,7 +51,7 @@
                 : 'white'
             "
           ></camera-icon>
-          <p class="text-xl ml-6">List of movies</p>
+          <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
         </button>
       </li>
     </ul>
