@@ -65,6 +65,9 @@
             {{ $t("change_photo") }}
           </div>
         </label>
+        <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
+          {{ errorMessage }}
+        </p>
         <button
           class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
         >
@@ -106,6 +109,12 @@ export default {
   },
   computed: {
     ...mapState(useAuthStore, ["user_pfp", "username"]),
+    imageValid() {
+      return this.image.type.slice(0, 5) === "image";
+    },
+    errorMessage() {
+      return this.$t("invalid_image");
+    },
   },
   methods: {
     handleImageUpload(e) {
@@ -113,25 +122,27 @@ export default {
       this.file_url = URL.createObjectURL(this.image);
     },
     postQuote() {
-      let formData = new FormData();
-      formData.append("img", this.image);
-      formData.append("english_quote", this.english_quote);
-      formData.append("georgian_quote", this.georgian_quote);
-      formData.append("id", this.$props.quote.id);
-      formData.append("_method", "patch");
-      axios
-        .post("update-quote", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.imageValid) {
+        let formData = new FormData();
+        formData.append("img", this.image);
+        formData.append("english_quote", this.english_quote);
+        formData.append("georgian_quote", this.georgian_quote);
+        formData.append("id", this.$props.quote.id);
+        formData.append("_method", "patch");
+        axios
+          .post("update-quote", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
     deleteQuote() {
       axios

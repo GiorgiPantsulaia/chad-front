@@ -38,7 +38,7 @@
       <text-input
         v-model="name"
         type="text"
-        rules="required|min:3|max:15|alpha_num"
+        rules="required|lowercase|min:3|max:15"
         :name="$i18n.locale === 'en' ? 'name' : 'სახელი'"
         :placeholder="$t('name_placeholder')"
         @focusout="errors = {}"
@@ -57,21 +57,18 @@
       <p v-if="errors.email" class="text-sm text-red-500">
         {{ errors.email[0] }}
       </p>
-      <text-input
+      <password-input
         v-model="password"
         name="password"
-        type="password"
-        rules="required|min:8|max:15|alpha_num"
+        rules="required|min:8|max:15|lowercase"
         :placeholder="$t('password_placeholder')"
       />
-      <text-input
+      <password-input
         v-model="confirm_password"
-        type="password"
         name="confirm password"
         rules="confirmed:@password"
         :placeholder="$t('repeat_password')"
       />
-
       <button class="w-full h-10 bg-[#E31221] rounded-md mt-8 text-white">
         {{ $t("get_started") }}
       </button>
@@ -108,6 +105,7 @@ import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import UserRegistered from "@/components/modals/UserRegistered.vue";
+import PasswordInput from "@/components/inputs/PasswordInput.vue";
 export default {
   data() {
     return {
@@ -152,6 +150,6 @@ export default {
     },
   },
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: { TextInput, Form, LoadingBar, UserRegistered },
+  components: { TextInput, Form, LoadingBar, UserRegistered, PasswordInput },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#11101A] absolute lg:w-[45%] md:w-[80%] left-0 right-0 mx-auto z-50 h-fit rounded-lg pb-6 sm:top-5 top-0"
+    class="flex flex-col bg-[#11101A] absolute lg:w-[45%] md:w-[80%] left-0 right-0 mx-auto z-50 h-full overflow-auto rounded-lg pb-6 sm:top-5 top-0"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-44 mx-auto font-semibold text-xl">
@@ -24,11 +24,12 @@
       />
       <p>{{ username }}</p>
     </div>
-    <form class="flex flex-col mt-4" @submit.prevent="postMovie">
+    <Form class="flex flex-col mt-4" @submit="postMovie">
       <movie-input
         :modelValue="english_title"
         @update:modelValue="(newValue) => (english_title = newValue)"
         name="english_title"
+        rules="required"
         placeholder="Movie name..."
         lang="Eng"
       />
@@ -36,20 +37,23 @@
         :modelValue="georgian_title"
         @update:modelValue="(newValue) => (georgian_title = newValue)"
         name="georgian_title"
+        rules="required"
         placeholder="ფილმის სახელი..."
         lang="ქარ"
       />
-      <input
+      <Field
         v-model="income"
         type="number"
         name="income"
+        rules="required"
         placeholder="Income/შემოსავალი"
         class="outline-none p-2 text-white rounded-md bg-inherit mx-10 border border-gray-600 h-10 mt-4"
       />
-      <input
+      <Field
         v-model="release_date"
         type="number"
         min="1970"
+        rules="required"
         max="2023"
         name="release_date"
         placeholder="Release date/გამოსვლის წელი"
@@ -95,6 +99,7 @@
         :modelValue="director_eng"
         @update:modelValue="(newValue) => (director_eng = newValue)"
         name="director_eng"
+        rules="required"
         placeholder="Director"
         lang="Eng"
       />
@@ -102,6 +107,7 @@
         :modelValue="director_geo"
         @update:modelValue="(newValue) => (director_geo = newValue)"
         name="director_geo"
+        rules="required"
         placeholder="რეჟისორი"
         lang="ქარ"
       />
@@ -131,19 +137,22 @@
         />
         {{ image ? image.name : $t("upload_photo") }}
       </label>
-
+      <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
+        {{ errorMessage }}
+      </p>
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
       >
         {{ $t("post") }}
       </button>
-    </form>
+    </Form>
   </div>
 </template>
 <script>
 import axios from "@/config/axios/index.js";
 import MovieInput from "../inputs/MovieInput.vue";
 import MovieTextarea from "../inputs/MovieTextarea.vue";
+import { Field, Form } from "vee-validate";
 export default {
   props: {
     username: {
@@ -167,32 +176,42 @@ export default {
       image: null,
     };
   },
+  computed: {
+    imageValid() {
+      return this.image.type.slice(0, 5) === "image";
+    },
+    errorMessage() {
+      return this.$t("invalid_image");
+    },
+  },
   methods: {
     postMovie() {
-      let formData = new FormData();
-      formData.append("img", this.image);
-      formData.append("english_title", this.english_title);
-      formData.append("georgian_title", this.georgian_title);
-      formData.append("chosen_genres", this.chosen_genres);
-      formData.append("director_eng", this.director_eng);
-      formData.append("director_geo", this.director_geo);
-      formData.append("english_description", this.english_description);
-      formData.append("georgian_description", this.georgian_description);
-      formData.append("release_date", this.release_date);
-      formData.append("income", this.income);
-      axios
-        .post("post-movie", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.imageValid) {
+        let formData = new FormData();
+        formData.append("img", this.image);
+        formData.append("english_title", this.english_title);
+        formData.append("georgian_title", this.georgian_title);
+        formData.append("chosen_genres", this.chosen_genres);
+        formData.append("director_eng", this.director_eng);
+        formData.append("director_geo", this.director_geo);
+        formData.append("english_description", this.english_description);
+        formData.append("georgian_description", this.georgian_description);
+        formData.append("release_date", this.release_date);
+        formData.append("income", this.income);
+        axios
+          .post("post-movie", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
     removeGenre(title) {
       this.genres.push(title);
@@ -225,7 +244,7 @@ export default {
   beforeMount() {
     this.getGenres();
   },
-  components: { MovieInput, MovieTextarea },
+  components: { MovieInput, MovieTextarea, Field, Form },
 };
 </script>
 <style scoped>
@@ -241,5 +260,12 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+div {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+div::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 </style>

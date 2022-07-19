@@ -84,7 +84,7 @@
         </select>
         <img
           src="@/icons/camera-icon.svg"
-          alt=""
+          alt="choose movie"
           width="30"
           class="relative bottom-14 left-4 pointer-events-none"
         />

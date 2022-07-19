@@ -3,7 +3,7 @@
     class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen lg:overflow-hidden overflow-auto"
   >
     <nav-bar></nav-bar>
-    <div class="flex pt-24 h-full overflow-auto w-full">
+    <div class="flex pt-24 h-auto overflow-auto w-full">
       <side-bar
         id="sidebar"
         :class="{ 'opacity-30 pointer-events-none': addNewMovie }"
@@ -76,6 +76,7 @@
             :title="movie.title"
             :releaseDate="movie.release_date"
             :quotesLength="movie.quotes.length"
+            @click="goToMovie(movie.slug)"
           />
         </div>
         <p

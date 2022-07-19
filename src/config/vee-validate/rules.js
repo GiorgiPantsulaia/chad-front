@@ -16,3 +16,9 @@ defineRule("max", max);
 defineRule("alpha", alpha);
 defineRule("alpha_num", alpha_num);
 defineRule("confirmed", confirmed);
+defineRule("lowercase", (value) => {
+  if (!/^[a-z0-9]*$/.test(value)) {
+    return false;
+  }
+  return true;
+});

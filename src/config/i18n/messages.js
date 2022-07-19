@@ -27,7 +27,8 @@ const messages = {
     news_feed: "News Feed",
     my_movies: "Movies List",
     new_post: "Write a new quote",
-    search_placeholder: "Enter @ to search movies, Enter # to search quotes",
+    search_placeholder:
+      "Enter {'@'} to search movies, Enter # to search quotes",
     write_comment: "Write a comment...",
     new_quote: "Write New Quote",
     upload_photo: "Upload photo",
@@ -59,6 +60,7 @@ const messages = {
     movie_description: "Movie description",
     invalid_image: "Invalid file type",
     no_movies: "You do not have any movies added.",
+    not_found: "No movie or quote found for this keyword...",
   },
   ka: {
     logout: "გამოსვლა",
@@ -89,7 +91,7 @@ const messages = {
     my_movies: "ჩემი ფილმები",
     new_post: "პოსტის დამატება",
     search_placeholder:
-      "ჩაწერე @ ფილმის მოსაძებნად, ჩაწერე # ციტატის მოძაძებნად",
+      "ჩაწერე {'@'} ფილმის მოსაძებნად, ჩაწერე # ციტატის მოძაძებნად",
     write_comment: "კომენტარის დაწერა...",
     new_quote: "ახალი ციტატა",
     upload_photo: "ატვირთე ფოტო",
@@ -121,6 +123,7 @@ const messages = {
     movie_description: "ფილმის აღწერა",
     invalid_image: "ფაილის ტიპი არ არის ვალიდური",
     no_movies: "ციტატის დასამატებლად აუცილებელია ფილმი.",
+    not_found: "ამ საძიებო სიტყვაზე ფილმი/ციტატა არ არსებობს...",
   },
 };
 

@@ -5,15 +5,24 @@
 </template>
 <script>
 import { useAuthStore } from "@/stores/auth.js";
-import { mapActions } from "pinia";
+import { useNotificationsStore } from "@/stores/notifications.js";
+import { mapActions, mapState } from "pinia";
 import { setLocale } from "@vee-validate/i18n";
+import pusher from "@/config/pusher/pusher.js";
 export default {
   name: "App",
+  computed: {
+    ...mapState(useNotificationsStore, ["notifications"]),
+  },
   methods: {
     ...mapActions(useAuthStore, ["tryLogin"]),
+    subscribe() {
+      pusher.subscribe("likes");
+    },
   },
   created() {
     this.tryLogin();
+    this.subscribe();
     setLocale(localStorage.getItem("locale") || "en");
   },
 };

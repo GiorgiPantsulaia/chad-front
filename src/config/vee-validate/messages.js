@@ -12,7 +12,7 @@ configure({
         name: {
           min: "name must be between 3 and 15 characters",
           max: "name must be between 3 and 15 characters",
-          alpha_num: "name can only contain letters and numbers",
+          lowercase: "name can only contain lowercase letters and numbers",
         },
         user: {
           min: "name/email must contain at least 3 characters",
@@ -36,7 +36,8 @@ configure({
         სახელი: {
           min: "სახელი უნდა შედგებოდეს მინიმუმ 3,მაქსიმუმ 15 სიმბოლოსგან",
           max: "სახელი უნდა შედგებოდეს მინიმუმ 3,მაქსიმუმ 15 სიმბოლოსგან",
-          alpha_num: "სახელი უნდა შეიცავდეს მხოლოდ ასოებსა და რიცხვებს",
+          lowercase:
+            "სახელი უნდა შედგებოდეს მხოლოდ დაბალი რეგისტრის სიმბოლობისა და რიცხვებისგან",
         },
         user: {
           min: "სახელი/ელ-ფოსტა უნდა შედგებოდეს მინიმუმ 3 სიმბოლოსგან",

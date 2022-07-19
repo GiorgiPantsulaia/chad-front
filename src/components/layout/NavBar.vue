@@ -12,7 +12,28 @@
     >
       Movie Quotes
     </h1>
+
     <div class="flex mr-12 items-center">
+      <notifications-dropdown
+        v-if="showNotifications"
+        id="notification"
+        class="absolute top-16 right-16"
+      />
+      <button
+        class="items-center hidden sm:flex"
+        @click="showNotifications = !showNotifications"
+      >
+        <img
+          src="@/icons/notification-icon.svg"
+          alt=""
+          width="25"
+          class="mx-2"
+        />
+        <p class="bg-[#E33812] rounded-full w-6 h-6 relative bottom-2 right-5">
+          {{ notifications.length }}
+        </p>
+      </button>
+
       <div class="mx-4 cursor-pointer">
         <div @click="showLang = !showLang" class="flex text-lg">
           {{ $i18n.locale === "en" ? "Eng" : "ქარ" }}
@@ -59,14 +80,29 @@ import { mapActions, mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import { useLocaleStore } from "@/stores/locale.js";
 import { setLocale } from "@vee-validate/i18n";
+import { useNotificationsStore } from "@/stores/notifications.js";
+import pusher from "@/config/pusher/pusher.js";
+import NotificationsDropdown from "@/components/UI/NotificationsDropdown.vue";
 export default {
+  mounted() {
+    this.updateNotifications();
+  },
   data() {
     return {
       showLang: false,
+      showNotifications: false,
+      // notifications: [],
     };
   },
   methods: {
+    updateNotifications() {
+      pusher.bind("App\\Events\\PostLiked", (data) => {
+        this.storeNotifications({ notifications: data });
+      });
+    },
     ...mapActions(useLocaleStore, ["storeLocale"]),
+    ...mapActions(useNotificationsStore, ["storeNotifications"]),
+
     changeLocale() {
       this.$i18n.locale = this.$i18n.locale === "en" ? "ka" : "en";
       this.storeLocale({ locale: this.$i18n.locale });
@@ -76,6 +112,7 @@ export default {
   },
   computed: {
     ...mapState(useAuthStore, ["isAuthenticated", "logout"]),
+    ...mapState(useNotificationsStore, ["notifications"]),
     active() {
       return (
         this.$route.fullPath === "/register" ||
@@ -86,6 +123,7 @@ export default {
       return this.$route.fullPath === "/";
     },
   },
+  components: { NotificationsDropdown },
 };
 </script>
 <style scoped>
