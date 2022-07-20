@@ -3,8 +3,10 @@
     <nav-bar></nav-bar>
     <div class="flex mt-24 w-full">
       <side-bar></side-bar>
-      <div class="ml-64 flex flex-col w-5/12 h-1/2">
-        <h1 class="text-white text-xl font-black">{{ $t("profile") }}</h1>
+      <div class="sm:ml-64 flex flex-col sm:w-5/12 h-1/2 w-full">
+        <h1 class="text-white text-xl font-black hidden sm:block">
+          {{ $t("profile") }}
+        </h1>
         <div
           class="w-full h-full flex flex-col items-center mt-24 rounded-lg bg-[#11101A]"
         >
@@ -13,19 +15,28 @@
             alt="profile picture"
             class="w-32 h-32 rounded-full -mt-16"
           />
-          <form class="text-white">
+          <form class="text-white text-center">
             <label class="cursor-pointer">
-              <input type="file" class="text-white hidden" />
+              <input
+                type="file"
+                class="text-white hidden"
+                @change="handleImageUpload"
+              />
               {{ $t("new_photo") }}</label
             >
+            <p v-if="image" class="text-sm text-red-300">{{ image.name }}</p>
           </form>
-          <Form @submit="saveChanges" class="flex flex-col w-6/12 pb-24">
+          <Form
+            @submit="saveChanges"
+            class="flex flex-col sm:w-6/12 w-9/12 pb-24"
+          >
             <label for="username" class="text-white mt-4">{{
               $t("username")
             }}</label>
             <Field
               type="text"
               name="username"
+              disabled
               rules="min:3|max:15"
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
               v-model="username"
@@ -37,6 +48,7 @@
               name="email"
               rules="email"
               v-model="user_email"
+              disabled
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
             />
             <ErrorMessage name="email" class="text-[#D0342C]" />
@@ -46,13 +58,14 @@
             <Field
               type="password"
               rules="min:8|max:15"
+              disabled
               name="password"
               placeholder="Enter new password"
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
             /><ErrorMessage name="password" class="text-[#D0342C]" />
             <button
               type="button"
-              class="bg-[#E31221] px-3 w-auto h-9 rounded-md text-white self-end relative top-40 left-48 whitespace-nowrap"
+              class="bg-[#E31221] px-3 w-auto h-9 rounded-md text-white self-end relative top-40 sm:left-48 left-0 right-0 mx-auto sm:mx-0 whitespace-nowrap"
               @click="log"
             >
               {{ $t("save") }}
@@ -69,7 +82,7 @@ import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { mapState } from "pinia";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
   computed: {
@@ -78,8 +91,15 @@ export default {
   data() {
     return {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
+      image: null,
     };
   },
+  methods: {
+    handleImageUpload(e) {
+      this.image = e.target.files[0];
+    },
+  },
+  // eslint-disable-next-line vue/no-reserved-component-names
   components: { NavBar, SideBar, Form, Field, ErrorMessage },
   beforeMount() {
     console.log(this.user_pfp);

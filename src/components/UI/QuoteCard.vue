@@ -27,11 +27,11 @@
       <div class="flex mx-4 text-white pb-4">
         <div class="flex">
           {{ quote.comments.length }}
-          <img src="@/icons/comment-icon.svg" alt="comments" class="mx-2" />
+          <icon-comment class="mx-2" />
         </div>
         <div class="flex mx-4">
           {{ quote.likes_number }}
-          <img src="@/icons/heart-icon.svg" alt="likes" class="mx-2" />
+          <icon-heart class="mx-2" />
         </div>
       </div>
     </div>
@@ -40,36 +40,34 @@
         v-if="showOptions"
         class="relative md:w-48 w-full bg-[#24222F] sm:h-full sm:text-lg text-2xl p-4 text-white rounded-lg flex flex-col justify-evenly"
       >
-        <li class="flex cursor-pointer" @click="this.$emit('handleView')">
-          <img src="@/icons/eye-icon.svg" alt="view post" class="mr-2 w-6" />
+        <li
+          class="flex cursor-pointer items-center"
+          @click="this.$emit('handleView')"
+        >
+          <icon-eye class="mr-2 w-6" />
           View Post
         </li>
         <li
-          class="flex cursor-pointer"
+          class="flex cursor-pointer items-center"
           @click="this.$emit('handleEdit')"
           v-if="user_email === quote.author.email"
         >
-          <img src="@/icons/edit-pencil-icon.svg" alt="edit" class="mr-2 w-6" />
+          <icon-edit class="mr-2 w-6" />
           Edit
         </li>
         <li
-          class="flex cursor-pointer"
+          class="flex cursor-pointer items-center"
           @click="deleteQuote(quote.id)"
           v-if="user_email === quote.author.email"
         >
-          <img src="@/icons/delete-icon.svg" alt="delete" class="mr-2 w-6" />
+          <icon-delete class="mr-2 w-6 fill-white" />
           Delete
         </li>
         <li
           :class="{ 'sm:hidden flex': showOptions }"
           @click="showOptions = false"
         >
-          <img
-            src="@/icons/return-icon.svg"
-            alt="go back"
-            class="mr-2 w-6"
-            width="20"
-          />
+          <icon-return width="20" />
           Quote
         </li>
       </ul>
@@ -80,7 +78,13 @@
 <script>
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
-import { useAuthStore } from "../../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
+import IconComment from "@/components/icons/IconComment.vue";
+import IconDelete from "@/components/icons/IconDelete.vue";
+import IconEdit from "@/components/icons/IconEdit.vue";
+import IconEye from "@/components/icons/IconEye.vue";
+import IconReturn from "@/components/icons/IconReturn.vue";
+import IconHeart from "../icons/IconHeart.vue";
 export default {
   data() {
     return {
@@ -106,6 +110,14 @@ export default {
           console.log(response);
         });
     },
+  },
+  components: {
+    IconComment,
+    IconDelete,
+    IconEdit,
+    IconEye,
+    IconReturn,
+    IconHeart,
   },
 };
 </script>

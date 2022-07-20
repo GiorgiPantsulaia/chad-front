@@ -31,7 +31,7 @@
                 class="w-36 bg-[#24222F] py-2 items-center rounded-lg flex justify-center sm:mr-24 mr-4 text-gray-600 font-light"
               >
                 <button class="pr-4 mx-2">
-                  <img src="@/icons/edit-pencil-icon.svg" alt="edit" />
+                  <icon-edit />
                 </button>
                 <span class="cursor-default">|</span>
                 <button
@@ -39,15 +39,17 @@
                   type="button"
                   @click="showConfirmation = !showConfirmation"
                 >
-                  <delete-icon class="fill-white hover:fill-[#E31221]" />
+                  <icon-delete class="fill-white hover:fill-[#E31221]" />
                 </button>
               </div>
             </div>
-            <div class="flex" v-for="genre in movie.genres" :key="genre.title">
+            <div class="flex">
               <p
-                class="px-2 py-1 bg-[#6C757D] font-black text-white rounded-md cursor-pointer"
+                v-for="genre in movie.genres"
+                :key="genre.title"
+                class="px-2 m-0.5 py-1 bg-[#6C757D] font-black text-white rounded-md cursor-pointer"
               >
-                {{ genre.title }}
+                {{ genre.title[$i18n.locale] }}
               </p>
             </div>
             <p class="text-white mt-6 font-medium text-lg">
@@ -70,12 +72,7 @@
             class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-32 py-6 px-2"
             @click="addQuote = !addQuote"
           >
-            <img
-              src="@/icons/add-plus-icon.svg"
-              alt="new-quote"
-              width="20"
-              class="mr-2"
-            />
+            <icon-add-plus class="mr-2" />
             {{ $t("add_quote") }}
           </button>
         </div>
@@ -123,11 +120,13 @@ import SideBar from "@/components/layout/SideBar.vue";
 import QuoteCard from "@/components/UI/QuoteCard.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 import AddQuoteToMovie from "@/components/modals/AddQuoteToMovie.vue";
-import DeleteIcon from "@/components/icons/DeleteIcon.vue";
+import IconDelete from "@/components/icons/IconDelete.vue";
 import EditQuote from "@/components/modals/EditQuote.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import ViewQuote from "@/components/modals/ViewQuote.vue";
+import IconAddPlus from "@/components/icons/IconAddPlus.vue";
+import IconEdit from "@/components/icons/IconEdit.vue";
 export default {
   props: {
     slug: {
@@ -177,7 +176,6 @@ export default {
   },
   beforeMount() {
     this.getMovie();
-    console.log(this.$route);
   },
   components: {
     NavBar,
@@ -185,9 +183,11 @@ export default {
     QuoteCard,
     ConfirmDelete,
     AddQuoteToMovie,
-    DeleteIcon,
+    IconDelete,
     EditQuote,
     ViewQuote,
+    IconAddPlus,
+    IconEdit,
   },
 };
 </script>

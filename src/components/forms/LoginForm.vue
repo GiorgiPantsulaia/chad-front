@@ -63,12 +63,7 @@
         type="button"
         @click="googleAuth"
       >
-        <img
-          src="@/icons/google-icon.svg"
-          alt="google-icon"
-          width="25"
-          class="mr-2"
-        />
+        <icon-google class="mr-2" />
         {{ $t("g_signin") }}
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
@@ -91,10 +86,11 @@ import { mapActions } from "pinia";
 import { Form } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
+import IconGoogle from "../icons/IconGoogle.vue";
 
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: { TextInput, Form, LoadingBar },
+  components: { TextInput, Form, LoadingBar, IconGoogle },
   data() {
     return {
       user: "",

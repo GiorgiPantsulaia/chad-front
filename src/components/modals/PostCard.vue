@@ -35,7 +35,7 @@
           {{ quote.comments.length }}
         </p>
         <button class="mx-2">
-          <img src="@/icons/comment-icon.svg" alt="comment" />
+          <icon-comment />
         </button>
       </div>
       <div class="flex mx-4 items-center">
@@ -45,9 +45,9 @@
         <button
           class="mx-2"
           :class="{ 'pointer-events-none': loading }"
-          @click="likePost(quote.id)"
+          @click="likeOrUnlikePost(quote)"
         >
-          <img src="@/icons/heart-icon.svg" alt="like" />
+          <icon-heart :fill="postLiked ? '#F3426C' : '#fff'" alt="like" />
         </button>
       </div>
     </div>
@@ -126,16 +126,20 @@
   </div>
 </template>
 <script>
-import { mapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import axios from "@/config/axios/index.js";
 import { Form, Field } from "vee-validate";
+import IconHeart from "@/components/icons/IconHeart.vue";
+import IconComment from "@/components/icons/IconComment.vue";
 
 export default {
   components: {
     Field,
     // eslint-disable-next-line vue/no-reserved-component-names
     Form,
+    IconHeart,
+    IconComment,
   },
   data() {
     return {
@@ -145,7 +149,25 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp"]),
+    ...mapState(useAuthStore, ["user_pfp", "liked_posts"]),
+    postLiked() {
+      let liked = false;
+      for (let i = 0; i < this.liked_posts.length; i++) {
+        if (this.liked_posts[i].id === this.$props.quote.id) {
+          liked = true;
+        }
+      }
+      return liked;
+    },
+    hasLikedPost() {
+      let hasLikedPost = false;
+      for (let i = 0; i < this.liked_posts.length; i++) {
+        if (this.liked_posts[i].id === this.$props.quote.id) {
+          hasLikedPost = true;
+        }
+      }
+      return hasLikedPost;
+    },
   },
   props: {
     quote: {
@@ -154,6 +176,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useAuthStore, ["updateLikedPosts"]),
     addComment(quote_id) {
       axios
         .post("add-comment", {
@@ -167,14 +190,24 @@ export default {
           console.log(err);
         });
     },
-    likePost(id) {
-      // WIP : user still can like post twice if they refresh the page
-      this.loading = true;
-      axios.post("like-post", { id: id }).then((response) => {
-        if (response.status === 200) {
-          this.loading = false;
-        }
-      });
+    likeOrUnlikePost(quote) {
+      if (!this.hasLikedPost) {
+        this.loading = true;
+        axios.post("like-post", { id: quote.id }).then((response) => {
+          if (response.status === 200) {
+            this.updateLikedPosts({ quote: quote });
+            this.loading = false;
+          }
+        });
+      } else {
+        this.loading = true;
+        axios.post("unlike-post", { id: quote.id }).then((response) => {
+          if (response.status === 200) {
+            this.updateLikedPosts({ id: quote.id });
+            this.loading = false;
+          }
+        });
+      }
     },
     toggleShow() {
       this.$props.quote.isShown = !this.$props.quote.isShown;

@@ -12,7 +12,11 @@
         class="border border-gray-200 bg-[#CED4DA] mt-1 h-9 rounded-md pl-3 outline-none w-full"
         @input="$emit('update:modelValue', $event.target.value)"
       />
-      <button class="absolute md:right-36 right-12 mt-1" @click="type = !type">
+      <button
+        class="absolute md:right-36 right-12 mt-1"
+        @click="type = !type"
+        type="button"
+      >
         <img src="@/icons/show-password-icon.svg" alt="" width="25" />
       </button>
     </div>

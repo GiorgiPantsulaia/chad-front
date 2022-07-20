@@ -17,11 +17,12 @@
       <p class="text-2xl">
         {{ quotesLength }}
       </p>
-      <img src="@/icons/quote-icon.svg" alt="quotes" width="23" class="ml-2" />
+      <icon-quote class="ml-2" />
     </div>
   </div>
 </template>
 <script>
+import IconQuote from "@/components/icons/IconQuote.vue";
 export default {
   props: {
     thumbnail: {
@@ -46,5 +47,6 @@ export default {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
+  components: { IconQuote },
 };
 </script>

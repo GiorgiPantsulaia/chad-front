@@ -1,6 +1,6 @@
 <template>
   <main
-    class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen lg:overflow-hidden overflow-auto"
+    class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen overflow-auto"
   >
     <nav-bar></nav-bar>
     <div class="flex pt-24 h-auto overflow-auto w-full">
@@ -27,7 +27,7 @@
           <div class="flex">
             <div class="w-32 hidden items-center md:flex text-white">
               <button>
-                <img src="@/icons/search-icon.svg" alt="search" />
+                <icon-search />
               </button>
               <input
                 v-model="search"
@@ -41,12 +41,7 @@
               class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-32 px-2"
               @click="addNewMovie = !addNewMovie"
             >
-              <img
-                src="@/icons/add-plus-icon.svg"
-                alt="new-quote"
-                width="25"
-                class="mr-2"
-              />
+              <icon-add-plus class="mr-2" />
               {{ $t("add_movie") }}
             </button>
           </div>
@@ -96,9 +91,11 @@ import axios from "@/config/axios/index.js";
 import MovieCard from "@/components/UI/MovieCard.vue";
 import NewMovie from "@/components/modals/NewMovie.vue";
 import { mapState } from "pinia";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
+import IconSearch from "@/components/icons/IconSearch.vue";
+import IconAddPlus from "../components/icons/IconAddPlus.vue";
 export default {
-  components: { NavBar, SideBar, MovieCard, NewMovie },
+  components: { NavBar, SideBar, MovieCard, NewMovie, IconSearch, IconAddPlus },
   data() {
     return {
       movies: [],

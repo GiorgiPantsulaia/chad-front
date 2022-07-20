@@ -41,14 +41,12 @@
         class="flex mx-10 pl-4 h-20 bg-black text-white items-center cursor-pointer rounded-md mt-6"
       >
         <input type="file" class="hidden" @change="handleImageUpload" />
-        <img
-          src="@/icons/upload-photo-icon.svg"
-          alt="upload photo"
-          width="40"
-          class="mr-4"
-        />
+        <icon-upload-photo class="mr-4" />
         {{ image ? image.name : $t("upload_photo") }}
       </label>
+      <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
+        {{ errorMessage }}
+      </p>
       <div
         class="flex mx-10 pl-2 h-28 bg-black text-white items-center cursor-default rounded-md mt-6"
       >
@@ -59,12 +57,7 @@
         />
         <div class="flex flex-col ml-4">
           <div class="flex items-center text-xl font-semibold">
-            <img
-              src="@/icons/camera-icon.svg"
-              alt="upload photo"
-              width="30"
-              class="mr-2"
-            />
+            <icon-camera class="mr-2" fill="#fff" />
             <p>{{ movie.title[$i18n.locale] }} ({{ movie.release_date }})</p>
           </div>
           <div class="mt-4 font-medium text-lg">
@@ -84,6 +77,8 @@
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
+import IconCamera from "@/components/icons/IconCamera.vue";
+import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 
 export default {
   emits: ["onClick"],
@@ -103,31 +98,40 @@ export default {
   },
   computed: {
     ...mapState(useAuthStore, ["user_pfp", "username"]),
+    imageValid() {
+      return this.image.type.slice(0, 5) === "image";
+    },
+    errorMessage() {
+      return this.$t("invalid_image");
+    },
   },
   methods: {
     handleImageUpload(e) {
       this.image = e.target.files[0];
     },
     postQuote() {
-      let formData = new FormData();
-      formData.append("img", this.image);
-      formData.append("english_quote", this.english_quote);
-      formData.append("georgian_quote", this.georgian_quote);
-      formData.append("movie_id", this.$props.movie.id);
-      axios
-        .post("post-quote", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.imageValid) {
+        let formData = new FormData();
+        formData.append("img", this.image);
+        formData.append("english_quote", this.english_quote);
+        formData.append("georgian_quote", this.georgian_quote);
+        formData.append("movie_id", this.$props.movie.id);
+        axios
+          .post("post-quote", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
+  components: { IconCamera, IconUploadPhoto },
 };
 </script>

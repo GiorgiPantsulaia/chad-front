@@ -8,12 +8,7 @@
     >
       ✕
     </button>
-    <img
-      src="@/icons/verified-check-icon.svg"
-      alt="Verified"
-      width="50"
-      class="mx-auto mt-16"
-    />
+    <icon-verified class="mx-auto mt-16" />
     <h1 class="text-3xl mt-4">{{ $t("thanks") }}</h1>
     <p class="my-8 mx-10">{{ $t("account_activated") }}</p>
     <button
@@ -26,7 +21,9 @@
   </div>
 </template>
 <script>
+import IconVerified from "@/components/icons/IconVerified.vue";
 export default {
   emits: ["onClose"],
+  components: { IconVerified },
 };
 </script>

@@ -8,7 +8,7 @@
         class="flex items-center w-full p-6 border-b border-gray-600 justify-between"
       >
         <button type="button" @click="showConfirmation = !showConfirmation">
-          <delete-icon class="fill-white hover:fill-[#E31221] w-4" />
+          <icon-delete class="fill-white hover:fill-[#E31221] w-4" />
         </button>
         <h1 class="text-white w-56 mx-auto font-semibold text-xl">
           {{ $t("edit_quote") }}
@@ -56,12 +56,7 @@
           <div
             class="absolute w-28 h-20 mx-auto left-0 right-0 bg-[#11101A] opacity-80 flex flex-col text-center rounded-xl justify-center hover:opacity-100"
           >
-            <img
-              src="@/icons/upload-photo-icon.svg"
-              alt="upload photo"
-              width="20"
-              class="self-center"
-            />
+            <IconUploadPhoto class="self-center" />
             {{ $t("change_photo") }}
           </div>
         </label>
@@ -86,8 +81,9 @@
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
-import DeleteIcon from "../icons/DeleteIcon.vue";
+import IconDelete from "@/components/icons/IconDelete.vue";
 import ConfirmDelete from "./ConfirmDelete.vue";
+import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 
 export default {
   emits: ["onClick"],
@@ -152,6 +148,6 @@ export default {
         });
     },
   },
-  components: { DeleteIcon, ConfirmDelete },
+  components: { IconDelete, ConfirmDelete, IconUploadPhoto },
 };
 </script>

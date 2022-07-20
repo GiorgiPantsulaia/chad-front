@@ -91,7 +91,7 @@
           @change="handleChoose"
         >
           <option v-for="genre in genres" :value="genre" :key="genre">
-            {{ genre }}
+            {{ genre[$i18n.locale] }}
           </option>
         </select>
       </div>
@@ -129,12 +129,7 @@
         class="flex mx-10 pl-4 h-20 bg-black text-white items-center cursor-pointer rounded-md mt-6"
       >
         <input type="file" class="hidden" @change="handleImageUpload" />
-        <img
-          src="@/icons/upload-photo-icon.svg"
-          alt="upload photo"
-          width="30"
-          class="mr-4"
-        />
+        <icon-upload-photo class="mr-4" />
         {{ image ? image.name : $t("upload_photo") }}
       </label>
       <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
@@ -150,9 +145,10 @@
 </template>
 <script>
 import axios from "@/config/axios/index.js";
-import MovieInput from "../inputs/MovieInput.vue";
-import MovieTextarea from "../inputs/MovieTextarea.vue";
+import MovieInput from "@/components/inputs/MovieInput.vue";
+import MovieTextarea from "@/components/inputs/MovieTextarea.vue";
 import { Field, Form } from "vee-validate";
+import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 export default {
   props: {
     username: {
@@ -197,6 +193,7 @@ export default {
         formData.append("english_description", this.english_description);
         formData.append("georgian_description", this.georgian_description);
         formData.append("release_date", this.release_date);
+        formData.append("lang", this.$i18n.locale);
         formData.append("income", this.income);
         axios
           .post("post-movie", formData, {
@@ -222,8 +219,8 @@ export default {
       this.genre = null;
     },
     handleChoose() {
-      if (this.chosen_genres.length < 6) {
-        this.chosen_genres.push(this.genre);
+      if (this.chosen_genres.length < 4) {
+        this.chosen_genres.push(this.genre[this.$i18n.locale]);
         this.genres = this.genres.filter((genre) => genre != this.genre);
         this.genre = null;
       } else {
@@ -244,7 +241,8 @@ export default {
   beforeMount() {
     this.getGenres();
   },
-  components: { MovieInput, MovieTextarea, Field, Form },
+  // eslint-disable-next-line vue/no-reserved-component-names
+  components: { MovieInput, MovieTextarea, Field, Form, IconUploadPhoto },
 };
 </script>
 <style scoped>

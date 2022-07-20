@@ -7,6 +7,7 @@ export const useAuthStore = defineStore({
     username: null,
     user_email: null,
     user_pfp: null,
+    liked_posts: null,
   }),
   actions: {
     storeLoginUser(payload) {
@@ -23,6 +24,18 @@ export const useAuthStore = defineStore({
         Date.now() + payload.expire_time * 1000
       );
       this.router.push({ name: "home" });
+    },
+    storeLikedPosts(payload) {
+      this.liked_posts = payload.liked_posts;
+    },
+    updateLikedPosts(payload) {
+      if (payload.id) {
+        this.liked_posts = this.liked_posts.filter(
+          (post) => post.id !== payload.id
+        );
+      } else {
+        this.liked_posts.push(payload.quote);
+      }
     },
     tryLogin() {
       const token = localStorage.getItem("token");

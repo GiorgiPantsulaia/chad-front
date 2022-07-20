@@ -12,7 +12,7 @@
           v-if="quote.author.email === user_email"
         >
           <button class="" @click="this.$emit('handleClickEdit')">
-            <img src="@/icons/edit-pencil-icon.svg" alt="edit" class="w-4" />
+            <icon-edit class="w-4" />
           </button>
           <span class="cursor-default text-gray-600">|</span>
           <button
@@ -20,7 +20,7 @@
             type="button"
             @click="showConfirmation = !showConfirmation"
           >
-            <delete-icon class="fill-white hover:fill-[#E31221] w-4" />
+            <icon-delete class="fill-white hover:fill-[#E31221] w-4" />
           </button>
         </div>
         <p class="font-medium text-xl md:mr-6">View Quote</p>
@@ -61,7 +61,7 @@
             {{ quote.comments.length }}
           </p>
           <button class="mx-2">
-            <img src="@/icons/comment-icon.svg" alt="comment" />
+            <icon-comment />
           </button>
         </div>
         <div class="flex mx-4 items-center">
@@ -69,7 +69,7 @@
             {{ quote.likes_number }}
           </p>
           <button class="mx-2" @click="likePost">
-            <img src="@/icons/heart-icon.svg" alt="like" />
+            <icon-heart />
           </button>
         </div>
       </div>
@@ -154,12 +154,23 @@
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { Form, Field } from "vee-validate";
-import { useAuthStore } from "../../stores/auth";
-import DeleteIcon from "../icons/DeleteIcon.vue";
+import { useAuthStore } from "@/stores/auth.js";
+import IconDelete from "@/components/icons/IconDelete.vue";
 import ConfirmDelete from "./ConfirmDelete.vue";
+import IconComment from "@/components/icons/IconComment.vue";
+import IconEdit from "@/components/icons/IconEdit.vue";
+import IconHeart from "../icons/IconHeart.vue";
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
-  components: { Form, Field, DeleteIcon, ConfirmDelete },
+  components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Form,
+    Field,
+    IconDelete,
+    ConfirmDelete,
+    IconComment,
+    IconEdit,
+    IconHeart,
+  },
   emits: ["onClick", "handleClickEdit"],
   props: {
     quote: {

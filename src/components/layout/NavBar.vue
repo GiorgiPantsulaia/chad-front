@@ -23,23 +23,16 @@
         class="items-center hidden sm:flex"
         @click="showNotifications = !showNotifications"
       >
-        <img
-          src="@/icons/notification-icon.svg"
-          alt=""
-          width="25"
-          class="mx-2"
-        />
-        <p class="bg-[#E33812] rounded-full w-6 h-6 relative bottom-2 right-5">
+        <icon-notification />
+        <p class="bg-[#E33812] rounded-full w-6 h-6 relative bottom-2 right-4">
           {{ notifications.length }}
         </p>
       </button>
 
       <div class="mx-4 cursor-pointer">
-        <div @click="showLang = !showLang" class="flex text-lg">
+        <div @click="showLang = !showLang" class="flex text-lg items-center">
           {{ $i18n.locale === "en" ? "Eng" : "ქარ" }}
-          <img
-            src="@/icons/arrow-down.svg"
-            alt="arrow-down"
+          <icon-arrow-down
             class="ml-1 transition-all"
             :class="{ 'rotate-180': showLang }"
           />
@@ -81,12 +74,14 @@ import { useAuthStore } from "@/stores/auth.js";
 import { useLocaleStore } from "@/stores/locale.js";
 import { setLocale } from "@vee-validate/i18n";
 import { useNotificationsStore } from "@/stores/notifications.js";
-import pusher from "@/config/pusher/pusher.js";
+// import pusher from "@/config/pusher/pusher.js";
 import NotificationsDropdown from "@/components/UI/NotificationsDropdown.vue";
+import IconArrowDown from "@/components/icons/IconArrowDown.vue";
+import IconNotification from "@/components/icons/IconNotification.vue";
 export default {
-  mounted() {
-    this.updateNotifications();
-  },
+  // mounted() {
+  //   this.updateNotifications();
+  // },
   data() {
     return {
       showLang: false,
@@ -95,11 +90,12 @@ export default {
     };
   },
   methods: {
-    updateNotifications() {
-      pusher.bind("App\\Events\\PostLiked", (data) => {
-        this.storeNotifications({ notifications: data });
-      });
-    },
+    // updateNotifications() {
+    //   pusher.bind("App\\Events\\PostLiked", (data) => {
+    //     console.log(data);
+    //     this.storeNotifications({ notifications: data });
+    //   });
+    // },
     ...mapActions(useLocaleStore, ["storeLocale"]),
     ...mapActions(useNotificationsStore, ["storeNotifications"]),
 
@@ -123,7 +119,7 @@ export default {
       return this.$route.fullPath === "/";
     },
   },
-  components: { NotificationsDropdown },
+  components: { NotificationsDropdown, IconArrowDown, IconNotification },
 };
 </script>
 <style scoped>

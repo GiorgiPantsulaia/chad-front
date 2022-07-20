@@ -27,12 +27,7 @@
             :class="{ 'md:w-2/5': openSearch }"
             @click="addNewQuote = !addNewQuote"
           >
-            <img
-              src="@/icons/write-icon.svg"
-              alt="new-quote"
-              width="25"
-              class="mr-3"
-            />
+            <icon-write class="mr-3" />
             {{ $t("new_post") }}
           </button>
           <form
@@ -40,7 +35,7 @@
             :class="{ 'w-full': openSearch }"
             @submit.prevent="search"
           >
-            <button><img src="@/icons/search-icon.svg" alt="search" /></button>
+            <button><icon-search /></button>
             <input
               type="search"
               v-model="search_keyword"
@@ -58,7 +53,7 @@
         </div>
         <div
           v-else
-          class="flex flex-wrap basis-1/2 w-full ml-24 justify-between"
+          class="flex sm:flex-wrap sm:flex-row flex-col sm:basis-1/2 w-full sm:ml-24 px-10 sm:px-0 justify-between"
         >
           <movie-card
             v-for="movie in searched_movies"
@@ -82,13 +77,24 @@ import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import axios from "@/config/axios/index.js";
 import NewQuote from "@/components/modals/NewQuote.vue";
-import { mapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import PostCard from "@/components/modals/PostCard.vue";
-import MovieCard from "../components/UI/MovieCard.vue";
+import MovieCard from "@/components/UI/MovieCard.vue";
+import pusher from "@/config/pusher/pusher.js";
+import IconSearch from "@/components/icons/IconSearch.vue";
+import IconWrite from "@/components/icons/IconWrite.vue";
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: { NavBar, SideBar, NewQuote, PostCard, MovieCard },
+  components: {
+    NavBar,
+    SideBar,
+    NewQuote,
+    PostCard,
+    MovieCard,
+    IconSearch,
+    IconWrite,
+  },
   data() {
     return {
       quotes: [],
@@ -102,6 +108,16 @@ export default {
       not_found: false,
     };
   },
+  created() {
+    axios
+      .get("liked-posts")
+      .then((res) => {
+        this.storeLikedPosts({ liked_posts: res.data.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   mounted() {
     const scrollDiv = document.getElementById("infinite-list");
     scrollDiv.addEventListener("scroll", () => {
@@ -112,6 +128,7 @@ export default {
         this.addQuotes();
       }
     });
+    this.updateLikes();
   },
   computed: {
     ...mapState(useAuthStore, ["username"]),
@@ -125,6 +142,16 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useAuthStore, ["storeLikedPosts"]),
+    updateLikes() {
+      pusher.bind("App\\Events\\PostLiked", (data) => {
+        for (let i = 0; i < this.quotes.length; i++) {
+          if (this.quotes[i].id === data.quote.id) {
+            this.quotes[i] = data.quote;
+          }
+        }
+      });
+    },
     search() {
       axios
         .post("search", {

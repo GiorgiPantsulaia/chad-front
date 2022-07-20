@@ -72,17 +72,18 @@
       <button class="w-full h-10 bg-[#E31221] rounded-md mt-8 text-white">
         {{ $t("get_started") }}
       </button>
+      <p
+        class="text-md text-[#E31221] self-center mt-4"
+        v-if="errors.email_exists"
+      >
+        {{ errors.email_exists }}
+      </p>
       <button
         type="button"
         class="w-full h-10 border border-white rounded-md mt-4 text-white justify-center items-center flex"
         @click="googleAuth"
       >
-        <img
-          src="@/icons/google-icon.svg"
-          alt="google-icon"
-          width="25"
-          class="mr-2"
-        />
+        <icon-google class="mr-2" />
         {{ $t("g_signup") }}
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
@@ -106,6 +107,7 @@ import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import UserRegistered from "@/components/modals/UserRegistered.vue";
 import PasswordInput from "@/components/inputs/PasswordInput.vue";
+import IconGoogle from "@/components/icons/IconGoogle.vue";
 export default {
   data() {
     return {
@@ -118,6 +120,22 @@ export default {
       registered: false,
     };
   },
+  computed: {
+    emailExists() {
+      return this.$route.query.code === "409";
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.errors.email_exists = null;
+      this.$router.replace("/register");
+    }, 10000);
+  },
+  beforeMount() {
+    this.emailExists
+      ? (this.errors.email_exists = "Account with this email already exists.")
+      : (this.errors = {});
+  },
   methods: {
     submitForm() {
       this.isLoading = true;
@@ -129,7 +147,6 @@ export default {
           password_confirmation: this.confirm_password,
         })
         .then((response) => {
-          console.log(response);
           this.isLoading = false;
           if (response.status === 200) {
             this.registered = true;
@@ -149,7 +166,14 @@ export default {
       });
     },
   },
-  // eslint-disable-next-line vue/no-reserved-component-names
-  components: { TextInput, Form, LoadingBar, UserRegistered, PasswordInput },
+  components: {
+    TextInput,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Form,
+    LoadingBar,
+    UserRegistered,
+    PasswordInput,
+    IconGoogle,
+  },
 };
 </script>

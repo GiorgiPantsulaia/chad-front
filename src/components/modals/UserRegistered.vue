@@ -8,12 +8,7 @@
     >
       ✕
     </button>
-    <img
-      src="@/icons/paper-plane.svg"
-      alt="Paper plane"
-      width="50"
-      class="mx-auto mt-16"
-    />
+    <icon-plane class="mx-auto mt-16" />
     <h1 class="text-3xl mt-4">{{ $t("thanks") }}</h1>
     <p class="my-8 mx-10">
       {{ $t("check_email") }}
@@ -27,4 +22,9 @@
     </button>
   </div>
 </template>
-<script></script>
+<script>
+import IconPlane from "@/components/icons/IconPlane.vue";
+export default {
+  components: { IconPlane },
+};
+</script>

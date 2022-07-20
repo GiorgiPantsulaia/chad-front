@@ -52,12 +52,7 @@
           @change="handleImageUpload"
           rules="required|image"
         />
-        <img
-          src="@/icons/upload-photo-icon.svg"
-          alt="upload photo"
-          width="30"
-          class="mr-4"
-        />
+        <icon-upload-photo class="mr-4" />
         {{ image ? image.name : $t("upload_photo") }}
       </label>
       <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
@@ -82,11 +77,9 @@
             {{ movie.title[$i18n.locale] }} ({{ movie.release_date }})
           </option>
         </select>
-        <img
-          src="@/icons/camera-icon.svg"
-          alt="choose movie"
-          width="30"
-          class="relative bottom-14 left-4 pointer-events-none"
+        <icon-camera
+          class="relative bottom-14 left-2 pointer-events-none"
+          fill="#fff"
         />
       </div>
       <div v-else class="flex flex-col text-white mt-10 text-center">
@@ -112,9 +105,11 @@ import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import { Field, Form, ErrorMessage } from "vee-validate";
+import IconCamera from "@/components/icons/IconCamera.vue";
+import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: { Field, Form, ErrorMessage },
+  components: { Field, Form, ErrorMessage, IconCamera, IconUploadPhoto },
   props: {
     username: {
       type: String,

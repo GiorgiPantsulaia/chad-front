@@ -31,9 +31,9 @@
       </li>
       <li class="my-8">
         <button class="flex" @click="this.$router.push({ name: 'feed' })">
-          <home-icon
+          <icon-home
             :fill="active === 'feed' ? '#E31221' : 'white'"
-          ></home-icon>
+          ></icon-home>
           <p class="text-xl ml-6">{{ $t("news_feed") }}</p>
         </button>
       </li>
@@ -42,7 +42,7 @@
           class="flex"
           @click="this.$router.push({ name: 'movies-list' })"
         >
-          <camera-icon
+          <icon-camera
             :fill="
               active === 'movies'
                 ? '#E31221'
@@ -50,7 +50,7 @@
                 ? '#E31221'
                 : 'white'
             "
-          ></camera-icon>
+          ></icon-camera>
           <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
         </button>
       </li>
@@ -58,10 +58,10 @@
   </div>
 </template>
 <script>
-import CameraIcon from "@/components/icons/CameraIcon.vue";
-import HomeIcon from "@/components/icons/HomeIcon.vue";
+import IconCamera from "@/components/icons/IconCamera.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
+import IconHome from "@/components/icons/IconHome.vue";
 export default {
   computed: {
     active() {
@@ -82,6 +82,6 @@ export default {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
-  components: { CameraIcon, HomeIcon },
+  components: { IconCamera, IconHome },
 };
 </script>
