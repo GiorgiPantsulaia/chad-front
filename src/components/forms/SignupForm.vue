@@ -120,22 +120,6 @@ export default {
       registered: false,
     };
   },
-  computed: {
-    emailExists() {
-      return this.$route.query.code === "409";
-    },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.errors.email_exists = null;
-      this.$router.replace("/register");
-    }, 10000);
-  },
-  beforeMount() {
-    this.emailExists
-      ? (this.errors.email_exists = "Account with this email already exists.")
-      : (this.errors = {});
-  },
   methods: {
     submitForm() {
       this.isLoading = true;

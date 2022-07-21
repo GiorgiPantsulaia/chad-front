@@ -77,7 +77,7 @@ import NavBar from "@/components/layout/NavBar.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import axios from "@/config/axios/index.js";
 import NewQuote from "@/components/modals/NewQuote.vue";
-import { mapActions, mapState } from "pinia";
+import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import PostCard from "@/components/modals/PostCard.vue";
 import MovieCard from "@/components/UI/MovieCard.vue";
@@ -108,16 +108,6 @@ export default {
       not_found: false,
     };
   },
-  created() {
-    axios
-      .get("liked-posts")
-      .then((res) => {
-        this.storeLikedPosts({ liked_posts: res.data.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
   mounted() {
     const scrollDiv = document.getElementById("infinite-list");
     scrollDiv.addEventListener("scroll", () => {
@@ -142,7 +132,6 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useAuthStore, ["storeLikedPosts"]),
     updateLikes() {
       pusher.bind("App\\Events\\PostLiked", (data) => {
         for (let i = 0; i < this.quotes.length; i++) {

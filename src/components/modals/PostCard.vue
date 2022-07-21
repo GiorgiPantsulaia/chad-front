@@ -126,7 +126,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "pinia";
+import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import axios from "@/config/axios/index.js";
 import { Form, Field } from "vee-validate";
@@ -149,24 +149,17 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp", "liked_posts"]),
+    ...mapState(useAuthStore, ["user_pfp", "user_email"]),
     postLiked() {
       let liked = false;
-      for (let i = 0; i < this.liked_posts.length; i++) {
-        if (this.liked_posts[i].id === this.$props.quote.id) {
-          liked = true;
+      if (this.$props.quote.likes) {
+        for (let i = 0; i < this.$props.quote.likes.length; i++) {
+          if (this.$props.quote.likes[i].email === this.user_email) {
+            liked = true;
+          }
         }
       }
       return liked;
-    },
-    hasLikedPost() {
-      let hasLikedPost = false;
-      for (let i = 0; i < this.liked_posts.length; i++) {
-        if (this.liked_posts[i].id === this.$props.quote.id) {
-          hasLikedPost = true;
-        }
-      }
-      return hasLikedPost;
     },
   },
   props: {
@@ -176,7 +169,6 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useAuthStore, ["updateLikedPosts"]),
     addComment(quote_id) {
       axios
         .post("add-comment", {
@@ -191,19 +183,19 @@ export default {
         });
     },
     likeOrUnlikePost(quote) {
-      if (!this.hasLikedPost) {
+      if (!this.postLiked) {
         this.loading = true;
         axios.post("like-post", { id: quote.id }).then((response) => {
           if (response.status === 200) {
-            this.updateLikedPosts({ quote: quote });
+            this.$props.quote;
             this.loading = false;
+            console.log(this.quote.likes);
           }
         });
       } else {
         this.loading = true;
         axios.post("unlike-post", { id: quote.id }).then((response) => {
           if (response.status === 200) {
-            this.updateLikedPosts({ id: quote.id });
             this.loading = false;
           }
         });

@@ -86,7 +86,7 @@ import { mapActions } from "pinia";
 import { Form } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
-import IconGoogle from "../icons/IconGoogle.vue";
+import IconGoogle from "@/components/icons/IconGoogle.vue";
 
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
