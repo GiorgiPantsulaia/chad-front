@@ -30,8 +30,8 @@
           <icon-comment class="mx-2" />
         </div>
         <div class="flex mx-4">
-          {{ quote.likes_number }}
-          <icon-heart class="mx-2" />
+          {{ quote.likes.length }}
+          <icon-heart class="mx-2" fill="#fff" />
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@ import IconDelete from "@/components/icons/IconDelete.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconEye from "@/components/icons/IconEye.vue";
 import IconReturn from "@/components/icons/IconReturn.vue";
-import IconHeart from "../icons/IconHeart.vue";
+import IconHeart from "@/components/icons/IconHeart.vue";
 export default {
   data() {
     return {

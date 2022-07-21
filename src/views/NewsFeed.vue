@@ -119,6 +119,7 @@ export default {
       }
     });
     this.updateLikes();
+    this.updateComments();
   },
   computed: {
     ...mapState(useAuthStore, ["username"]),
@@ -136,7 +137,17 @@ export default {
       pusher.bind("App\\Events\\PostLiked", (data) => {
         for (let i = 0; i < this.quotes.length; i++) {
           if (this.quotes[i].id === data.quote.id) {
-            this.quotes[i] = data.quote;
+            this.quotes[i].likes = data.quote.likes;
+          }
+        }
+      });
+    },
+    updateComments() {
+      pusher.bind("App\\Events\\PostCommented", (data) => {
+        console.log(data);
+        for (let i = 0; i < this.quotes.length; i++) {
+          if (this.quotes[i].id === data.comment.quote_id) {
+            this.quotes[i].comments.push(data.comment);
           }
         }
       });
@@ -179,7 +190,7 @@ export default {
     addQuotes() {
       if (!this.lastPage) {
         axios
-          .get(`all-quotes?page=${this.page}`)
+          .post(`all-quotes?page=${this.page}`)
           .then((response) => {
             this.quotes.push.apply(this.quotes, response.data.data.data);
             this.page++;

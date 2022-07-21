@@ -61,25 +61,29 @@
             {{ quote.comments.length }}
           </p>
           <button class="mx-2">
-            <icon-comment />
+            <icon-comment @click="showComments = !showComments" />
           </button>
         </div>
         <div class="flex mx-4 items-center">
           <p class="font-black pointer-events-none">
-            {{ quote.likes_number }}
+            {{ quote.likes.length }}
           </p>
-          <button class="mx-2" @click="likePost">
-            <icon-heart />
+          <button class="mx-2" @click="likeOrUnlikePost">
+            <icon-heart :fill="postLiked ? '#FF3333' : '#fff'" />
           </button>
         </div>
       </div>
       <div
         class="w-11/12 mx-auto"
-        v-if="!quote.isShown && quote.comments.length"
+        v-if="!showComments && quote.comments.length"
       >
         <div class="mt-4 flex pb-4">
           <img
-            src="@/icons/interstellar.png"
+            :src="
+              quote.comments[0].author.profile_pic
+                ? back_url + quote.comments[0].author.profile_pic
+                : '/default-pfp.png'
+            "
             alt="user profile picture"
             class="rounded-full w-12 h-12"
           />
@@ -105,7 +109,11 @@
             class="mt-1 flex pb-4"
           >
             <img
-              src="@/icons/interstellar.png"
+              :src="
+                comment.author.profile_pic
+                  ? back_url + comment.author.profile_pic
+                  : '/default-pfp.png'
+              "
               alt="user profile picture"
               class="rounded-full w-10 h-10"
             />
@@ -120,7 +128,7 @@
       </transition>
       <div class="flex w-11/12 mx-auto items-center mt-4">
         <img
-          src="@/icons/interstellar.png"
+          :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
           alt=""
           class="w-12 h-12 rounded-full"
         />
@@ -134,14 +142,6 @@
           />
         </Form>
       </div>
-      <button
-        v-if="quote.comments.length > 1"
-        class="text-[#DDCCAA] mt-8"
-        @click="showComments = !showComments"
-      >
-        {{ quote.isShown && quote.comments.length > 1 ? "Hide" : "Show" }}
-        all comments
-      </button>
     </div>
     <confirm-delete
       v-if="showConfirmation"
@@ -183,32 +183,62 @@ export default {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
       showComments: false,
       showConfirmation: false,
+      newComment: null,
+      loading: false,
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_email"]),
+    ...mapState(useAuthStore, ["user_email", "user_pfp"]),
+    postLiked() {
+      let liked = false;
+      if (this.$props.quote.likes) {
+        for (let i = 0; i < this.$props.quote.likes.length; i++) {
+          if (this.$props.quote.likes[i].email === this.user_email) {
+            liked = true;
+          }
+        }
+      }
+      return liked;
+    },
   },
   methods: {
     addComment() {
+      const input = document.getElementById("comment");
       axios
         .post("add-comment", {
           quote_id: this.$props.quote.id,
           body: this.newComment,
         })
         .then((response) => {
+          this.newComment = null;
+          input.blur();
           console.log(response);
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    likePost() {
-      this.loading = true;
-      axios.post("like-post", { id: this.$props.quote.id }).then((response) => {
-        if (response.status === 200) {
-          this.loading = false;
-        }
-      });
+    likeOrUnlikePost() {
+      if (!this.postLiked) {
+        this.loading = true;
+        axios
+          .post("like-post", { id: this.$props.quote.id })
+          .then((response) => {
+            if (response.status === 200) {
+              this.$props.quote;
+              this.loading = false;
+            }
+          });
+      } else {
+        this.loading = true;
+        axios
+          .post("unlike-post", { id: this.$props.quote.id })
+          .then((response) => {
+            if (response.status === 200) {
+              this.loading = false;
+            }
+          });
+      }
     },
     deleteQuote() {
       axios

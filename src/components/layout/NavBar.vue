@@ -28,7 +28,6 @@
           {{ notifications.length }}
         </p>
       </button>
-
       <div class="mx-4 cursor-pointer">
         <div @click="showLang = !showLang" class="flex text-lg items-center">
           {{ $i18n.locale === "en" ? "Eng" : "ქარ" }}
@@ -43,17 +42,16 @@
           </div>
         </transition>
       </div>
-
       <router-link
         to="/register"
-        class="mx-4 bg-[#E31221] rounded-sm py-1 px-5 hidden sm:block"
+        class="mx-4 bg-[#E31221] rounded-sm py-2 px-5 hidden sm:block w-36 text-center text-md"
         v-if="!isAuthenticated"
         >{{ $t("signup") }}</router-link
       >
       <router-link
         v-if="!isAuthenticated"
         to="/login"
-        class="py-1 px-5 sm:mx-4 mx-8 border border-white rounded-sm whitespace-nowrap"
+        class="py-2 px-5 sm:mx-4 mx-8 border border-white rounded-sm whitespace-nowrap w-36 text-center text-md"
       >
         {{ $t("login") }}</router-link
       >
@@ -78,10 +76,11 @@ import { useNotificationsStore } from "@/stores/notifications.js";
 import NotificationsDropdown from "@/components/UI/NotificationsDropdown.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconNotification from "@/components/icons/IconNotification.vue";
+// import pusher from "@/config/pusher/pusher.js";
 export default {
-  // mounted() {
-  //   this.updateNotifications();
-  // },
+  mounted() {
+    this.updateNotifications();
+  },
   data() {
     return {
       showLang: false,
@@ -91,9 +90,9 @@ export default {
   },
   methods: {
     // updateNotifications() {
-    //   pusher.bind("App\\Events\\PostLiked", (data) => {
+    //   pusher.bind("App\\Events\\NewNotification", (data) => {
     //     console.log(data);
-    //     this.storeNotifications({ notifications: data });
+    //     // this.storeNotifications({ notifications: data });
     //   });
     // },
     ...mapActions(useLocaleStore, ["storeLocale"]),

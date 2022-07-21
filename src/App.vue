@@ -18,6 +18,8 @@ export default {
     ...mapActions(useAuthStore, ["tryLogin"]),
     subscribe() {
       pusher.subscribe("likes");
+      pusher.subscribe("comments");
+      // pusher.subscribe("private-notification");
     },
   },
   created() {

@@ -35,23 +35,23 @@
           {{ quote.comments.length }}
         </p>
         <button class="mx-2">
-          <icon-comment />
+          <icon-comment @click="showComments = !showComments" />
         </button>
       </div>
       <div class="flex mx-4 items-center">
         <p class="font-black pointer-events-none">
-          {{ quote.likes_number }}
+          {{ quote.likes.length }}
         </p>
         <button
           class="mx-2"
           :class="{ 'pointer-events-none': loading }"
           @click="likeOrUnlikePost(quote)"
         >
-          <icon-heart :fill="postLiked ? '#F3426C' : '#fff'" alt="like" />
+          <icon-heart :fill="postLiked ? '#FF3333' : '#fff'" alt="like" />
         </button>
       </div>
     </div>
-    <div class="w-11/12 mx-auto" v-if="!quote.isShown && quote.comments.length">
+    <div class="w-11/12 mx-auto" v-if="!showComments && quote.comments.length">
       <div class="mt-4 flex pb-4">
         <img
           :src="
@@ -75,7 +75,7 @@
       </div>
     </div>
     <transition name="comments" mode="out-in">
-      <div class="w-11/12 mx-auto" v-if="quote.isShown">
+      <div class="w-11/12 mx-auto" v-if="showComments">
         <div
           v-for="comment in quote.comments"
           :key="comment.id"
@@ -107,6 +107,7 @@
       />
       <Form @submit="addComment(quote.id)" class="w-full ml-6"
         ><Field
+          id="comment"
           v-model="newComment"
           type="text"
           name="comment"
@@ -115,14 +116,6 @@
         />
       </Form>
     </div>
-    <button
-      v-if="quote.comments.length > 1"
-      class="text-[#DDCCAA] mt-8"
-      @click="toggleShow"
-    >
-      {{ quote.isShown && quote.comments.length > 1 ? "Hide" : "Show" }}
-      all comments
-    </button>
   </div>
 </template>
 <script>
@@ -145,6 +138,7 @@ export default {
     return {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
       newComment: "",
+      showComments: false,
       loading: false,
     };
   },
@@ -170,6 +164,7 @@ export default {
   },
   methods: {
     addComment(quote_id) {
+      const input = document.getElementById("comment");
       axios
         .post("add-comment", {
           quote_id: quote_id,
@@ -177,6 +172,8 @@ export default {
         })
         .then((response) => {
           console.log(response);
+          input.blur();
+          this.newComment = null;
         })
         .catch((err) => {
           console.log(err);
@@ -189,7 +186,6 @@ export default {
           if (response.status === 200) {
             this.$props.quote;
             this.loading = false;
-            console.log(this.quote.likes);
           }
         });
       } else {
@@ -200,9 +196,6 @@ export default {
           }
         });
       }
-    },
-    toggleShow() {
-      this.$props.quote.isShown = !this.$props.quote.isShown;
     },
   },
 };

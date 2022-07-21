@@ -130,7 +130,7 @@ export default {
         });
     },
   },
-  beforeMount() {
+  mounted() {
     this.getMovies();
   },
 };
