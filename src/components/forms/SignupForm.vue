@@ -43,9 +43,6 @@
         :placeholder="$t('name_placeholder')"
         @focusout="errors = {}"
       />
-      <p v-if="errors.name" class="text-sm text-red-500">
-        {{ errors.name[0] }}
-      </p>
       <text-input
         v-model="email"
         type="email"
@@ -55,7 +52,7 @@
         @focusout="errors = {}"
       />
       <p v-if="errors.email" class="text-sm text-red-500">
-        {{ errors.email[0] }}
+        {{ $t("email_exists") }}
       </p>
       <password-input
         v-model="password"
@@ -72,12 +69,6 @@
       <button class="w-full h-10 bg-[#E31221] rounded-md mt-8 text-white">
         {{ $t("get_started") }}
       </button>
-      <p
-        class="text-md text-[#E31221] self-center mt-4"
-        v-if="errors.email_exists"
-      >
-        {{ errors.email_exists }}
-      </p>
       <button
         type="button"
         class="w-full h-10 border border-white rounded-md mt-4 text-white justify-center items-center flex"

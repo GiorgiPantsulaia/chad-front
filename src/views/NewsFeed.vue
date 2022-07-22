@@ -81,7 +81,6 @@ import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import PostCard from "@/components/modals/PostCard.vue";
 import MovieCard from "@/components/UI/MovieCard.vue";
-import pusher from "@/config/pusher/pusher.js";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import IconWrite from "@/components/icons/IconWrite.vue";
 export default {
@@ -134,7 +133,7 @@ export default {
   },
   methods: {
     updateLikes() {
-      pusher.bind("App\\Events\\PostLiked", (data) => {
+      window.Echo.channel("likes").listen("PostLiked", (data) => {
         for (let i = 0; i < this.quotes.length; i++) {
           if (this.quotes[i].id === data.quote.id) {
             this.quotes[i].likes = data.quote.likes;
@@ -143,7 +142,7 @@ export default {
       });
     },
     updateComments() {
-      pusher.bind("App\\Events\\PostCommented", (data) => {
+      window.Echo.channel("comments").listen("PostCommented", (data) => {
         console.log(data);
         for (let i = 0; i < this.quotes.length; i++) {
           if (this.quotes[i].id === data.comment.quote_id) {
@@ -223,5 +222,19 @@ export default {
 .newQuote-enter-from,
 .newQuote-leave-to {
   opacity: 0;
+}
+div::-webkit-scrollbar {
+  width: 6px;
+}
+
+div::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+div::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
 }
 </style>

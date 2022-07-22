@@ -127,7 +127,6 @@ import { useAuthStore } from "@/stores/auth.js";
 import ViewQuote from "@/components/modals/ViewQuote.vue";
 import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
-import pusher from "@/config/pusher/pusher.js";
 export default {
   beforeMount() {
     this.getMovie();
@@ -159,7 +158,7 @@ export default {
   },
   methods: {
     updateLikes() {
-      pusher.bind("App\\Events\\PostLiked", (data) => {
+      window.Echo.channel("likes").listen("PostLiked", (data) => {
         for (let i = 0; i < this.movie.quotes.length; i++) {
           if (this.movie.quotes[i].id === data.quote.id) {
             this.movie.quotes[i].likes = data.quote.likes;
@@ -168,7 +167,7 @@ export default {
       });
     },
     updateComments() {
-      pusher.bind("App\\Events\\PostCommented", (data) => {
+      window.Echo.channel("comments").listen("PostCommented", (data) => {
         for (let i = 0; i < this.movie.quotes.length; i++) {
           if (this.movie.quotes[i].id === data.comment.quote_id) {
             this.movie.quotes[i].comments.push(data.comment);

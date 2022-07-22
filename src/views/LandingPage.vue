@@ -110,7 +110,8 @@ export default {
     active() {
       return (
         this.$route.fullPath === "/register" ||
-        this.$route.fullPath === "/login"
+        this.$route.fullPath === "/login" ||
+        this.$route.fullPath === "/forgot-password"
       );
     },
   },

@@ -20,7 +20,7 @@ configure({
         password: {
           min: "password must be between 8 and 15 characters",
           max: "password must be between 8 and 15 characters",
-          alpha_num: "password can only contain letters and numbers",
+          lowercase: "password can only contain letters and numbers",
         },
         "confirm password": {
           confirmed: "passwords do not match.",
@@ -45,7 +45,8 @@ configure({
         password: {
           min: "პაროლი უნდა შედგებოდეს მინიმუმ 8,მაქსიმუმ 15 სიმბოლოსგან",
           max: "პაროლი უნდა შედგებოდეს მინიმუმ 8,მაქსიმუმ 15 სიმბოლოსგან",
-          alpha_num: "პაროლი უნდა შეიცავდეს მხოლოდ ასოებსა და რიცხვებს",
+          lowercase:
+            "პაროლი უნდა შეიცავდეს მხოლოდ დაბალი რეგისტრის ასოებსა და რიცხვებს",
         },
         "confirm password": {
           confirmed: "პაროლები არ ემთხვევა.",

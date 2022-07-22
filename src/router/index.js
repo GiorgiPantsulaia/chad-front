@@ -11,6 +11,8 @@ import RedirectUser from "@/views/RedirectUser.vue";
 import VerifyEmail from "@/views/VerifyEmail.vue";
 import MoviesList from "@/views/MoviesList.vue";
 import MovieDescription from "@/views/MovieDescription.vue";
+import ForgotPassword from "@/components/modals/ForgotPassword.vue";
+import PasswordReset from "@/components/UI/PasswordReset.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -34,6 +36,16 @@ const router = createRouter({
           path: "/login",
           name: "login",
           component: LoginForm,
+        },
+        {
+          path: "/forgot-password",
+          name: "forgot-password",
+          component: ForgotPassword,
+        },
+        {
+          path: "/reset-password",
+          name: "reset-password",
+          component: PasswordReset,
         },
       ],
     },

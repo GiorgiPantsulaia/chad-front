@@ -7,6 +7,8 @@ export const useAuthStore = defineStore({
     username: null,
     user_email: null,
     user_pfp: null,
+    user_id: null,
+    notifications: [],
   }),
   actions: {
     storeLoginUser(payload) {
@@ -14,10 +16,12 @@ export const useAuthStore = defineStore({
       this.username = payload.username;
       this.user_email = payload.user_email;
       this.user_pfp = payload.user_pfp !== null ? payload.user_pfp : null;
+      this.user_id = payload.user_id;
       localStorage.setItem("token", payload.token);
       localStorage.setItem("username", payload.username);
       localStorage.setItem("user_email", payload.user_email);
       localStorage.setItem("user_pfp", this.user_pfp);
+      localStorage.setItem("user_id", this.user_id);
       localStorage.setItem(
         "expire_time",
         Date.now() + payload.expire_time * 1000
@@ -29,16 +33,21 @@ export const useAuthStore = defineStore({
       const username = localStorage.getItem("username");
       const user_email = localStorage.getItem("user_email");
       const user_pfp = localStorage.getItem("user_pfp");
+      const user_id = localStorage.getItem("user_id");
       let expire_time = localStorage.getItem("expire_time");
       expire_time = expire_time > Date.now() ? expire_time : null;
       if (token && expire_time && username && user_email) {
         this.token = token;
         this.username = username;
         this.user_email = user_email;
+        this.user_id = user_id;
         this.user_pfp = user_pfp === "null" ? null : user_pfp;
       } else {
         return;
       }
+    },
+    storeNotifications(payload) {
+      this.notifications.unshift(payload.notification);
     },
     logout() {
       axios

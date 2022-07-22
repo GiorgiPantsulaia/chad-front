@@ -72,11 +72,9 @@ import { useAuthStore } from "@/stores/auth.js";
 import { useLocaleStore } from "@/stores/locale.js";
 import { setLocale } from "@vee-validate/i18n";
 import { useNotificationsStore } from "@/stores/notifications.js";
-// import pusher from "@/config/pusher/pusher.js";
 import NotificationsDropdown from "@/components/UI/NotificationsDropdown.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconNotification from "@/components/icons/IconNotification.vue";
-// import pusher from "@/config/pusher/pusher.js";
 export default {
   mounted() {
     this.updateNotifications();
@@ -89,14 +87,18 @@ export default {
     };
   },
   methods: {
-    // updateNotifications() {
-    //   pusher.bind("App\\Events\\NewNotification", (data) => {
-    //     console.log(data);
-    //     // this.storeNotifications({ notifications: data });
-    //   });
-    // },
+    updateNotifications() {
+      window.Echo.private("notification." + this.user_id).listen(
+        "NewNotification",
+        (data) => {
+          console.log(data.notification);
+          this.storeNotifications({ notification: data.notification });
+          console.log(this.notifications);
+        }
+      );
+    },
     ...mapActions(useLocaleStore, ["storeLocale"]),
-    ...mapActions(useNotificationsStore, ["storeNotifications"]),
+    ...mapActions(useAuthStore, ["storeNotifications"]),
 
     changeLocale() {
       this.$i18n.locale = this.$i18n.locale === "en" ? "ka" : "en";
@@ -106,8 +108,12 @@ export default {
     },
   },
   computed: {
-    ...mapState(useAuthStore, ["isAuthenticated", "logout"]),
-    ...mapState(useNotificationsStore, ["notifications"]),
+    ...mapState(useAuthStore, [
+      "isAuthenticated",
+      "logout",
+      "user_id",
+      "notifications",
+    ]),
     active() {
       return (
         this.$route.fullPath === "/register" ||

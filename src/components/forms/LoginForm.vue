@@ -53,7 +53,11 @@
           />
           <label for="remember_me">{{ $t("remember_me") }}</label>
         </div>
-        <p class="text-[#0D6EFD] cursor-pointer">{{ $t("forgot_password") }}</p>
+        <router-link
+          to="/forgot-password"
+          class="text-[#0D6EFD] cursor-pointer"
+          >{{ $t("forgot_password") }}</router-link
+        >
       </div>
       <button class="w-full h-10 bg-[#E31221] rounded-md mt-4 text-white">
         {{ $t("signin") }}
@@ -128,12 +132,14 @@ export default {
               user_email: response.data.user_email,
               expire_time: response.data.expires_in,
               user_pfp: response.data.user_pfp,
+              user_id: response.data.user_id,
             });
           }
         })
         .catch((error) => {
           this.isLoading = false;
-          this.errors = error.response.data.error;
+          if (error.response.data.error === "incorrect credentials")
+            this.errors = this.$t("incorrect_credentials");
         });
     },
   },

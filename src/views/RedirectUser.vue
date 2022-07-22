@@ -22,6 +22,7 @@ export default {
         user_email: this.$route.query.email,
         expire_time: Number(this.$route.query.expires_in),
         user_pfp: this.$route.query.user_pfp,
+        user_id: this.$route.query.user_id,
       });
     }
   },

@@ -61,6 +61,20 @@ const messages = {
     invalid_image: "Invalid file type",
     no_movies: "You do not have any movies added.",
     not_found: "No movie or quote found for this keyword...",
+    forgot_password_instructions:
+      "Enter the email and we'll send you the instructions to follow",
+    send: "Send",
+    backto_login: "Back to login",
+    reset_password: "Reset Password",
+    new_password_rules:
+      "Your new password must be different from previous passwords",
+    password_changed: "Your password changed successfully.",
+    confirmation_sent:
+      "We have sent a password recover instructions to your email",
+    check_your_email: "Check your email",
+    user_doesnt_exist: "User with this email does not exist",
+    incorrect_credentials: "User name/email or password is incorrect",
+    email_exists: "The email has already been taken",
   },
   ka: {
     logout: "გამოსვლა",
@@ -124,6 +138,20 @@ const messages = {
     invalid_image: "ფაილის ტიპი არ არის ვალიდური",
     no_movies: "ციტატის დასამატებლად აუცილებელია ფილმი.",
     not_found: "ამ საძიებო სიტყვაზე ფილმი/ციტატა არ არსებობს...",
+    forgot_password_instructions:
+      "შეიყვანეთ ელ-ფოსტა და მიჰყევით ინსტრუქციას, რომელსაც ჩვენ გამოგიგზავნით",
+    send: "გაგზავნა",
+    backto_login: "ავტორიზაციის გვერდზე დაბრუნება",
+    reset_password: "პაროლის შეცვლა",
+    new_password_rules:
+      "ახალი პაროლი უნდა იყოს განსხვავებული წინა პაროლებისგან",
+    password_changed: "თქვენი პაროლი წარმატებით შეიცვალა.",
+    confirmation_sent:
+      "პაროლის აღდგენის ინსტრუქცია წარმატებით გაიგზავნა თქვენს ელ-ფოსტაზე",
+    check_your_email: "შეამოწმეთ თქვენი ელ-ფოსტა",
+    user_doesnt_exist: "ამ ელ-ფოსტით მომხმარებელი ვერ მოიძებნა",
+    incorrect_credentials: "მომხმარებლის სახელი/ელ-ფოსტა ან პაროლი არასწორია.",
+    email_exists: "ამ ელ-ფოსტაზე მომხმარებელი არსებობს",
   },
 };
 
