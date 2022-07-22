@@ -42,8 +42,11 @@
               v-model="username"
             />
             <ErrorMessage name="username" class="text-[#D0342C]" />
-            <label for="email" class="text-white mt-4">{{ $t("email") }}</label>
+            <label for="email" class="text-white mt-4" v-if="!google_user">{{
+              $t("email")
+            }}</label>
             <Field
+              v-if="!google_user"
               type="email"
               name="email"
               rules="email"
@@ -52,10 +55,11 @@
               class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
             />
             <ErrorMessage name="email" class="text-[#D0342C]" />
-            <label for="password" class="text-white mt-4">{{
+            <label for="password" class="text-white mt-4" v-if="!google_user">{{
               $t("password")
             }}</label>
             <Field
+              v-if="!google_user"
               type="password"
               rules="min:8|max:15"
               disabled
@@ -86,7 +90,12 @@ import { useAuthStore } from "@/stores/auth.js";
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
   computed: {
-    ...mapState(useAuthStore, ["username", "user_email", "user_pfp"]),
+    ...mapState(useAuthStore, [
+      "username",
+      "user_email",
+      "user_pfp",
+      "google_user",
+    ]),
   },
   data() {
     return {

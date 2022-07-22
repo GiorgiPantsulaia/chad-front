@@ -23,6 +23,7 @@ export default {
         expire_time: Number(this.$route.query.expires_in),
         user_pfp: this.$route.query.user_pfp,
         user_id: this.$route.query.user_id,
+        google_user: true,
       });
     }
   },

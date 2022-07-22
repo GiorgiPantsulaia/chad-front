@@ -19,10 +19,7 @@
         id="notification"
         class="absolute top-16 right-16"
       />
-      <button
-        class="items-center hidden sm:flex"
-        @click="showNotifications = !showNotifications"
-      >
+      <button class="items-center hidden sm:flex" @click="log">
         <icon-notification />
         <p class="bg-[#E33812] rounded-full w-6 h-6 relative bottom-2 right-4">
           {{ notifications.length }}
@@ -87,6 +84,9 @@ export default {
     };
   },
   methods: {
+    log() {
+      console.log(this.notifications);
+    },
     updateNotifications() {
       window.Echo.private("notification." + this.user_id).listen(
         "NewNotification",
@@ -98,7 +98,7 @@ export default {
       );
     },
     ...mapActions(useLocaleStore, ["storeLocale"]),
-    ...mapActions(useAuthStore, ["storeNotifications"]),
+    ...mapActions(useNotificationsStore, ["storeNotifications"]),
 
     changeLocale() {
       this.$i18n.locale = this.$i18n.locale === "en" ? "ka" : "en";
@@ -108,12 +108,8 @@ export default {
     },
   },
   computed: {
-    ...mapState(useAuthStore, [
-      "isAuthenticated",
-      "logout",
-      "user_id",
-      "notifications",
-    ]),
+    ...mapState(useAuthStore, ["isAuthenticated", "logout", "user_id"]),
+    ...mapState(useNotificationsStore, ["notifications"]),
     active() {
       return (
         this.$route.fullPath === "/register" ||

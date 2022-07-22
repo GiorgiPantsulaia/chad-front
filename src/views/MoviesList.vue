@@ -38,7 +38,7 @@
             </div>
             <button
               type="button"
-              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-32 px-2"
+              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-36 px-2 font-black"
               @click="addNewMovie = !addNewMovie"
             >
               <icon-add-plus class="mr-2" />

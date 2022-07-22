@@ -6,7 +6,7 @@ export const useNotificationsStore = defineStore({
   }),
   actions: {
     storeNotifications(payload) {
-      this.notifications.push(payload.notifications);
+      this.notifications.unshift(payload.notification);
     },
   },
 });

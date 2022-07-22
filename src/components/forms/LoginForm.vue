@@ -133,6 +133,7 @@ export default {
               expire_time: response.data.expires_in,
               user_pfp: response.data.user_pfp,
               user_id: response.data.user_id,
+              google_user: false,
             });
           }
         })

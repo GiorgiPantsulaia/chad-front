@@ -69,7 +69,7 @@
           <button
             v-if="user_email === movie.author.email"
             type="button"
-            class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-32 py-6 px-2"
+            class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-36 py-6 px-2"
             @click="addQuote = !addQuote"
           >
             <icon-add-plus class="mr-2" />
