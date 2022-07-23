@@ -105,7 +105,6 @@ export default {
   },
   computed: {
     filteredMovies() {
-      console.log(this.movies[0].title[this.$i18n.locale]);
       return this.movies.filter((movie) => {
         return movie.title[this.$i18n.locale]
           .toLowerCase()

@@ -13,13 +13,19 @@
       Movie Quotes
     </h1>
 
-    <div class="flex mr-12 items-center">
-      <notifications-dropdown
-        v-if="showNotifications"
-        id="notification"
-        class="absolute top-16 right-16"
-      />
-      <button class="items-center hidden sm:flex" @click="log">
+    <div class="flex mr-12 items-center" v-click-outside="onClickOutside">
+      <transition name="notifications" mode="out-in">
+        <notifications-dropdown
+          v-if="showNotifications"
+          id="notification"
+          class="absolute top-16 right-16"
+          :notifications="notifications"
+      /></transition>
+      <button
+        class="items-center hidden sm:flex"
+        @click="showNotifications = !showNotifications"
+        v-if="this.isAuthenticated"
+      >
         <icon-notification />
         <p class="bg-[#E33812] rounded-full w-6 h-6 relative bottom-2 right-4">
           {{ notifications.length }}
@@ -80,22 +86,22 @@ export default {
     return {
       showLang: false,
       showNotifications: false,
-      // notifications: [],
     };
   },
   methods: {
-    log() {
-      console.log(this.notifications);
+    onClickOutside() {
+      this.showNotifications = false;
     },
     updateNotifications() {
-      window.Echo.private("notification." + this.user_id).listen(
-        "NewNotification",
-        (data) => {
-          console.log(data.notification);
-          this.storeNotifications({ notification: data.notification });
-          console.log(this.notifications);
-        }
-      );
+      if (this.isAuthenticated) {
+        window.Echo.private("notification." + this.user_id).listen(
+          "NewNotification",
+          (data) => {
+            console.log(data.notification);
+            this.storeNotifications({ notification: data.notification });
+          }
+        );
+      }
     },
     ...mapActions(useLocaleStore, ["storeLocale"]),
     ...mapActions(useNotificationsStore, ["storeNotifications"]),
@@ -131,6 +137,15 @@ export default {
 
 .localeChanger-enter-from,
 .localeChanger-leave-to {
+  opacity: 0;
+}
+.notifications-enter-active,
+.notifications-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.notifications-enter-from,
+.notifications-leave-to {
   opacity: 0;
 }
 </style>

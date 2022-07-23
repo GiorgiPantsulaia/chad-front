@@ -59,6 +59,9 @@ export const useAuthStore = defineStore({
             this.token = null;
             this.username = null;
             this.user_email = null;
+            this.user_pfp = null;
+            this.user_id = null;
+            this.google_user = null;
             this.router.push({ name: "home" });
           }
         })

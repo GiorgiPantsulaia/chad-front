@@ -95,7 +95,7 @@ export default {
         });
     },
     checkToken() {
-      if (!this.$route.query.token) {
+      if (!this.$route.query.token.length !== 40) {
         this.$router.replace("/");
       }
     },

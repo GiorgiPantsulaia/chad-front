@@ -228,4 +228,11 @@ export default {
 .view-leave-to {
   opacity: 0;
 }
+div {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+div::-webkit-scrollbar {
+  display: none;
+}
 </style>

@@ -3,16 +3,10 @@
 </template>
 <script>
 import { useAuthStore } from "@/stores/auth.js";
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 export default {
   methods: {
-    log() {
-      console.log(this.isAuthenticated);
-    },
     ...mapActions(useAuthStore, ["storeLoginUser"]),
-  },
-  computed: {
-    ...mapState(useAuthStore, ["isAuthenticated"]),
   },
   beforeMount() {
     if (this.$route.query.token && this.$route.query.expires_in) {
@@ -25,6 +19,8 @@ export default {
         user_id: this.$route.query.user_id,
         google_user: true,
       });
+    } else {
+      this.$router.replace("/");
     }
   },
 };
