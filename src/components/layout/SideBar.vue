@@ -20,28 +20,22 @@
           />
           <div class="flex flex-col ml-6">
             <h2 class="text-2xl font-medium">{{ username }}</h2>
-            <button
-              class="text-[#CED4DA] self-start"
-              @click="this.$router.push('/profile')"
-            >
+            <router-link to="/profile" class="text-[#CED4DA] self-start">
               {{ $t("edit_profile") }}
-            </button>
+            </router-link>
           </div>
         </div>
       </li>
       <li class="my-8">
-        <button class="flex" @click="this.$router.push({ name: 'feed' })">
+        <router-link to="/news-feed" class="flex">
           <icon-home
             :fill="active === 'feed' ? '#E31221' : 'white'"
           ></icon-home>
           <p class="text-xl ml-6">{{ $t("news_feed") }}</p>
-        </button>
+        </router-link>
       </li>
       <li>
-        <button
-          class="flex"
-          @click="this.$router.push({ name: 'movies-list' })"
-        >
+        <router-link to="/movies" class="flex">
           <icon-camera
             :fill="
               active === 'movies'
@@ -52,7 +46,7 @@
             "
           ></icon-camera>
           <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
-        </button>
+        </router-link>
       </li>
     </ul>
   </div>

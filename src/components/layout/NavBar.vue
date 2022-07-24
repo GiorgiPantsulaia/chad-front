@@ -19,7 +19,6 @@
           v-if="showNotifications"
           id="notification"
           class="absolute top-16 right-16"
-          :notifications="notifications"
       /></transition>
       <button
         class="items-center hidden sm:flex"
@@ -81,6 +80,11 @@ import IconNotification from "@/components/icons/IconNotification.vue";
 export default {
   mounted() {
     this.updateNotifications();
+  },
+  unmounted() {
+    window.Echo.private("notification." + this.user_id).stopListening(
+      "NewNotification"
+    );
   },
   data() {
     return {

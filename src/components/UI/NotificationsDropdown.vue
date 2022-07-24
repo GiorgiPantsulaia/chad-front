@@ -8,7 +8,7 @@
     </div>
     <div class="h-full">
       <div
-        v-for="notification in this.$props.notifications"
+        v-for="notification in this.notifications"
         :key="notification.id"
         class="mx-4 bg-inherit border border-[#6C757D] border-opacity-50 rounded-sm h-[96px] my-2 flex cursor-pointer"
         @click="goToPost(notification)"
@@ -64,13 +64,9 @@
 import IconFilledHeart from "@/components/icons/IconFilledHeart.vue";
 import timeDiff from "time-diff-for-humans";
 import IconQuote from "@/components/icons/IconQuote.vue";
+import { mapState } from "pinia";
+import { useNotificationsStore } from "@/stores/notifications.js";
 export default {
-  props: {
-    notifications: {
-      type: Object,
-      required: true,
-    },
-  },
   methods: {
     goToPost(notification) {
       this.$router.push("/movies");
@@ -83,6 +79,9 @@ export default {
     date(date) {
       return timeDiff(date);
     },
+  },
+  computed: {
+    ...mapState(useNotificationsStore, ["notifications"]),
   },
   beforeMount() {
     console.log(this.notifications);
