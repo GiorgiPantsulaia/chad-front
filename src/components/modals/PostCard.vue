@@ -1,6 +1,7 @@
 <template>
   <div
     class="lg:w-7/12 mx-auto w-full flex flex-col h-fit text-white bg-[#11101A] rounded-lg mb-10 pb-6"
+    :class="{ 'rounded-none': this.$route.name === 'view-quote' }"
   >
     <div class="flex items-center w-11/12 mx-auto mt-6">
       <img

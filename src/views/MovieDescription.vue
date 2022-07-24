@@ -10,7 +10,7 @@
       <side-bar></side-bar>
       <section
         class="lg:w-9/12 w-full h-full flex flex-col md:ml-32 sm:mx-4 px-4 sm:px-0"
-        v-if="!addQuote && editQuote === false && viewQuote === false"
+        v-if="!addQuote && editQuote === false"
       >
         <div class="hidden sm:flex mb-4 justify-between">
           <p class="text-white text-xl">{{ $t("movie_description") }}</p>
@@ -86,25 +86,12 @@
           />
         </div>
       </section>
-      <div v-else-if="addQuote && !editQuote && !viewQuote">
+      <div v-else-if="addQuote && !editQuote">
         <add-quote-to-movie @on-click="addQuote = false" :movie="movie" />
       </div>
-      <transition name="edit" mode="out-in">
-        <div v-if="editQuote">
-          <edit-quote
-            :quote="quoteToEdit"
-            @on-click="editQuote = !editQuote"
-          /></div
-      ></transition>
-      <transition name="view" mode="out-in">
-        <div v-if="viewQuote || this.$route.query.view - quote === quote">
-          <view-quote
-            :quote="quoteToView"
-            @on-click="viewQuote = !viewQuote"
-            @handle-click-edit="showEdit(quoteToView)"
-          />
-        </div>
-      </transition>
+      <div v-else>
+        <edit-quote :quote="quoteToEdit" @on-click="editQuote = false" />
+      </div>
     </div>
     <confirm-delete
       v-if="showConfirmation"
@@ -121,18 +108,15 @@ import QuoteCard from "@/components/UI/QuoteCard.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 import AddQuoteToMovie from "@/components/modals/AddQuoteToMovie.vue";
 import IconDelete from "@/components/icons/IconDelete.vue";
-import EditQuote from "@/components/modals/EditQuote.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
-import ViewQuote from "@/components/modals/ViewQuote.vue";
 import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
+import EditQuote from "../components/modals/EditQuote.vue";
 export default {
   beforeMount() {
     this.getMovie();
-    this.showQuote();
   },
-
   props: {
     slug: {
       type: String,
@@ -146,9 +130,7 @@ export default {
       showConfirmation: false,
       addQuote: false,
       editQuote: false,
-      viewQuote: false,
       quoteToEdit: null,
-      quoteToView: null,
     };
   },
   computed: {
@@ -159,20 +141,6 @@ export default {
     this.updateComments();
   },
   methods: {
-    showQuote() {
-      if (this.$route.query.view_quote) {
-        axios
-          .post("get-quote", {
-            id: parseInt(this.$route.query.view_quote),
-          })
-          .then((res) => {
-            this.quoteToView = res.data;
-            this.viewQuote = true;
-          });
-      } else {
-        return;
-      }
-    },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {
         for (let i = 0; i < this.movie.quotes.length; i++) {
@@ -201,11 +169,9 @@ export default {
     showEdit(quote) {
       this.quoteToEdit = quote;
       this.editQuote = true;
-      this.viewQuote = false;
     },
     showView(quote) {
-      this.quoteToView = quote;
-      this.viewQuote = true;
+      this.$router.push("/view-quote/" + quote.id);
     },
     deleteMovie() {
       axios
@@ -223,10 +189,9 @@ export default {
     ConfirmDelete,
     AddQuoteToMovie,
     IconDelete,
-    EditQuote,
-    ViewQuote,
     IconAddPlus,
     IconEdit,
+    EditQuote,
   },
 };
 </script>

@@ -13,6 +13,7 @@ import MoviesList from "@/views/MoviesList.vue";
 import MovieDescription from "@/views/MovieDescription.vue";
 import ForgotPassword from "@/components/modals/ForgotPassword.vue";
 import PasswordReset from "@/components/UI/PasswordReset.vue";
+import ViewQuote from "@/components/modals/ViewQuote.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -91,9 +92,15 @@ const router = createRouter({
       component: MovieDescription,
       meta: { requiresAuth: true },
     },
+    {
+      path: "/view-quote/:id",
+      props: true,
+      name: "view-quote",
+      component: ViewQuote,
+      meta: { requiresAuth: true },
+    },
   ],
 });
-
 router.beforeEach((to, _2, next) => {
   const store = useAuthStore();
   if (to.meta.requiresAuth && !store.isAuthenticated) {
