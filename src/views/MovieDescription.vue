@@ -97,7 +97,7 @@
           /></div
       ></transition>
       <transition name="view" mode="out-in">
-        <div v-if="viewQuote">
+        <div v-if="viewQuote || this.$route.query.view - quote === quote">
           <view-quote
             :quote="quoteToView"
             @on-click="viewQuote = !viewQuote"
@@ -130,7 +130,9 @@ import IconEdit from "@/components/icons/IconEdit.vue";
 export default {
   beforeMount() {
     this.getMovie();
+    this.showQuote();
   },
+
   props: {
     slug: {
       type: String,
@@ -157,6 +159,20 @@ export default {
     this.updateComments();
   },
   methods: {
+    showQuote() {
+      if (this.$route.query.view_quote) {
+        axios
+          .post("get-quote", {
+            id: parseInt(this.$route.query.view_quote),
+          })
+          .then((res) => {
+            this.quoteToView = res.data;
+            this.viewQuote = true;
+          });
+      } else {
+        return;
+      }
+    },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {
         for (let i = 0; i < this.movie.quotes.length; i++) {

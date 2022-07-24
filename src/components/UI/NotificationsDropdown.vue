@@ -10,7 +10,8 @@
       <div
         v-for="notification in this.$props.notifications"
         :key="notification.id"
-        class="mx-4 bg-inherit border border-[#6C757D] border-opacity-50 rounded-sm h-[96px] my-2 flex pointer-events-none"
+        class="mx-4 bg-inherit border border-[#6C757D] border-opacity-50 rounded-sm h-[96px] my-2 flex cursor-pointer"
+        @click="goToPost(notification)"
       >
         <div class="flex items-center px-4 justify-between w-full">
           <div class="flex items-center">
@@ -71,9 +72,20 @@ export default {
     },
   },
   methods: {
+    goToPost(notification) {
+      this.$router.push("/movies");
+      setTimeout(() => {
+        this.$router.push(
+          `/movies/${notification.post.movie.slug}/?view_quote=${notification.quote_id}`
+        );
+      }, 1);
+    },
     date(date) {
       return timeDiff(date);
     },
+  },
+  beforeMount() {
+    console.log(this.notifications);
   },
   data() {
     return {

@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="2xl:w-[700px] xl:w-[500px] lg:w-[400px] w-full xl:ml-80 lg:ml-40 flex flex-col h-fit text-white bg-[#11101A] rounded-lg mb-10 pb-6 mt-10 md:mt-0"
+      class="2xl:w-[700px] xl:w-[500px] lg:w-[400px] w-full xl:ml-80 lg:ml-40 flex flex-col h-fit text-white bg-[#11101A] rounded-lg mb-10 pb-6"
       :class="{ 'opacity-30 pointer-events-none': showConfirmation }"
     >
       <div
@@ -23,7 +23,9 @@
             <icon-delete class="fill-white hover:fill-[#E31221] w-4" />
           </button>
         </div>
-        <p class="font-medium text-xl md:mr-6">View Quote</p>
+        <p class="font-semibold text-xl md:mr-6">
+          {{ $t("view_quote") }}
+        </p>
         <button
           type="button"
           @click="this.$emit('onClick')"
@@ -45,9 +47,9 @@
         <p class="mx-4 text-base">{{ quote.author.name }}</p>
       </div>
       <p class="text-base w-11/12 mx-auto py-6">
-        "{{ quote.body["en"] }}" movie -
+        "{{ quote.body[$i18n.locale] }}" {{ $t("movie") }} -
         <button type="button" class="text-[#DDCCAA] underline">
-          {{ quote.movie.title["en"] }} ({{ quote.movie.release_date }})
+          {{ quote.movie.title[$i18n.locale] }} ({{ quote.movie.release_date }})
         </button>
       </p>
       <img
@@ -178,6 +180,12 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    if (this.$route.query.view_quote) {
+      this.updateLikes();
+      this.updateComments();
+    }
+  },
   data() {
     return {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
@@ -202,12 +210,27 @@ export default {
     },
   },
   methods: {
+    updateComments() {
+      window.Echo.channel("comments").listen("PostCommented", (data) => {
+        if (this.$props.quote.id === data.comment.quote_id) {
+          this.$props.quote.comments.push(data.comment);
+        }
+      });
+    },
+    updateLikes() {
+      window.Echo.channel("likes").listen("PostLiked", (data) => {
+        if (this.$props.quote.id === data.quote.id) {
+          this.$props.quote.likes = data.quote.likes;
+        }
+      });
+    },
     addComment() {
       const input = document.getElementById("comment");
       axios
         .post("add-comment", {
           quote_id: this.$props.quote.id,
           body: this.newComment,
+          author_id: this.$props.quote.author.id,
         })
         .then((response) => {
           this.newComment = null;
@@ -221,23 +244,14 @@ export default {
     likeOrUnlikePost() {
       if (!this.postLiked) {
         this.loading = true;
-        axios
-          .post("like-post", { id: this.$props.quote.id })
-          .then((response) => {
-            if (response.status === 200) {
-              this.$props.quote;
-              this.loading = false;
-            }
-          });
+        axios.post("like-post", { id: this.$props.quote.id }).then(() => {
+          this.loading = false;
+        });
       } else {
         this.loading = true;
-        axios
-          .post("unlike-post", { id: this.$props.quote.id })
-          .then((response) => {
-            if (response.status === 200) {
-              this.loading = false;
-            }
-          });
+        axios.post("unlike-post", { id: this.$props.quote.id }).then(() => {
+          this.loading = false;
+        });
       }
     },
     deleteQuote() {
@@ -246,6 +260,7 @@ export default {
         .then((response) => {
           console.log(response);
           location.reload();
+          if (this.$route.query.view_quote) this.$router.replace("/movies");
         });
     },
   },

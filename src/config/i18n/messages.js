@@ -75,6 +75,7 @@ const messages = {
     user_doesnt_exist: "User with this email does not exist",
     incorrect_credentials: "User name/email or password is incorrect",
     email_exists: "The email has already been taken",
+    view_quote: "View Quote",
   },
   ka: {
     logout: "გამოსვლა",
@@ -152,6 +153,7 @@ const messages = {
     user_doesnt_exist: "ამ ელ-ფოსტით მომხმარებელი ვერ მოიძებნა",
     incorrect_credentials: "მომხმარებლის სახელი/ელ-ფოსტა ან პაროლი არასწორია.",
     email_exists: "ამ ელ-ფოსტაზე მომხმარებელი არსებობს",
+    view_quote: "ციტატა",
   },
 };
 
