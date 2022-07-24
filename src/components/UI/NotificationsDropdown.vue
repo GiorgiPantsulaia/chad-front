@@ -1,19 +1,23 @@
 <template>
   <div
-    class="w-[800px] h-[700px] bg-black rounded-xl flex flex-col overflow-auto"
+    class="md:w-[800px] w-full left-0 md:left-auto h-[600px] md:h-[700px] bg-black rounded-xl flex flex-col overflow-auto"
   >
     <div class="flex justify-between mx-4 mt-8">
       <h1 class="text-2xl font-bold">Notifications</h1>
-      <button type="button" class="underline">Mark all as read</button>
+      <button type="button" class="underline" @click="markAsRead">
+        Mark all as read
+      </button>
     </div>
     <div class="h-full">
       <div
         v-for="notification in this.notifications"
         :key="notification.id"
-        class="mx-4 bg-inherit border border-[#6C757D] border-opacity-50 rounded-sm h-[96px] my-2 flex cursor-pointer"
-        @click="goToPost(notification.quote_id)"
+        class="mx-4 bg-inherit border border-[#6C757D] border-opacity-50 rounded-sm md:h-[96px] h-[130px] my-2 flex cursor-pointer"
+        @click="goToPost(notification.quote_id, notification.id)"
       >
-        <div class="flex items-center px-4 justify-between w-full">
+        <div
+          class="flex md:flex-row flex-col md:items-center px-4 justify-between w-full"
+        >
           <div class="flex items-center">
             <img
               :src="
@@ -21,7 +25,7 @@
                   ? back_url + notification.sender.profile_pic
                   : '/default-pfp.png'
               "
-              class="w-20 h-20 rounded-full"
+              class="w-20 h-20 rounded-full mt-2 md:mt-0"
               :class="{
                 'border-2 border-[#0eb868]': notification.state === 'unread',
               }"
@@ -45,14 +49,14 @@
               </p>
             </div>
           </div>
-          <div class="flex flex-col justify-center">
-            <p>
+          <div
+            class="flex md:flex-col flex-row-reverse md:justify-center justify-end mx-6 md:mx-0 text-lg"
+          >
+            <p class="mx-8 md:mx-0">
               {{ date(notification.created_at) }}
             </p>
-            <p class="text-[#0eb868] self-end">
-              {{
-                date(notification.created_at).includes("minute") ? "New" : ""
-              }}
+            <p class="text-[#0eb868] md:self-end">
+              {{ notification.state === "unread" ? "New" : "" }}
             </p>
           </div>
         </div>
@@ -64,12 +68,30 @@
 import IconFilledHeart from "@/components/icons/IconFilledHeart.vue";
 import timeDiff from "time-diff-for-humans";
 import IconQuote from "@/components/icons/IconQuote.vue";
-import { mapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useNotificationsStore } from "@/stores/notifications.js";
+import axios from "@/config/axios/index.js";
 export default {
   methods: {
-    goToPost(id) {
+    ...mapActions(useNotificationsStore, ["markAllAsRead"]),
+    goToPost(id, notification_id) {
+      axios.post("notification-read", { id: notification_id }).then((res) => {
+        console.log(res);
+      });
       this.$router.push("/view-quote/" + id);
+      const index = this.notifications.findIndex(
+        (notification) => notification.id === notification_id
+      );
+      this.notifications[index].state = "read";
+    },
+    markAsRead() {
+      console.log(this.allMarked);
+      if (this.allMarked === false) {
+        axios.get("notifications-read").then((res) => {
+          console.log(res);
+        });
+      }
+      this.markAllAsRead();
     },
     date(date) {
       return timeDiff(date);
@@ -77,6 +99,7 @@ export default {
   },
   computed: {
     ...mapState(useNotificationsStore, ["notifications"]),
+    ...mapState(useNotificationsStore, ["allMarked"]),
   },
   data() {
     return {

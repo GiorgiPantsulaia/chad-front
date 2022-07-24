@@ -7,7 +7,7 @@
       class="flex pt-24 h-full overflow-auto w-full"
       :class="{ 'opacity-30 pointer-events-none': showConfirmation }"
     >
-      <side-bar></side-bar>
+      <side-bar class="hidden md:block"></side-bar>
       <div class="sm:w-8/12 flex flex-col" v-if="!editQuote">
         <div
           class="flex justify-between sm:w-7/12 w-full mx-auto text-white font-bold text-lg items-center rounded-t bg-[#11101A] border-b border-[#EFEFEF] border-opacity-20"
@@ -58,13 +58,13 @@
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
-import ConfirmDelete from "./ConfirmDelete.vue";
-import PostCard from "./PostCard.vue";
+import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
+import PostCard from "@/components/modals/PostCard.vue";
 import SideBar from "@/components/layout/SideBar.vue";
 import NavBar from "@/components/layout/NavBar.vue";
 import IconDelete from "@/components/icons/IconDelete.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
-import EditQuote from "./EditQuote.vue";
+import EditQuote from "@/components/modals/EditQuote.vue";
 export default {
   components: {
     // eslint-disable-next-line vue/no-reserved-component-names

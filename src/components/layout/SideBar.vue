@@ -1,8 +1,8 @@
 <template>
   <div
-    class="bg-inherit text-white pl-12 self-start hidden lg:block"
+    class="bg-inherit text-white md:pl-12 px-10 self-start"
     :class="{
-      fixed: this.$route.fullPath === '/news-feed',
+      'md:fixed': this.$route.fullPath === '/news-feed',
       'sm:w-96':
         this.$route.fullPath === '/movies' ||
         this.$route.name === 'movie-view' ||
@@ -48,6 +48,7 @@
           <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
         </router-link>
       </li>
+      <slot></slot>
     </ul>
   </div>
 </template>

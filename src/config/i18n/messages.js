@@ -78,7 +78,7 @@ const messages = {
     view_quote: "View Quote",
   },
   ka: {
-    logout: "გამოსვლა",
+    logout: "გასვლა",
     login: "ავტორიზაცია",
     login_message: "ავტორიზაცია",
     welcome_back: "გთხოვთ შეიყვანოთ თქვენი დეტალები",

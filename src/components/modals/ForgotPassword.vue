@@ -61,7 +61,7 @@ import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import IconReturn from "@/components/icons/IconReturn.vue";
-import ConfirmationSent from "./ConfirmationSent.vue";
+import ConfirmationSent from "@/components/modals/ConfirmationSent.vue";
 
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names

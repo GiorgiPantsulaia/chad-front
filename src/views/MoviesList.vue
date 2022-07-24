@@ -6,6 +6,7 @@
     <div class="flex pt-24 h-auto overflow-auto w-full">
       <side-bar
         id="sidebar"
+        class="hidden lg:block"
         :class="{ 'opacity-30 pointer-events-none': addNewMovie }"
       ></side-bar>
       <transition name="newMovie" mode="out-in">
@@ -93,7 +94,7 @@ import NewMovie from "@/components/modals/NewMovie.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import IconSearch from "@/components/icons/IconSearch.vue";
-import IconAddPlus from "../components/icons/IconAddPlus.vue";
+import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 export default {
   components: { NavBar, SideBar, MovieCard, NewMovie, IconSearch, IconAddPlus },
   data() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="flex flex-col bg-[#11101A] absolute md:w-[35%] left-0 right-0 mx-auto z-50 h-fit pb-4 rounded-lg"
+      class="flex flex-col bg-[#11101A] absolute lg:w-[35%] left-0 right-0 mx-auto z-50 h-fit pb-4 rounded-lg"
       :class="{ 'opacity-30 pointer-events-none': showConfirmation }"
     >
       <div
@@ -21,7 +21,7 @@
           ✕
         </button>
       </div>
-      <div class="flex w-full text-white items-center mx-10 mt-2">
+      <div class="flex lg:w-full text-white items-center mx-10 mt-2">
         <img
           :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
           alt=""
@@ -82,7 +82,7 @@ import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import IconDelete from "@/components/icons/IconDelete.vue";
-import ConfirmDelete from "./ConfirmDelete.vue";
+import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 
 export default {
@@ -144,7 +144,7 @@ export default {
       axios
         .post("delete-quote", { _method: "delete", id: this.$props.quote.id })
         .then(() => {
-          location.reload();
+          this.$router.go(-1);
         });
     },
   },

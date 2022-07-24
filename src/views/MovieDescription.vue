@@ -7,7 +7,7 @@
       class="flex pt-24 h-full overflow-auto w-full"
       :class="{ 'opacity-30 pointer-events-none': showConfirmation }"
     >
-      <side-bar></side-bar>
+      <side-bar class="hidden lg:block"></side-bar>
       <section
         class="lg:w-9/12 w-full h-full flex flex-col md:ml-32 sm:mx-4 px-4 sm:px-0"
         v-if="!addQuote && editQuote === false"
@@ -83,6 +83,7 @@
             :quote="quote"
             @handle-edit="showEdit(quote)"
             @handle-view="showView(quote)"
+            @on-delete="removeQuote(quote.id)"
           />
         </div>
       </section>
@@ -112,7 +113,7 @@ import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
-import EditQuote from "../components/modals/EditQuote.vue";
+import EditQuote from "@/components/modals/EditQuote.vue";
 export default {
   beforeMount() {
     this.getMovie();
@@ -141,6 +142,11 @@ export default {
     this.updateComments();
   },
   methods: {
+    removeQuote(id) {
+      this.movie.quotes = this.movie.quotes.filter((quote) => {
+        quote.id !== id;
+      });
+    },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {
         for (let i = 0; i < this.movie.quotes.length; i++) {

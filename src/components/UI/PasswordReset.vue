@@ -62,7 +62,7 @@ import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import PasswordInput from "@/components/inputs/PasswordInput.vue";
-import PasswordChanged from "../modals/PasswordChanged.vue";
+import PasswordChanged from "@/components/modals/PasswordChanged.vue";
 
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names

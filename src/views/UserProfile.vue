@@ -2,7 +2,7 @@
   <section class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen">
     <nav-bar></nav-bar>
     <div class="flex mt-24 w-full">
-      <side-bar></side-bar>
+      <side-bar class="hidden lg:block"></side-bar>
       <div class="sm:ml-64 flex flex-col sm:w-5/12 h-1/2 w-full">
         <h1 class="text-white text-xl font-black hidden sm:block">
           {{ $t("profile") }}

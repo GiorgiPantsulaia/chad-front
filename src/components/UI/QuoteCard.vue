@@ -98,7 +98,7 @@ export default {
       required: true,
     },
   },
-  emits: ["onClick", "handleEdit", "handleView"],
+  emits: ["onClick", "handleEdit", "handleView", "onDelete"],
   computed: {
     ...mapState(useAuthStore, ["user_email"]),
   },
@@ -108,6 +108,7 @@ export default {
         .post("delete-quote", { _method: "delete", id: id })
         .then((response) => {
           console.log(response);
+          this.$emit("onDelete");
         });
     },
   },

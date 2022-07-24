@@ -6,6 +6,7 @@
     <div class="flex pt-24 h-full overflow-auto w-full" id="infinite-list">
       <side-bar
         id="sidebar"
+        class="hidden lg:block"
         :class="{ 'opacity-30 pointer-events-none': addNewQuote }"
       ></side-bar>
       <transition name="newQuote" mode="out-in">
@@ -20,7 +21,7 @@
         class="lg:w-9/12 w-full h-full mx-auto"
         :class="{ 'opacity-30 pointer-events-none': addNewQuote }"
       >
-        <div class="flex mb-4 mx-auto lg:w-7/12 mt-2">
+        <div class="flex md:flex-row flex-col mb-4 mx-auto lg:w-7/12">
           <button
             type="button"
             class="text-white bg-[#24222F] h-12 flex items-center justify-center px-4 rounded-lg w-full transition-all"
@@ -31,7 +32,7 @@
             {{ $t("new_post") }}
           </button>
           <form
-            class="hidden mx-5 border-b border-gray-600 items-center md:flex text-white transition-all"
+            class="mx-5 border-b border-gray-600 items-center flex text-white transition-all mt-2 md:mt-0"
             :class="{ 'w-full': openSearch }"
             @submit.prevent="search"
           >
@@ -108,15 +109,17 @@ export default {
     };
   },
   mounted() {
-    const scrollDiv = document.getElementById("infinite-list");
-    scrollDiv.addEventListener("scroll", () => {
-      if (
-        scrollDiv.offsetHeight + scrollDiv.scrollTop >=
-        scrollDiv.scrollHeight
-      ) {
-        this.addQuotes();
-      }
-    });
+    if (this.search_keyword !== null) {
+      const scrollDiv = document.getElementById("infinite-list");
+      scrollDiv.addEventListener("scroll", () => {
+        if (
+          scrollDiv.offsetHeight + scrollDiv.scrollTop >=
+          scrollDiv.scrollHeight
+        ) {
+          this.addQuotes();
+        }
+      });
+    }
     this.updateLikes();
     this.updateComments();
   },
@@ -186,6 +189,9 @@ export default {
           console.log(err);
         });
     },
+    goToMovie(slug) {
+      this.$router.push("/movies/" + slug);
+    },
     addQuotes() {
       if (!this.lastPage) {
         axios
@@ -223,18 +229,11 @@ export default {
 .newQuote-leave-to {
   opacity: 0;
 }
+div {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 div::-webkit-scrollbar {
-  width: 6px;
-}
-
-div::-webkit-scrollbar-track {
-  background-color: #e4e4e4;
-  border-radius: 100px;
-}
-
-div::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
-  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+  display: none;
 }
 </style>
