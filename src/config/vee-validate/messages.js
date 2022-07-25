@@ -7,8 +7,14 @@ configure({
       messages: {
         required: "This field is required",
         email: "Email is not valid",
+        georgian: "This field should contain only Georgian letters",
+        english: "This field should contain only English letters",
       },
       fields: {
+        release_date: {
+          min_value: "Minimum release date : 1970",
+          max_value: "Maximum release date : 2023",
+        },
         name: {
           min: "name must be between 3 and 15 characters",
           max: "name must be between 3 and 15 characters",
@@ -31,8 +37,14 @@ configure({
       messages: {
         required: "ველი სავალდებულოა",
         email: "ელ-ფოსტა არ არის ვალიდური",
+        georgian: "ველი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს",
+        english: "ველი უნდა შეიცავდეს მხოლოდ ინგლისურ ასოებს",
       },
       fields: {
+        release_date: {
+          min_value: "გამოშვების წელი : მინ. 1970 წელი",
+          max_value: "გამოშვების წელი : მაქს. 2023 წელი",
+        },
         სახელი: {
           min: "სახელი უნდა შედგებოდეს მინიმუმ 3,მაქსიმუმ 15 სიმბოლოსგან",
           max: "სახელი უნდა შედგებოდეს მინიმუმ 3,მაქსიმუმ 15 სიმბოლოსგან",

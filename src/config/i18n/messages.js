@@ -76,6 +76,11 @@ const messages = {
     incorrect_credentials: "User name/email or password is incorrect",
     email_exists: "The email has already been taken",
     view_quote: "View Quote",
+    image_required: "Image is required",
+    no_movie_chosen: "Choose a movie",
+    choose_genres: "Choose a genre",
+    add_description: "Add description to the movie",
+    movie_exists: "Movie already exists",
   },
   ka: {
     logout: "გასვლა",
@@ -154,6 +159,11 @@ const messages = {
     incorrect_credentials: "მომხმარებლის სახელი/ელ-ფოსტა ან პაროლი არასწორია.",
     email_exists: "ამ ელ-ფოსტაზე მომხმარებელი არსებობს",
     view_quote: "ციტატა",
+    image_required: "სურათის დამატება აუცილებელია",
+    no_movie_chosen: "აირჩიეთ ფილმი",
+    choose_genres: "აირჩიეთ ჟანრი",
+    add_description: "ფილმის აღწერა სავალდებულოა",
+    movie_exists: "ფილმი უკვე არსებობს",
   },
 };
 

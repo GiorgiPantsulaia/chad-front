@@ -22,21 +22,27 @@
       />
       <p>{{ username }}</p>
     </div>
-    <form class="flex flex-col mt-4" @submit.prevent="postQuote">
+    <Form class="flex flex-col mt-4" @submit="postQuote">
       <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
-      <textarea
+      <Field
+        as="textarea"
         name="english_quote"
         v-model="english_quote"
+        rules="required|english"
         placeholder="New Quote..."
         class="bg-inherit border border-gray-600 mx-10 h-20 resize-none outline-none rounded-md p-2 text-white"
       />
+      <ErrorMessage name="english_quote" class="text-red-500 text-sm mx-10" />
       <label for="georgian_quote" class="text-white mx-10 mt-4">ქარ</label>
-      <textarea
+      <Field
+        as="textarea"
         name="georgian_quote"
         v-model="georgian_quote"
+        rules="required|georgian"
         placeholder="ახალი ციტატა..."
         class="bg-inherit border border-gray-600 mx-10 h-20 resize-none outline-none rounded-md p-2 text-white"
       />
+      <ErrorMessage name="georgian_quote" class="text-red-500 text-sm mx-10" />
       <label
         class="flex mx-10 pl-4 h-20 bg-black text-white items-center cursor-pointer rounded-md mt-6"
       >
@@ -46,6 +52,9 @@
       </label>
       <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
         {{ errorMessage }}
+      </p>
+      <p v-if="error" class="text-red-500 text-sm mx-10">
+        {{ error }}
       </p>
       <div
         class="flex mx-10 pl-2 h-28 bg-black text-white items-center cursor-default rounded-md mt-6"
@@ -70,18 +79,19 @@
       >
         {{ $t("post") }}
       </button>
-    </form>
+    </Form>
   </div>
 </template>
 <script>
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
+import { Form, Field, ErrorMessage } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
 import IconCamera from "@/components/icons/IconCamera.vue";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 
 export default {
-  emits: ["onClick"],
+  emits: ["onClick", "onPost"],
   props: {
     movie: {
       type: Object,
@@ -93,6 +103,7 @@ export default {
       english_quote: "",
       georgian_quote: "",
       image: null,
+      error: null,
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
@@ -108,9 +119,10 @@ export default {
   methods: {
     handleImageUpload(e) {
       this.image = e.target.files[0];
+      this.error = null;
     },
     postQuote() {
-      if (this.imageValid) {
+      if (this.image && this.imageValid) {
         let formData = new FormData();
         formData.append("img", this.image);
         formData.append("english_quote", this.english_quote);
@@ -124,14 +136,19 @@ export default {
           })
           .then((response) => {
             console.log(response);
-            location.reload();
+            this.$emit("onPost");
           })
           .catch((error) => {
             console.log(error);
           });
+      } else if (!this.image) {
+        this.error = this.$t("image_required");
+      } else {
+        return;
       }
     },
   },
-  components: { IconCamera, IconUploadPhoto },
+  // eslint-disable-next-line vue/no-reserved-component-names
+  components: { IconCamera, IconUploadPhoto, Form, Field, ErrorMessage },
 };
 </script>

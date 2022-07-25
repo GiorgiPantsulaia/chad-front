@@ -118,7 +118,6 @@ export default {
         window.Echo.private("notification." + this.user_id).listen(
           "NewNotification",
           (data) => {
-            console.log(data.notification);
             this.storeNotifications({ notification: data.notification });
           }
         );

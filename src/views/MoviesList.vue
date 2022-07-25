@@ -14,6 +14,7 @@
           v-if="addNewMovie"
           :username="username"
           @onClick="addNewMovie = false"
+          @on-Moviepost="handleMoviePost"
         >
         </new-movie>
       </transition>
@@ -116,6 +117,10 @@ export default {
     ...mapState(useAuthStore, ["username"]),
   },
   methods: {
+    handleMoviePost() {
+      this.addNewMovie = false;
+      this.getMovies();
+    },
     goToMovie(slug) {
       this.$router.push("/movies/" + slug);
     },

@@ -45,6 +45,7 @@
         :quote="quote"
         v-if="editQuote"
         @on-click="editQuote = false"
+        @on-edit="handleEdit"
       />
     </div>
     <confirm-delete
@@ -102,6 +103,10 @@ export default {
     ...mapState(useAuthStore, ["user_email", "user_pfp", "user_id"]),
   },
   methods: {
+    handleEdit() {
+      this.editQuote = false;
+      this.getQuote();
+    },
     deleteQuote(id) {
       axios
         .post("delete-quote", { _method: "delete", id: id })

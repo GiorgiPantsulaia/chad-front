@@ -20,8 +20,8 @@
         <p
           class="text-white italic font-light ml-6 self-center sm:w-full break-words w-56"
         >
-          "{{ quote.body["en"].slice(0, 60)
-          }}{{ quote.body["en"].length > 60 ? "..." : "" }}"
+          "{{ quote.body[$i18n.locale].slice(0, 60)
+          }}{{ quote.body[$i18n.locale].length > 60 ? "..." : "" }}"
         </p>
       </div>
       <div class="flex mx-4 text-white pb-4">

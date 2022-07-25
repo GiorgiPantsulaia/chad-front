@@ -88,10 +88,18 @@
         </div>
       </section>
       <div v-else-if="addQuote && !editQuote">
-        <add-quote-to-movie @on-click="addQuote = false" :movie="movie" />
+        <add-quote-to-movie
+          @on-click="addQuote = false"
+          :movie="movie"
+          @on-post="handleQuotePost"
+        />
       </div>
       <div v-else>
-        <edit-quote :quote="quoteToEdit" @on-click="editQuote = false" />
+        <edit-quote
+          :quote="quoteToEdit"
+          @on-click="editQuote = false"
+          @on-edit="handleEdit"
+        />
       </div>
     </div>
     <confirm-delete
@@ -142,10 +150,16 @@ export default {
     this.updateComments();
   },
   methods: {
+    handleQuotePost() {
+      this.addQuote = false;
+      this.getMovie();
+    },
+    handleEdit() {
+      this.editQuote = false;
+      this.getMovie();
+    },
     removeQuote(id) {
-      this.movie.quotes = this.movie.quotes.filter((quote) => {
-        quote.id !== id;
-      });
+      this.movie.quotes = this.movie.quotes.filter((quote) => quote.id !== id);
     },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {

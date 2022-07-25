@@ -18,7 +18,7 @@
       class="flex w-full text-white items-center sm:mx-10 px-10 sm:px-0 mt-4"
     >
       <img
-        src="@/icons/interstellar.png"
+        :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
         alt=""
         class="w-14 h-14 rounded-full mr-4"
       />
@@ -29,15 +29,18 @@
         :modelValue="english_title"
         @update:modelValue="(newValue) => (english_title = newValue)"
         name="english_title"
-        rules="required"
+        rules="required|english"
         placeholder="Movie name..."
         lang="Eng"
       />
+      <p v-if="movieExists" class="text-red-500 text-sm mx-10">
+        {{ $t("movie_exists") }}
+      </p>
       <movie-input
         :modelValue="georgian_title"
         @update:modelValue="(newValue) => (georgian_title = newValue)"
         name="georgian_title"
-        rules="required"
+        rules="required|georgian"
         placeholder="ფილმის სახელი..."
         lang="ქარ"
       />
@@ -45,20 +48,22 @@
         v-model="income"
         type="number"
         name="income"
-        rules="required"
+        rules="required|max_value:1000000000000"
         placeholder="Income/შემოსავალი"
         class="outline-none p-2 text-white rounded-md bg-inherit mx-10 border border-gray-600 h-10 mt-4"
       />
+      <ErrorMessage name="income" class="text-red-500 text-sm mx-10" />
       <Field
         v-model="release_date"
         type="number"
         min="1970"
-        rules="required"
+        rules="required|min_value:1970|max_value:2023"
         max="2023"
         name="release_date"
         placeholder="Release date/გამოსვლის წელი"
         class="outline-none p-2 text-white rounded-md bg-inherit mx-10 border border-gray-600 h-10 mt-4"
       />
+      <ErrorMessage name="release_date" class="text-red-500 text-sm mx-10" />
       <div class="mx-10 mt-4 z-50">
         <div
           class="absolute mt-3 flex text-white pl-2"
@@ -99,7 +104,7 @@
         :modelValue="director_eng"
         @update:modelValue="(newValue) => (director_eng = newValue)"
         name="director_eng"
-        rules="required"
+        rules="required|english"
         placeholder="Director"
         lang="Eng"
       />
@@ -107,7 +112,7 @@
         :modelValue="director_geo"
         @update:modelValue="(newValue) => (director_geo = newValue)"
         name="director_geo"
-        rules="required"
+        rules="required|georgian"
         placeholder="რეჟისორი"
         lang="ქარ"
       />
@@ -135,6 +140,9 @@
       <p class="text-red-500 text-sm mx-10" v-if="image && !imageValid">
         {{ errorMessage }}
       </p>
+      <p class="text-red-500 text-sm mx-10 mt-4" v-if="error">
+        {{ error }}
+      </p>
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
       >
@@ -147,8 +155,10 @@
 import axios from "@/config/axios/index.js";
 import MovieInput from "@/components/inputs/MovieInput.vue";
 import MovieTextarea from "@/components/inputs/MovieTextarea.vue";
-import { Field, Form } from "vee-validate";
+import { Field, Form, ErrorMessage } from "vee-validate";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
+import { mapState } from "pinia";
+import { useAuthStore } from "../../stores/auth";
 export default {
   props: {
     username: {
@@ -156,6 +166,7 @@ export default {
       required: true,
     },
   },
+  emits: ["onMoviepost"],
   data() {
     return {
       english_title: "",
@@ -170,9 +181,13 @@ export default {
       income: null,
       release_date: null,
       image: null,
+      movieExists: false,
+      error: null,
+      back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
   computed: {
+    ...mapState(useAuthStore, ["user_pfp"]),
     imageValid() {
       return this.image.type.slice(0, 5) === "image";
     },
@@ -182,7 +197,8 @@ export default {
   },
   methods: {
     postMovie() {
-      if (this.imageValid) {
+      console.log(this.chosen_genres);
+      if (this.image && this.imageValid && this.chosen_genres.length > 0) {
         let formData = new FormData();
         formData.append("img", this.image);
         formData.append("english_title", this.english_title);
@@ -203,11 +219,19 @@ export default {
           })
           .then((response) => {
             console.log(response);
-            location.reload();
+            this.$emit("onMoviepost");
           })
           .catch((error) => {
-            console.log(error);
+            if (error.response.status === 500) {
+              this.movieExists = true;
+            }
           });
+      } else if (this.chosen_genres.length == 0) {
+        this.error = this.$t("choose_genres");
+      } else if (!this.english_description || !this.georgian_description) {
+        this.error = this.$t("add_description");
+      } else {
+        this.error = this.$t("image_required");
       }
     },
     removeGenre(title) {
@@ -241,8 +265,15 @@ export default {
   beforeMount() {
     this.getGenres();
   },
-  // eslint-disable-next-line vue/no-reserved-component-names
-  components: { MovieInput, MovieTextarea, Field, Form, IconUploadPhoto },
+  components: {
+    MovieInput,
+    MovieTextarea,
+    Field,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Form,
+    IconUploadPhoto,
+    ErrorMessage,
+  },
 };
 </script>
 <style scoped>

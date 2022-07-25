@@ -26,7 +26,7 @@
       <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
       <Field
         as="textarea"
-        rules="required"
+        rules="required|english"
         name="english_quote"
         v-model="english_quote"
         placeholder="New Quote..."
@@ -36,7 +36,7 @@
       <label for="georgian_quote" class="text-white mx-10 mt-4">ქარ</label>
       <Field
         as="textarea"
-        rules="required"
+        rules="required|georgian"
         name="georgian_quote"
         v-model="georgian_quote"
         placeholder="ახალი ციტატა..."
@@ -91,6 +91,9 @@
           {{ $t("add_movie") }}
         </button>
       </div>
+      <p class="text-red-500 text-sm mx-10" v-if="error">
+        {{ error }}
+      </p>
       <button
         class="text-white bg-[#E31221] mx-10 h-10 font-black text-lg mt-6 rounded-md"
         v-if="movies.length > 0"
@@ -116,6 +119,7 @@ export default {
       required: true,
     },
   },
+  emits: ["onQuotepost"],
   data() {
     return {
       english_quote: "",
@@ -123,6 +127,7 @@ export default {
       movies: [],
       chosenMovie: null,
       image: null,
+      error: false,
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
@@ -138,9 +143,10 @@ export default {
   methods: {
     handleImageUpload(e) {
       this.image = e.target.files[0];
+      this.error = null;
     },
     postQuote() {
-      if (this.imageValid) {
+      if (this.image && this.imageValid) {
         let formData = new FormData();
         formData.append("img", this.image);
         formData.append("english_quote", this.english_quote);
@@ -154,13 +160,15 @@ export default {
           })
           .then((response) => {
             console.log(response);
-            location.reload();
+            this.$emit("onQuotepost");
           })
           .catch((error) => {
             console.log(error);
           });
+      } else if (this.chosenMovie === null) {
+        this.error = this.$t("no_movie_chosen");
       } else {
-        return;
+        this.error = this.$t("image_required");
       }
     },
     getMovies() {

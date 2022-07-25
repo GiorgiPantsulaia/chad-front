@@ -29,20 +29,29 @@
         />
         <p>{{ username }}</p>
       </div>
-      <form class="flex flex-col" @submit.prevent="postQuote">
+      <Form class="flex flex-col" @submit="postQuote">
         <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
-        <textarea
+        <Field
+          as="textarea"
           name="english_quote"
+          rules="required|english"
           v-model="english_quote"
           placeholder="New Quote..."
           class="bg-inherit border border-gray-600 mx-10 h-20 resize-none outline-none rounded-md p-2 text-white"
         />
+        <ErrorMessage name="english_quote" class="text-red-500 text-sm mx-10" />
         <label for="georgian_quote" class="text-white mx-10 mt-4">ქარ</label>
-        <textarea
+        <Field
+          as="textarea"
           name="georgian_quote"
+          rules="required|georgian"
           v-model="georgian_quote"
           placeholder="ახალი ციტატა..."
           class="bg-inherit border border-gray-600 mx-10 h-20 resize-none outline-none rounded-md p-2 text-white"
+        />
+        <ErrorMessage
+          name="georgian_quote"
+          class="text-red-500 text-sm mx-10"
         />
         <label
           class="flex mx-10 h-full bg-inherit text-white items-center cursor-pointer rounded-md mt-6"
@@ -68,7 +77,7 @@
         >
           {{ $t("save") }}
         </button>
-      </form>
+      </Form>
     </div>
     <confirm-delete
       v-if="showConfirmation"
@@ -84,9 +93,9 @@ import { useAuthStore } from "@/stores/auth.js";
 import IconDelete from "@/components/icons/IconDelete.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
-
+import { Form, Field, ErrorMessage } from "vee-validate";
 export default {
-  emits: ["onClick"],
+  emits: ["onClick", "onEdit"],
   props: {
     quote: {
       type: Object,
@@ -106,7 +115,10 @@ export default {
   computed: {
     ...mapState(useAuthStore, ["user_pfp", "username"]),
     imageValid() {
-      return this.image.type.slice(0, 5) === "image";
+      if (this.image) {
+        return this.image.type.slice(0, 5) === "image";
+      }
+      return true;
     },
     errorMessage() {
       return this.$t("invalid_image");
@@ -133,7 +145,7 @@ export default {
           })
           .then((response) => {
             console.log(response);
-            location.reload();
+            this.$emit("onEdit");
           })
           .catch((error) => {
             console.log(error);
@@ -148,6 +160,14 @@ export default {
         });
     },
   },
-  components: { IconDelete, ConfirmDelete, IconUploadPhoto },
+  components: {
+    IconDelete,
+    ConfirmDelete,
+    IconUploadPhoto,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Form,
+    Field,
+    ErrorMessage,
+  },
 };
 </script>

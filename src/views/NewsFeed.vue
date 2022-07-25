@@ -14,6 +14,7 @@
           v-if="addNewQuote"
           :username="username"
           @onClick="addNewQuote = false"
+          @on-quotepost="handleNewQuote"
         >
         </new-quote>
       </transition>
@@ -135,6 +136,10 @@ export default {
     },
   },
   methods: {
+    handleNewQuote() {
+      this.addNewQuote = false;
+      this.getInitialQuotes();
+    },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {
         for (let i = 0; i < this.quotes.length; i++) {
@@ -158,7 +163,6 @@ export default {
       axios
         .post("search", {
           search: this.search_keyword,
-          lang: this.$i18n.locale,
         })
         .then((response) => {
           if (response.data.quotes) {

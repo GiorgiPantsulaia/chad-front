@@ -20,7 +20,6 @@ export default {
     ...mapActions(useNotificationsStore, ["storeNotifications"]),
     getNotifications() {
       axios.get("notifications").then((res) => {
-        console.log(res);
         for (let i = 0; i < res.data.length; i++) {
           this.storeNotifications({ notification: res.data[i] });
         }
