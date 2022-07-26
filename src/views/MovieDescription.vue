@@ -10,7 +10,7 @@
       <side-bar class="hidden lg:block"></side-bar>
       <section
         class="lg:w-9/12 w-full h-full flex flex-col md:ml-32 sm:mx-4 px-4 sm:px-0"
-        v-if="!addQuote && editQuote === false"
+        v-if="!addQuote && editQuote === false && !editMovie"
       >
         <div class="hidden sm:flex mb-4 justify-between">
           <p class="text-white text-xl">{{ $t("movie_description") }}</p>
@@ -30,7 +30,7 @@
                 v-if="user_email === movie.author.email"
                 class="w-36 bg-[#24222F] py-2 items-center rounded-lg flex justify-center sm:mr-24 mr-4 text-gray-600 font-light"
               >
-                <button class="pr-4 mx-2">
+                <button class="pr-4 mx-2" @click="editMovie = true">
                   <icon-edit />
                 </button>
                 <span class="cursor-default">|</span>
@@ -94,12 +94,11 @@
           @on-post="handleQuotePost"
         />
       </div>
+      <div v-else-if="editQuote">
+        <edit-quote :quote="quoteToEdit" @on-click="editQuote = false" />
+      </div>
       <div v-else>
-        <edit-quote
-          :quote="quoteToEdit"
-          @on-click="editQuote = false"
-          @on-edit="handleEdit"
-        />
+        <edit-movie :movie="movie" @on-click="editMovie = false" />
       </div>
     </div>
     <confirm-delete
@@ -122,6 +121,7 @@ import { useAuthStore } from "@/stores/auth.js";
 import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import EditQuote from "@/components/modals/EditQuote.vue";
+import EditMovie from "@/components/modals/EditMovie.vue";
 export default {
   beforeMount() {
     this.getMovie();
@@ -139,6 +139,7 @@ export default {
       showConfirmation: false,
       addQuote: false,
       editQuote: false,
+      editMovie: false,
       quoteToEdit: null,
     };
   },
@@ -150,14 +151,17 @@ export default {
     this.updateComments();
   },
   methods: {
+    handleMovieEdit() {
+      this.editMovie = false;
+      this.getMovie();
+    },
     handleQuotePost() {
       this.addQuote = false;
       this.getMovie();
     },
-    handleEdit() {
-      this.editQuote = false;
-      this.getMovie();
-    },
+    // handleEdit() {
+    //   this.editQuote = false;
+    // },
     removeQuote(id) {
       this.movie.quotes = this.movie.quotes.filter((quote) => quote.id !== id);
     },
@@ -183,7 +187,6 @@ export default {
       axios
         .post("movie-description", { slug: this.$props.slug })
         .then((response) => {
-          console.log(response);
           if (response.status === 200) {
             this.movie = response.data.data;
           }
@@ -220,6 +223,7 @@ export default {
     IconAddPlus,
     IconEdit,
     EditQuote,
+    EditMovie,
   },
 };
 </script>
@@ -230,7 +234,6 @@ export default {
 .view-leave-active {
   transition: opacity 0.2s ease;
 }
-
 .edit-enter-from,
 .view-enter-from,
 .edit-leave-to,

@@ -28,13 +28,13 @@ defineRule("lowercase", (value) => {
   return true;
 });
 defineRule("georgian", (value) => {
-  if (!/^[ა-ჰ\s.,]*$/.test(value)) {
+  if (!/^[ა-ჰ\s.,!?]*$/.test(value)) {
     return false;
   }
   return true;
 });
 defineRule("english", (value) => {
-  if (!/^[A-Za-z\s.,]*$/.test(value)) {
+  if (!/^[A-Za-z\s.,!?]*$/.test(value)) {
     return false;
   }
   return true;

@@ -87,9 +87,16 @@ export default {
   mounted() {
     this.updateLikes();
     this.updateComments();
+    this.$watch(
+      () => this.$route.params,
+      (toParams) => {
+        if (toParams.id) this.getQuote();
+      }
+    );
   },
   beforeMount() {
     this.getQuote();
+    console.log(this.$route);
   },
   data() {
     return {
@@ -97,6 +104,7 @@ export default {
       quote: null,
       showConfirmation: false,
       editQuote: false,
+      quoteId: this.$route.params.id,
     };
   },
   computed: {
@@ -117,7 +125,7 @@ export default {
     },
     getQuote() {
       axios
-        .post("get-quote", { id: this.id })
+        .post("get-quote", { id: this.$route.params.id })
         .then((res) => {
           this.quote = res.data;
         })

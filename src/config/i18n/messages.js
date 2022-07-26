@@ -84,6 +84,9 @@ const messages = {
     email_change: "Check new email to activate it and replace the old one",
     user_exists: "User with this email already exists",
     email_changed: "Your email updated successfully.",
+    commented: "Commented to your movie quote",
+    liked: "Reacted to your quote",
+    edit_movie: "Edit Movie",
   },
   ka: {
     logout: "გასვლა",
@@ -146,7 +149,7 @@ const messages = {
     movie_description: "ფილმის აღწერა",
     invalid_image: "ფაილის ტიპი არ არის ვალიდური",
     no_movies: "ციტატის დასამატებლად აუცილებელია ფილმი.",
-    not_found: "ამ საძიებო სიტყვაზე ფილმი/ციტატა არ არსებობს...",
+    not_found: "ამ საძიებო სიტყვაზე ფილმი/ციტატა ვერ მოიძებნა...",
     forgot_password_instructions:
       "შეიყვანეთ ელ-ფოსტა და მიჰყევით ინსტრუქციას, რომელსაც ჩვენ გამოგიგზავნით",
     send: "გაგზავნა",
@@ -171,6 +174,9 @@ const messages = {
       "შეტყობინება გაგზავნილია თქვენს ახალ ელ-ფოსტაზე,მიჰყევით ინსტრუქციას გასააქტიურებლად. ",
     user_exists: "მოხმარებელი ამ ელ-ფოსტით უკვე არსებობს",
     email_changed: "თქვენი ელ-ფოსტა წარმატებით განახლდა",
+    commented: "დაწერა კომენტარი თქვენი ფილმის ციტატაზე",
+    liked: "გამოხატა რეაქცია თქვენს ციტატაზე",
+    edit_movie: "ფილმის რედაქტირება",
   },
 };
 

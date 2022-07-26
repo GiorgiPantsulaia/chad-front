@@ -92,7 +92,10 @@
                 rules="confirmed:@password"
                 :placeholder="$t('repeat_password')"
                 class="border border-[#CED4DA] bg-[#CED4DA] outline-none rounded-sm h-9 pl-3"
-              /><ErrorMessage name="password" class="text-[#D0342C] text-sm" />
+              /><ErrorMessage
+                name="confirm password"
+                class="text-[#D0342C] text-sm"
+              />
             </div>
             <button
               class="bg-[#E31221] px-3 w-auto h-9 rounded-md text-white self-end relative top-40 sm:left-48 left-0 right-0 mx-auto sm:mx-0 whitespace-nowrap"

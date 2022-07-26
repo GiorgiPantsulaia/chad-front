@@ -30,6 +30,7 @@
           v-if="showNotifications"
           id="notification"
           class="absolute top-16 right-16"
+          @on-outside="showNotifications = !showNotifications"
       /></transition>
       <button
         class="items-center md:flex absolute md:static right-6 top-5"

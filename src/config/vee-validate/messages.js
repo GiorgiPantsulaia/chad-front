@@ -9,6 +9,9 @@ configure({
         email: "Email is not valid",
         georgian: "This field should contain only Georgian letters",
         english: "This field should contain only English letters",
+        lowercase: "This field should contain English letters and numbers only",
+        min: "This field should contain more than 3 characters",
+        max: "This field should contain less than 15 characters",
       },
       fields: {
         release_date: {
@@ -39,6 +42,9 @@ configure({
         email: "ელ-ფოსტა არ არის ვალიდური",
         georgian: "ველი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს",
         english: "ველი უნდა შეიცავდეს მხოლოდ ინგლისურ ასოებს",
+        lowercase: "ველი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებსა და რიცხვებს",
+        min: "ველი უნდა შეიცავდეს 3-ზე მეტ სიმბოლოს",
+        max: "ველი უნდა შეიცავდეს 15-ზე ნაკლებ სიმბოლოს",
       },
       fields: {
         release_date: {

@@ -68,7 +68,10 @@
             @click="goToMovie(movie.slug)"
           />
         </div>
-        <p v-if="not_found" class="text-white mx-auto w-max mt-48">
+        <p
+          v-if="not_found"
+          class="text-white mx-auto w-48 mt-48 whitespace-nowrap"
+        >
           {{ $t("not_found") }}
         </p>
       </section>
@@ -170,8 +173,8 @@ export default {
         })
         .then((response) => {
           if (response.data.quotes) {
-            this.searched_movies = null;
             this.not_found = null;
+            this.searched_movies = null;
             this.quotes = response.data.quotes;
           } else if (response.data.movies) {
             this.not_found = null;

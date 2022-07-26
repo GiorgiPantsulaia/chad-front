@@ -1,6 +1,7 @@
 <template>
   <div
     class="md:w-[800px] w-full left-0 md:left-auto h-[600px] md:h-[700px] bg-black rounded-xl flex flex-col overflow-auto"
+    v-click-outside="handleClickOutside"
   >
     <div class="flex justify-between mx-4 mt-8">
       <h1 class="text-2xl font-bold">Notifications</h1>
@@ -42,9 +43,7 @@
                 />
                 <icon-quote class="mr-2 w-6" v-else />
                 {{
-                  notification.type === "like"
-                    ? "Reacted to your quote"
-                    : "Commented to your movie quote"
+                  notification.type === "like" ? $t("liked") : $t("commented")
                 }}
               </p>
             </div>
@@ -72,8 +71,12 @@ import { mapActions, mapState } from "pinia";
 import { useNotificationsStore } from "@/stores/notifications.js";
 import axios from "@/config/axios/index.js";
 export default {
+  emits: ["onOutside"],
   methods: {
     ...mapActions(useNotificationsStore, ["markAllAsRead"]),
+    handleClickOutside() {
+      this.$emit("onOutside");
+    },
     goToPost(id, notification_id) {
       axios.post("notification-read", { id: notification_id }).then((res) => {
         console.log(res);
