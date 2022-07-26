@@ -88,7 +88,6 @@ export default {
       this.notifications[index].state = "read";
     },
     markAsRead() {
-      console.log(this.allMarked);
       if (this.allMarked === false) {
         axios.get("notifications-read").then((res) => {
           console.log(res);

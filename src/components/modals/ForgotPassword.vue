@@ -80,7 +80,6 @@ export default {
       axios
         .post("confirm-email", { email: this.email })
         .then((res) => {
-          console.log(res);
           this.isLoading = false;
           if (res.status === 200) {
             this.confirmation_sent = true;

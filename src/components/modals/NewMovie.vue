@@ -159,7 +159,7 @@ import MovieTextarea from "@/components/inputs/MovieTextarea.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 import { mapState } from "pinia";
-import { useAuthStore } from "../../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
 export default {
   props: {
     username: {
@@ -201,7 +201,6 @@ export default {
       this.$emit("onOutside");
     },
     postMovie() {
-      console.log(this.chosen_genres);
       if (this.image && this.imageValid && this.chosen_genres.length > 0) {
         let formData = new FormData();
         formData.append("img", this.image);
@@ -221,8 +220,7 @@ export default {
               "Content-Type": "multipart/form-data",
             },
           })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             this.$emit("onMoviepost");
           })
           .catch((error) => {

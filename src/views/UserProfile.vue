@@ -125,9 +125,9 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import { mapActions, mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import axios from "@/config/axios/index.js";
-import LoadingBar from "../components/UI/LoadingBar.vue";
-import EmailUpdateSent from "../components/modals/EmailUpdateSent.vue";
-import EmailChanged from "../components/modals/EmailChanged.vue";
+import LoadingBar from "@/components/UI/LoadingBar.vue";
+import EmailUpdateSent from "@/components/modals/EmailUpdateSent.vue";
+import EmailChanged from "@/components/modals/EmailChanged.vue";
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
   computed: {

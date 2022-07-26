@@ -96,7 +96,6 @@ export default {
   },
   beforeMount() {
     this.getQuote();
-    console.log(this.$route);
   },
   data() {
     return {
@@ -116,12 +115,9 @@ export default {
       this.getQuote();
     },
     deleteQuote(id) {
-      axios
-        .post("delete-quote", { _method: "delete", id: id })
-        .then((response) => {
-          console.log(response);
-          this.$router.replace("/movies");
-        });
+      axios.post("delete-quote", { _method: "delete", id: id }).then(() => {
+        this.$router.replace("/movies");
+      });
     },
     getQuote() {
       axios

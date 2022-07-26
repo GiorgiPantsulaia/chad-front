@@ -104,12 +104,9 @@ export default {
   },
   methods: {
     deleteQuote(id) {
-      axios
-        .post("delete-quote", { _method: "delete", id: id })
-        .then((response) => {
-          console.log(response);
-          this.$emit("onDelete");
-        });
+      axios.post("delete-quote", { _method: "delete", id: id }).then(() => {
+        this.$emit("onDelete");
+      });
     },
   },
   components: {

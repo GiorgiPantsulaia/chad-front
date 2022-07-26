@@ -160,7 +160,7 @@ import MovieTextarea from "@/components/inputs/MovieTextarea.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 import { mapState } from "pinia";
-import { useAuthStore } from "../../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
 export default {
   emits: ["onEdit"],
   props: {
@@ -241,7 +241,6 @@ export default {
       this.genre = null;
     },
     handleChoose() {
-      console.log(this.chosen_genres);
       if (this.chosen_genres.length < 4) {
         this.chosen_genres.push(this.genre[this.$i18n.locale]);
         this.genres = this.genres.filter((genre) => genre != this.genre);

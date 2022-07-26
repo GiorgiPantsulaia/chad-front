@@ -162,8 +162,7 @@ export default {
               "Content-Type": "multipart/form-data",
             },
           })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             this.$emit("onQuotepost");
           })
           .catch((error) => {

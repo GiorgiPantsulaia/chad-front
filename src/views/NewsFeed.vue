@@ -158,7 +158,6 @@ export default {
     },
     updateComments() {
       window.Echo.channel("comments").listen("PostCommented", (data) => {
-        console.log(data);
         for (let i = 0; i < this.quotes.length; i++) {
           if (this.quotes[i].id === data.comment.quote_id) {
             this.quotes[i].comments.push(data.comment);

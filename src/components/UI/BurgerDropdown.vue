@@ -39,7 +39,7 @@ import { useAuthStore } from "@/stores/auth.js";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconEarth from "@/components/icons/IconEarth.vue";
 import { setLocale } from "@vee-validate/i18n";
-import { useLocaleStore } from "../../stores/locale";
+import { useLocaleStore } from "@/stores/locale.js";
 export default {
   components: { SideBar, IconLogout, IconArrowDown, IconEarth },
   methods: {

@@ -101,7 +101,7 @@ export default {
       password: "",
       errors: "",
       isLoading: false,
-      remember_me: null,
+      remember_me: false,
     };
   },
   methods: {
@@ -119,6 +119,7 @@ export default {
         .post("http://localhost:8000/api/login", {
           name: this.user,
           password: this.password,
+          remember_me: this.remember_me,
         })
         .then((response) => {
           this.isLoading = false;

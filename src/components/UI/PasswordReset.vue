@@ -12,7 +12,6 @@
     <h1
       class="text-white text-4xl sm:mt-10 mt-24"
       :class="{ 'blur-[2px] pointer-events-none': isLoading }"
-      @click="log"
     >
       {{ $t("reset_password") }}
     </h1>
@@ -77,9 +76,6 @@ export default {
     };
   },
   methods: {
-    log() {
-      console.log(this.$route.query.token);
-    },
     resetPassword() {
       this.isLoading = true;
       axios
@@ -90,7 +86,6 @@ export default {
         })
         .then((response) => {
           this.isLoading = false;
-          console.log(response);
           if (response.status === 200) this.password_changed = true;
         });
     },
