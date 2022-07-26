@@ -69,6 +69,14 @@ export const useAuthStore = defineStore({
           console.log(error);
         });
     },
+    updateUser(payload) {
+      this.username = payload.username;
+      this.user_email = payload.user_email;
+      this.user_pfp = payload.user_pfp;
+    },
+    updateEmail(payload) {
+      this.user_email = payload.email;
+    },
   },
   getters: {
     getToken(state) {

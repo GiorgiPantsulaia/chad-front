@@ -4,17 +4,17 @@
   >
     <button
       class="text-white text-4xl self-end mr-2"
-      @click="this.$router.replace({ name: 'home' })"
+      @click="this.$emit('onClose')"
     >
       ✕
     </button>
     <icon-plane class="mx-auto mt-16" />
     <h1 class="text-3xl mt-4">{{ $t("check_your_email") }}</h1>
     <p class="my-8 mx-10">
-      {{ $t("confirmation_sent") }}
+      {{ $t("email_change") }}
     </p>
     <button
-      @click="this.$router.replace('/login')"
+      @click="this.$emit('onClose')"
       target="_blank"
       class="py-1 px-4 bg-[#E31221] w-7/12 self-center rounded-sm text-xl"
     >
@@ -26,5 +26,6 @@
 import IconPlane from "@/components/icons/IconPlane.vue";
 export default {
   components: { IconPlane },
+  emits: ["onClose"],
 };
 </script>

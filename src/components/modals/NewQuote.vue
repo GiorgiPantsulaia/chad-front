@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex flex-col bg-[#11101A] absolute md:w-[45%] left-0 right-0 mx-auto z-50 h-fit pb-6 rounded-lg"
+    v-click-outside="onClickOutside"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-48 mx-auto font-semibold text-xl">
@@ -119,7 +120,7 @@ export default {
       required: true,
     },
   },
-  emits: ["onQuotepost"],
+  emits: ["onQuotepost", "onOutside"],
   data() {
     return {
       english_quote: "",
@@ -141,6 +142,9 @@ export default {
     },
   },
   methods: {
+    onClickOutside() {
+      this.$emit("onOutside");
+    },
     handleImageUpload(e) {
       this.image = e.target.files[0];
       this.error = null;

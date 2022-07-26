@@ -164,8 +164,11 @@ export default {
     },
   },
   methods: {
+    log() {
+      console.log(this.newComment);
+    },
     addComment(quote_id) {
-      const input = document.getElementById("comment");
+      document.getElementById("comment").blur();
       axios
         .post("add-comment", {
           quote_id: quote_id,
@@ -174,12 +177,11 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          input.blur();
-          this.newComment = null;
         })
         .catch((err) => {
           console.log(err);
         });
+      this.newComment = null;
     },
     likeOrUnlikePost(quote) {
       if (!this.postLiked) {

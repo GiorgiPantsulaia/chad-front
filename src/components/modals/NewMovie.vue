@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex flex-col bg-[#11101A] absolute lg:w-[45%] md:w-[80%] left-0 right-0 mx-auto z-50 h-full overflow-auto rounded-lg pb-6 sm:top-5 top-0"
+    v-click-outside="handleClickOutside"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
       <h1 class="text-white w-44 mx-auto font-semibold text-xl">
@@ -166,7 +167,7 @@ export default {
       required: true,
     },
   },
-  emits: ["onMoviepost"],
+  emits: ["onMoviepost", "onOutside"],
   data() {
     return {
       english_title: "",
@@ -196,6 +197,9 @@ export default {
     },
   },
   methods: {
+    handleClickOutside() {
+      this.$emit("onOutside");
+    },
     postMovie() {
       console.log(this.chosen_genres);
       if (this.image && this.imageValid && this.chosen_genres.length > 0) {

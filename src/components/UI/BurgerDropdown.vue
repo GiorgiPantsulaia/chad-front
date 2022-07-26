@@ -39,10 +39,12 @@ import { useAuthStore } from "@/stores/auth.js";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconEarth from "@/components/icons/IconEarth.vue";
 import { setLocale } from "@vee-validate/i18n";
+import { useLocaleStore } from "../../stores/locale";
 export default {
   components: { SideBar, IconLogout, IconArrowDown, IconEarth },
   methods: {
     ...mapActions(useAuthStore, ["logout"]),
+    ...mapActions(useLocaleStore, ["storeLocale"]),
     changeLocale() {
       this.$i18n.locale = this.$i18n.locale === "en" ? "ka" : "en";
       this.storeLocale({ locale: this.$i18n.locale });

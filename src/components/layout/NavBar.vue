@@ -44,7 +44,10 @@
           {{ notifications.length }}
         </p>
       </button>
-      <div class="mx-4 cursor-pointer md:block hidden">
+      <div
+        class="mx-4 cursor-pointer md:block hidden"
+        v-click-outside="closeLang"
+      >
         <div @click="showLang = !showLang" class="flex text-lg items-center">
           {{ $i18n.locale === "en" ? "Eng" : "ქარ" }}
           <icon-arrow-down
@@ -110,6 +113,9 @@ export default {
     };
   },
   methods: {
+    closeLang() {
+      this.showLang = false;
+    },
     onClickOutside() {
       this.showNotifications = false;
     },

@@ -53,7 +53,7 @@
       class="absolute top-0 bottom-0 my-auto left-0 right-0 mx-auto"
     />
   </div>
-  <confirmation-sent v-else />
+  <confirmation-sent message="close" v-else />
 </template>
 <script>
 import TextInput from "@/components/inputs/TextInput.vue";

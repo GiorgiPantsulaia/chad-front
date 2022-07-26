@@ -103,7 +103,9 @@ const router = createRouter({
 });
 router.beforeEach((to, _2, next) => {
   const store = useAuthStore();
-  if (to.meta.requiresAuth && !store.isAuthenticated) {
+  if (to.name === "not-found") {
+    next();
+  } else if (to.meta.requiresAuth && !store.isAuthenticated) {
     next("/forbidden");
   } else if (!to.meta.requiresAuth && store.isAuthenticated) {
     next("/news-feed");

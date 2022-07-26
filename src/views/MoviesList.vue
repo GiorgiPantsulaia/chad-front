@@ -15,6 +15,7 @@
           :username="username"
           @onClick="addNewMovie = false"
           @on-Moviepost="handleMoviePost"
+          @on-outside="handleClickOutside"
         >
         </new-movie>
       </transition>
@@ -26,11 +27,11 @@
           <p type="button" class="text-white text-xl w-40 sm:w-auto">
             {{ $t("movies_list") }} {{ movies.length }})
           </p>
-          <div class="flex">
-            <div class="w-32 hidden items-center md:flex text-white">
-              <button>
-                <icon-search />
-              </button>
+          <div class="flex sm:flex-row flex-col-reverse">
+            <div
+              class="sm:w-32 w-8/12 items-center flex text-white mt-12 sm:static absolute left-4 top-32"
+            >
+              <icon-search />
               <input
                 v-model="search"
                 type="text"
@@ -40,7 +41,7 @@
             </div>
             <button
               type="button"
-              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-36 px-2 font-black"
+              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-36 px-2 font-black self-end"
               @click="addNewMovie = !addNewMovie"
             >
               <icon-add-plus class="mr-2" />
@@ -78,7 +79,7 @@
         </div>
         <p
           v-if="search && filteredMovies.length < 1"
-          class="absolute left-0 right-0 w-96 mx-auto text-xl text-white top-[40%] whitespace-nowrap"
+          class="absolute left-0 right-0 w-96 mx-auto text-xl text-white top-[40%] sm:whitespace-nowrap"
         >
           {{ $t("no_movie") }}
         </p>
@@ -107,16 +108,18 @@ export default {
   },
   computed: {
     filteredMovies() {
-      return this.movies.filter((movie) => {
-        return movie.title[this.$i18n.locale]
+      return this.movies.filter((movie) =>
+        movie.title[this.$i18n.locale]
           .toLowerCase()
-          .includes(this.search.toLowerCase());
-      });
+          .includes(this.search.toLowerCase())
+      );
     },
-
     ...mapState(useAuthStore, ["username"]),
   },
   methods: {
+    handleClickOutside() {
+      this.addNewMovie = false;
+    },
     handleMoviePost() {
       this.addNewMovie = false;
       this.getMovies();

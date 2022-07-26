@@ -81,6 +81,9 @@ const messages = {
     choose_genres: "Choose a genre",
     add_description: "Add description to the movie",
     movie_exists: "Movie already exists",
+    email_change: "Check new email to activate it and replace the old one",
+    user_exists: "User with this email already exists",
+    email_changed: "Your email updated successfully.",
   },
   ka: {
     logout: "გასვლა",
@@ -102,7 +105,7 @@ const messages = {
     get_started: "რეგისტრაცია",
     name_placeholder: "სახელი",
     email_placeholder: "ელ-ფოსტის მისამართი",
-    password_placeholder: "პაროლი",
+    password_placeholder: "მინ. 3 , მაქს. 15 დაბალი რეგისტრის ლათინური სიმბოლო",
     repeat_password: "გაიმეორე პაროლი",
     g_signup: "Google რეგისტრაცია",
     have_account: "უკვე გაქვს ანგარიში?",
@@ -164,6 +167,10 @@ const messages = {
     choose_genres: "აირჩიეთ ჟანრი",
     add_description: "ფილმის აღწერა სავალდებულოა",
     movie_exists: "ფილმი უკვე არსებობს",
+    email_change:
+      "შეტყობინება გაგზავნილია თქვენს ახალ ელ-ფოსტაზე,მიჰყევით ინსტრუქციას გასააქტიურებლად. ",
+    user_exists: "მოხმარებელი ამ ელ-ფოსტით უკვე არსებობს",
+    email_changed: "თქვენი ელ-ფოსტა წარმატებით განახლდა",
   },
 };
 

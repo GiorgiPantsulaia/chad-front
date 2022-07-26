@@ -95,7 +95,10 @@ export default {
         });
     },
     checkToken() {
-      if (!this.$route.query.token.length !== 40) {
+      if (
+        !this.$route.query.token ||
+        (this.$route.query.token && this.$route.query.token.length !== 40)
+      ) {
         this.$router.replace("/");
       }
     },

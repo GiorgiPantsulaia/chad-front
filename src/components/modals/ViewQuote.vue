@@ -116,9 +116,16 @@ export default {
         });
     },
     getQuote() {
-      axios.post("get-quote", { id: this.id }).then((res) => {
-        this.quote = res.data;
-      });
+      axios
+        .post("get-quote", { id: this.id })
+        .then((res) => {
+          this.quote = res.data;
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            this.$router.go(-1);
+          }
+        });
     },
     updateComments() {
       window.Echo.channel("comments").listen("PostCommented", (data) => {

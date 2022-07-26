@@ -183,7 +183,15 @@ export default {
       axios
         .post("movie-description", { slug: this.$props.slug })
         .then((response) => {
-          this.movie = response.data.data;
+          console.log(response);
+          if (response.status === 200) {
+            this.movie = response.data.data;
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            this.$router.go(-1);
+          }
         });
     },
     showEdit(quote) {

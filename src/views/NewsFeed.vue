@@ -15,6 +15,7 @@
           :username="username"
           @onClick="addNewQuote = false"
           @on-quotepost="handleNewQuote"
+          @on-outside="handleClickOutside"
         >
         </new-quote>
       </transition>
@@ -136,6 +137,9 @@ export default {
     },
   },
   methods: {
+    handleClickOutside() {
+      this.addNewQuote = false;
+    },
     handleNewQuote() {
       this.addNewQuote = false;
       this.getInitialQuotes();
