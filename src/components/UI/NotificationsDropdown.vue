@@ -14,7 +14,7 @@
         v-for="notification in this.notifications"
         :key="notification.id"
         class="mx-4 bg-inherit border border-[#6C757D] border-opacity-50 rounded-sm md:h-[96px] h-[130px] my-2 flex cursor-pointer"
-        @click="goToPost(notification.quote_id, notification.id)"
+        @click="goToPost(notification)"
       >
         <div
           class="flex md:flex-row flex-col md:items-center px-4 justify-between w-full"
@@ -77,13 +77,15 @@ export default {
     handleClickOutside() {
       this.$emit("onOutside");
     },
-    goToPost(id, notification_id) {
-      axios.post("notification-read", { id: notification_id }).then((res) => {
-        console.log(res);
-      });
-      this.$router.push("/view-quote/" + id);
+    goToPost(notification) {
+      if (notification.state === "unread") {
+        axios.post("notification-read", { id: notification.id }).then((res) => {
+          console.log(res);
+        });
+      }
+      this.$router.push("/view-quote/" + notification.quote_id);
       const index = this.notifications.findIndex(
-        (notification) => notification.id === notification_id
+        (notif) => notif.id === notification.id
       );
       this.notifications[index].state = "read";
     },
