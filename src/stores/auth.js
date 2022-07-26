@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { useNotificationsStore } from "./notifications";
 export const useAuthStore = defineStore({
   id: "auth",
+
   state: () => ({
     token: null,
     username: null,
@@ -10,6 +12,7 @@ export const useAuthStore = defineStore({
     user_id: null,
     google_user: null,
   }),
+
   actions: {
     storeLoginUser(payload) {
       this.token = payload.token;
@@ -62,6 +65,7 @@ export const useAuthStore = defineStore({
             this.user_pfp = null;
             this.user_id = null;
             this.google_user = null;
+            this.clearNotifications();
             this.router.push({ name: "home" });
           }
         })
@@ -76,6 +80,10 @@ export const useAuthStore = defineStore({
     },
     updateEmail(payload) {
       this.user_email = payload.email;
+    },
+    clearNotifications() {
+      const notificationsStore = useNotificationsStore();
+      notificationsStore.notifications = [];
     },
   },
   getters: {

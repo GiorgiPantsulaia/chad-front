@@ -164,9 +164,6 @@ export default {
     },
   },
   methods: {
-    log() {
-      console.log(this.newComment);
-    },
     addComment(quote_id) {
       document.getElementById("comment").blur();
       axios

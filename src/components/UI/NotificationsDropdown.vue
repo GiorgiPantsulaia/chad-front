@@ -96,7 +96,7 @@ export default {
       this.markAllAsRead();
     },
     date(date) {
-      return timeDiff(date);
+      return timeDiff(date, this.$i18n.locale);
     },
   },
   computed: {

@@ -19,7 +19,7 @@ pinia.use(({ store }) => {
   store.router = markRaw(router);
 });
 const i18n = createI18n({
-  locale: localStorage.getItem("locale") || "ka",
+  locale: localStorage.getItem("locale") || "en",
   fallbackLocale: "en",
   messages,
 });
