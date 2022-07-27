@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#1a1825] h-full">
+  <div class="bg-[#1a1825] h-full" v-click-outside="handleClickOutside">
     <side-bar class="h-full pt-28">
       <li class="my-8 ml-2 flex" @click="logout">
         <icon-logout class="" />
@@ -42,6 +42,7 @@ import { setLocale } from "@vee-validate/i18n";
 import { useLocaleStore } from "@/stores/locale.js";
 export default {
   components: { SideBar, IconLogout, IconArrowDown, IconEarth },
+  emits: ["onOutside"],
   methods: {
     ...mapActions(useAuthStore, ["logout"]),
     ...mapActions(useLocaleStore, ["storeLocale"]),
@@ -50,6 +51,9 @@ export default {
       this.storeLocale({ locale: this.$i18n.locale });
       this.showLang = false;
       setLocale(this.$i18n.locale);
+    },
+    handleClickOutside() {
+      this.$emit("onOutside");
     },
   },
   data() {
