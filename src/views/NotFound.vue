@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col mb-36">
       <img
-        src="@/icons/404-ghost.png"
+        src="@/assets/images/404-ghost.png"
         alt="Error 404"
         width="150"
         class="self-center opacity-80"

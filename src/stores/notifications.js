@@ -10,9 +10,9 @@ export const useNotificationsStore = defineStore({
       this.notifications.unshift(payload.notification);
     },
     markAllAsRead() {
-      for (let i = 0; i < this.notifications.length; i++) {
-        this.notifications[i].state = "read";
-      }
+      this.notifications.forEach((notification) => {
+        notification.state = "read";
+      });
       this.allMarked = true;
     },
   },

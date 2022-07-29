@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col mb-36">
       <img
-        src="@/icons/forbidden-icon.png"
+        src="@/assets/images/forbidden-icon.png"
         alt="forbidden"
         width="300"
         class="self-center"

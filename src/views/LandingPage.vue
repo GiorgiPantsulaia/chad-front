@@ -27,7 +27,7 @@
     </div>
     <div
       id="movie"
-      class="absolute -bottom-full left-0 w-full transition-all duration-1000 h-screen"
+      class="absolute -bottom-full left-0 w-full transition-all duration-1000 h-screen font-['Monsterrat']"
       :class="{
         ' -translate-y-full ': showFirst,
         'blur-[2px] pointer-events-none transition-none': active,
@@ -35,7 +35,7 @@
       @wheel="showSecond = true"
     >
       <img
-        src="@/icons/interstellar.png"
+        src="@/assets/images/interstellar.png"
         alt=""
         class="w-full h-full pointer-events-none"
       />
@@ -56,7 +56,7 @@
       @wheel="showThird = true"
     >
       <img
-        src="@/icons/royal-tenenbaums.png"
+        src="@/assets/images/royal-tenenbaums.png"
         alt=""
         class="w-full h-full pointer-events-none"
       />
@@ -78,7 +78,7 @@
       @wheel="back"
     >
       <img
-        src="@/icons/third-movie.png"
+        src="@/assets/images/third-movie.png"
         alt=""
         class="w-full h-full pointer-events-none"
       />
@@ -137,9 +137,6 @@ export default {
 };
 </script>
 <style scoped>
-#movie {
-  font-family: "Monsterrat";
-}
 .auth-enter-active,
 .auth-leave-active {
   transition: opacity 0.2s ease;

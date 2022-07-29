@@ -17,7 +17,7 @@
         @click="type = !type"
         type="button"
       >
-        <img src="@/icons/show-password-icon.svg" alt="" width="25" />
+        <icon-show-password />
       </button>
     </div>
     <ErrorMessage :name="name" class="text-[#D0342C] text-sm" />
@@ -25,9 +25,10 @@
 </template>
 <script>
 import { Field, ErrorMessage } from "vee-validate";
+import IconShowPassword from "../icons/IconShowPassword.vue";
 export default {
   // eslint-disable-next-line vue/no-unused-components
-  components: { Field, ErrorMessage },
+  components: { Field, ErrorMessage, IconShowPassword },
   data() {
     return {
       type: true,
