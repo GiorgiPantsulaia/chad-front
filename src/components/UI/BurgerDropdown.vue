@@ -1,7 +1,7 @@
 <template>
   <div class="bg-[#1a1825] h-full">
     <side-bar class="h-full pt-28">
-      <li class="my-8 ml-2 flex" @click="logout">
+      <li class="my-8 ml-2 flex" @click="signOut">
         <icon-logout class="" />
         <button type="button" class="py-1 rounded-sm text-xl ml-8">
           {{ $t("logout") }}
@@ -45,6 +45,10 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ["logout"]),
     ...mapActions(useLocaleStore, ["storeLocale"]),
+    signOut() {
+      this.$emit("onLogout");
+      this.logout();
+    },
     changeLocale() {
       this.$i18n.locale = this.$i18n.locale === "en" ? "ka" : "en";
       this.storeLocale({ locale: this.$i18n.locale });

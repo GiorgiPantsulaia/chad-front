@@ -31,7 +31,7 @@ export const useAuthStore = defineStore({
         "expire_time",
         Date.now() + payload.expire_time * 1000
       );
-      this.router.push({ name: "home" });
+      this.router.replace({ name: "feed" });
     },
     tryLogin() {
       const token = localStorage.getItem("token");

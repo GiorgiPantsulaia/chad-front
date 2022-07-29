@@ -1,15 +1,14 @@
-import useAuthStore from "@/store/auth.js";
-import router from "@/router/index.js";
+import { useAuthStore } from "@/stores/auth.js";
 
-router.beforeEach((to, _2, next) => {
+export function isAuthenticated() {
   const store = useAuthStore();
-  if (to.name === "not-found") {
-    next();
-  } else if (to.meta.requiresAuth && !store.isAuthenticated) {
-    next("/forbidden");
-  } else if (!to.meta.requiresAuth && store.isAuthenticated) {
-    next("/news-feed");
-  } else {
-    next();
+  if (!store.isAuthenticated) {
+    return "/forbidden";
   }
-});
+}
+export function redirectIfAuthenticated() {
+  const store = useAuthStore();
+  if (store.isAuthenticated) {
+    return "/news-feed";
+  }
+}

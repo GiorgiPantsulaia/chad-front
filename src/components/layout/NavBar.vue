@@ -23,7 +23,7 @@
         <icon-burger />
       </button>
       <div v-if="burgerMenu" class="absolute -top-3 h-[600px]">
-        <burger-dropdown />
+        <burger-dropdown @on-logout="burgerMenu = false" />
       </div>
       <transition name="notifications" mode="out-in">
         <notifications-dropdown

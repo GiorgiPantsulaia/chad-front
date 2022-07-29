@@ -13,6 +13,7 @@ import MovieDescription from "@/views/MovieDescription.vue";
 import ForgotPassword from "@/components/modals/ForgotPassword.vue";
 import PasswordReset from "@/components/UI/PasswordReset.vue";
 import ViewQuote from "@/components/modals/ViewQuote.vue";
+import { isAuthenticated, redirectIfAuthenticated } from "./guards";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -25,7 +26,8 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: LandingPage,
-      meta: { requiresAuth: false },
+      beforeEnter: [redirectIfAuthenticated],
+
       children: [
         {
           path: "/register",
@@ -53,7 +55,7 @@ const router = createRouter({
       path: "/news-feed",
       name: "feed",
       component: NewsFeed,
-      meta: { requiresAuth: true },
+      beforeEnter: [isAuthenticated],
     },
     {
       path: "/forbidden",
@@ -64,39 +66,37 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: UserProfile,
-      meta: { requiresAuth: true },
+      beforeEnter: [isAuthenticated],
     },
     {
       path: "/redirecting",
       name: "redirecting",
       component: RedirectUser,
-      meta: { requiresAuth: false },
     },
     {
       path: "/verify",
       name: "email-verification",
       component: VerifyEmail,
-      meta: { requiresAuth: false },
     },
     {
       path: "/movies",
       name: "movies-list",
       component: MoviesList,
-      meta: { requiresAuth: true },
+      beforeEnter: [isAuthenticated],
     },
     {
       path: "/movies/:slug",
       props: true,
       name: "movie-view",
       component: MovieDescription,
-      meta: { requiresAuth: true },
+      beforeEnter: [isAuthenticated],
     },
     {
       path: "/view-quote/:id",
       props: true,
       name: "view-quote",
       component: ViewQuote,
-      meta: { requiresAuth: true },
+      beforeEnter: [isAuthenticated],
     },
   ],
 });
