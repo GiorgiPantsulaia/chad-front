@@ -129,7 +129,7 @@ export default {
         formData.append("georgian_quote", this.georgian_quote);
         formData.append("movie_id", this.$props.movie.id);
         axios
-          .post("post-quote", formData, {
+          .post("quotes", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

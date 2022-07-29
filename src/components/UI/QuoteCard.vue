@@ -1,7 +1,7 @@
 <template>
   <main class="flex bg-[#11101A] rounded-lg my-4 w-full">
     <div
-      class="flex flex-col sm:w-full w-screen"
+      class="flex flex-col w-full"
       :class="{ 'md:flex hidden': showOptions }"
     >
       <button
@@ -18,7 +18,7 @@
           class="w-44 h-28 rounded-md"
         />
         <p
-          class="text-white italic font-light ml-6 self-center sm:w-full break-words w-56"
+          class="text-white italic font-light ml-6 self-center sm:w-64 break-words w-4/12"
         >
           "{{ quote.body[$i18n.locale].slice(0, 60)
           }}{{ quote.body[$i18n.locale].length > 60 ? "..." : "" }}"
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     deleteQuote(id) {
-      axios.post("delete-quote", { _method: "delete", id: id }).then(() => {
+      axios.post(`quote/${id}`, { _method: "delete" }).then(() => {
         this.$emit("onDelete");
       });
     },

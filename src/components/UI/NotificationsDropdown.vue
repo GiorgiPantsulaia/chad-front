@@ -79,9 +79,11 @@ export default {
     },
     goToPost(notification) {
       if (notification.state === "unread") {
-        axios.post("notification-read", { id: notification.id }).then((res) => {
-          console.log(res);
-        });
+        axios
+          .post("notification-read", { _method: "patch", id: notification.id })
+          .then((res) => {
+            console.log(res);
+          });
       }
       this.$router.push("/view-quote/" + notification.quote_id);
       const index = this.notifications.findIndex(
@@ -91,7 +93,7 @@ export default {
     },
     markAsRead() {
       if (this.allMarked === false) {
-        axios.get("notifications-read").then((res) => {
+        axios.post("notifications-read").then((res) => {
           console.log(res);
         });
       }

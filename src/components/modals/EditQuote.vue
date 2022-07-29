@@ -135,10 +135,10 @@ export default {
         formData.append("img", this.image);
         formData.append("english_quote", this.english_quote);
         formData.append("georgian_quote", this.georgian_quote);
-        formData.append("id", this.$props.quote.id);
+        formData.append("movie_id", this.$props.quote.movie.id);
         formData.append("_method", "patch");
         axios
-          .post("update-quote", formData, {
+          .post(`update-quote/${this.$props.quote.id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -153,7 +153,7 @@ export default {
     },
     deleteQuote() {
       axios
-        .post("delete-quote", { _method: "delete", id: this.$props.quote.id })
+        .post(`/quote/${this.$props.quote.id}`, { _method: "delete" })
         .then(() => {
           this.$router.go(-1);
         });

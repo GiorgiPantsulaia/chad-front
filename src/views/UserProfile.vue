@@ -136,6 +136,7 @@ export default {
       "user_email",
       "user_pfp",
       "google_user",
+      "user_id",
     ]),
   },
   data() {
@@ -165,6 +166,7 @@ export default {
       ) {
         axios
           .post("update-email", {
+            _method: "patch",
             verification_code: this.$route.query.token,
             email: this.$route.query.email,
           })
@@ -185,6 +187,7 @@ export default {
     },
     updateProfile() {
       let formData = new FormData();
+      formData.append("_method", "patch");
       if (this.image) formData.append("img", this.image);
       if (this.name) formData.append("name", this.name);
       if (this.email) formData.append("email", this.email);
@@ -195,8 +198,9 @@ export default {
         formData.append("user_email", this.user_email);
         this.loading = true;
         axios
-          .post("update-user", formData)
+          .post(`user/${parseInt(this.user_id)}`, formData)
           .then((res) => {
+            console.log(res);
             if (res.status === 200) {
               this.updateUser({
                 username: res.data.user.name,

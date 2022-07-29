@@ -167,10 +167,10 @@ export default {
     addComment(quote_id) {
       document.getElementById("comment").blur();
       axios
-        .post("add-comment", {
+        .post("comments", {
           quote_id: quote_id,
           body: this.newComment,
-          author_id: this.$props.quote.author.id,
+          recipient_id: this.$props.quote.author.id,
         })
         .then((response) => {
           console.log(response);
@@ -183,12 +183,12 @@ export default {
     likeOrUnlikePost(quote) {
       if (!this.postLiked) {
         this.loading = true;
-        axios.post("like-post", { id: quote.id }).then(() => {
+        axios.post(`like/${quote.id}`).then(() => {
           this.loading = false;
         });
       } else {
         this.loading = true;
-        axios.post("unlike-post", { id: quote.id }).then(() => {
+        axios.post(`unlike/${quote.id}`).then(() => {
           this.loading = false;
         });
       }

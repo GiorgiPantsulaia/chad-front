@@ -23,7 +23,7 @@
         <icon-burger />
       </button>
       <div v-if="burgerMenu" class="absolute -top-3 h-[600px]">
-        <burger-dropdown @on-outside="hamburgerClickOutside" />
+        <burger-dropdown />
       </div>
       <transition name="notifications" mode="out-in">
         <notifications-dropdown
@@ -119,9 +119,6 @@ export default {
     },
     onClickOutside() {
       this.showNotifications = false;
-    },
-    hamburgerClickOutside() {
-      this.burgerMenu = false;
     },
     updateNotifications() {
       if (this.isAuthenticated) {

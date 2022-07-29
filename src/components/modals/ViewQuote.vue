@@ -8,7 +8,7 @@
       :class="{ 'opacity-30 pointer-events-none': showConfirmation }"
     >
       <side-bar class="hidden md:block"></side-bar>
-      <div class="sm:w-8/12 flex flex-col" v-if="!editQuote">
+      <div class="sm:w-8/12 w-full flex flex-col" v-if="!editQuote">
         <div
           class="flex justify-between sm:w-7/12 w-full mx-auto text-white font-bold text-lg items-center rounded-t bg-[#11101A] border-b border-[#EFEFEF] border-opacity-20"
         >
@@ -96,7 +96,6 @@ export default {
   },
   beforeMount() {
     this.getQuote();
-    console.log(this.$route);
   },
   data() {
     return {
@@ -104,7 +103,6 @@ export default {
       quote: null,
       showConfirmation: false,
       editQuote: false,
-      quoteId: this.$route.params.id,
     };
   },
   computed: {
@@ -116,16 +114,13 @@ export default {
       this.getQuote();
     },
     deleteQuote(id) {
-      axios
-        .post("delete-quote", { _method: "delete", id: id })
-        .then((response) => {
-          console.log(response);
-          this.$router.replace("/movies");
-        });
+      axios.post(`quote/${id}`, { _method: "delete" }).then(() => {
+        this.$router.replace("/movies");
+      });
     },
     getQuote() {
       axios
-        .post("get-quote", { id: this.$route.params.id })
+        .get(`quotes/${this.$props.id}`)
         .then((res) => {
           this.quote = res.data;
         })

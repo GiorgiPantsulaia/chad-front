@@ -111,20 +111,22 @@ export default {
       search_keyword: null,
       searched_movies: null,
       not_found: false,
+      searched: false,
     };
   },
   mounted() {
-    if (this.search_keyword !== null) {
-      const scrollDiv = document.getElementById("infinite-list");
-      scrollDiv.addEventListener("scroll", () => {
-        if (
-          scrollDiv.offsetHeight + scrollDiv.scrollTop >=
-          scrollDiv.scrollHeight
-        ) {
+    const scrollDiv = document.getElementById("infinite-list");
+    scrollDiv.addEventListener("scroll", () => {
+      if (
+        scrollDiv.offsetHeight + scrollDiv.scrollTop >=
+        scrollDiv.scrollHeight
+      ) {
+        if (this.searched === false) {
           this.addQuotes();
         }
-      });
-    }
+      }
+    });
+
     this.updateLikes();
     this.updateComments();
   },
@@ -135,6 +137,7 @@ export default {
     search_keyword() {
       if (this.search_keyword === "") {
         this.searched_movies = null;
+        this.searched = false;
         this.getInitialQuotes();
       }
     },
@@ -149,6 +152,7 @@ export default {
     },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {
+        console.log(data);
         for (let i = 0; i < this.quotes.length; i++) {
           if (this.quotes[i].id === data.quote.id) {
             this.quotes[i].likes = data.quote.likes;
@@ -171,28 +175,35 @@ export default {
           search: this.search_keyword,
         })
         .then((response) => {
+          console.log(response);
           if (response.data.quotes) {
             this.not_found = null;
             this.searched_movies = null;
             this.quotes = response.data.quotes;
+            this.searched = true;
+            if (response.data.quotes.length < 1) {
+              this.not_found = true;
+            }
           } else if (response.data.movies) {
             this.not_found = null;
             this.searched_movies = response.data.movies;
-          } else {
-            this.quotes = null;
-            this.searched_movies = null;
-            this.not_found = true;
+            this.searched = true;
+            if (response.data.movies.length < 1) {
+              this.not_found = true;
+            }
           }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.quotes = null;
+          this.searched_movies = null;
+          this.not_found = true;
         });
     },
     getInitialQuotes() {
       axios
-        .post("all-quotes")
+        .get("all-quotes")
         .then((response) => {
-          this.quotes = response.data.data.data;
+          this.quotes = response.data.data;
           this.page++;
         })
         .catch((err) => {
@@ -205,12 +216,12 @@ export default {
     addQuotes() {
       if (!this.lastPage) {
         axios
-          .post(`all-quotes?page=${this.page}`)
+          .get(`all-quotes?page=${this.page}`)
           .then((response) => {
-            this.quotes.push.apply(this.quotes, response.data.data.data);
+            this.quotes.push.apply(this.quotes, response.data.data);
             this.page++;
             // prevent from requesting after last page reached
-            response.data.data.current_page === response.data.data.last_page
+            response.data.current_page === response.data.last_page
               ? (this.lastPage = true)
               : false;
           })
@@ -238,12 +249,5 @@ export default {
 .newQuote-enter-from,
 .newQuote-leave-to {
   opacity: 0;
-}
-div {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-div::-webkit-scrollbar {
-  display: none;
 }
 </style>

@@ -131,7 +131,7 @@ export default {
       axios
         .get("user-movies")
         .then((response) => {
-          this.movies = response.data.data;
+          this.movies = response.data;
         })
         .catch((err) => {
           console.log(err);

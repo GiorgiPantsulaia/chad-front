@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col bg-[#222030] absolute top-48 left-0 right-0 mx-auto w-1/4 h-96 text-center text-white"
+    class="flex flex-col bg-[#222030] absolute top-48 left-0 right-0 mx-auto sm:w-1/4 h-96 text-center text-white"
   >
     <button
       class="text-white text-4xl self-end mr-2"

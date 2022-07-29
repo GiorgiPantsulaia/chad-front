@@ -115,7 +115,7 @@ export default {
     submitForm() {
       this.isLoading = true;
       axios
-        .post("http://localhost:8000/api/register-user", {
+        .post("http://localhost:8000/api/register", {
           name: this.name,
           email: this.email,
           password: this.password,

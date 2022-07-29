@@ -95,7 +95,11 @@
         />
       </div>
       <div v-else-if="editQuote">
-        <edit-quote :quote="quoteToEdit" @on-click="editQuote = false" />
+        <edit-quote
+          :quote="quoteToEdit"
+          @on-click="editQuote = false"
+          @on-edit="handleQuoteEdit"
+        />
       </div>
       <div v-else>
         <edit-movie :movie="movie" @on-click="editMovie = false" />
@@ -159,9 +163,10 @@ export default {
       this.addQuote = false;
       this.getMovie();
     },
-    // handleEdit() {
-    //   this.editQuote = false;
-    // },
+    handleQuoteEdit() {
+      this.editQuote = false;
+      this.getMovie();
+    },
     removeQuote(id) {
       this.movie.quotes = this.movie.quotes.filter((quote) => quote.id !== id);
     },
@@ -188,7 +193,7 @@ export default {
         .post("movie-description", { slug: this.$props.slug })
         .then((response) => {
           if (response.status === 200) {
-            this.movie = response.data.data;
+            this.movie = response.data;
           }
         })
         .catch((err) => {
@@ -205,11 +210,9 @@ export default {
       this.$router.push("/view-quote/" + quote.id);
     },
     deleteMovie() {
-      axios
-        .post("delete-movie", { _method: "delete", id: this.movie.id })
-        .then(() => {
-          this.$router.replace("/movies");
-        });
+      axios.post(`movie/${this.movie.id}`, { _method: "delete" }).then(() => {
+        this.$router.replace("/movies");
+      });
     },
   },
 

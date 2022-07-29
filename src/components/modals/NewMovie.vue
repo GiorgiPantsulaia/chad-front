@@ -121,6 +121,7 @@
         :modelValue="english_description"
         @update:modelValue="(newValue) => (english_description = newValue)"
         name="english_description"
+        rules="english"
         placeholder="Movie description"
         lang="Eng"
       />
@@ -128,6 +129,7 @@
         :modelValue="georgian_description"
         @update:modelValue="(newValue) => (georgian_description = newValue)"
         name="georgian_description"
+        rules="georgian"
         placeholder="ფილმის აღწერა"
         lang="ქარ"
       />
@@ -215,7 +217,7 @@ export default {
         formData.append("lang", this.$i18n.locale);
         formData.append("income", this.income);
         axios
-          .post("post-movie", formData, {
+          .post("movies", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

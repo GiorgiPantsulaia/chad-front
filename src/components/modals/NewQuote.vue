@@ -157,7 +157,7 @@ export default {
         formData.append("georgian_quote", this.georgian_quote);
         formData.append("movie_id", this.chosenMovie);
         axios
-          .post("post-quote", formData, {
+          .post("quotes", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -176,7 +176,7 @@ export default {
     },
     getMovies() {
       axios.get("user-movies").then((response) => {
-        this.movies = response.data.data;
+        this.movies = response.data;
       });
     },
   },

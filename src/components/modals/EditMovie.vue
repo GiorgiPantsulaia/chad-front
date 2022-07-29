@@ -122,6 +122,7 @@
         :modelValue="english_description"
         @update:modelValue="(newValue) => (english_description = newValue)"
         name="english_description"
+        rules="english"
         placeholder="Movie description"
         lang="Eng"
       />
@@ -129,6 +130,7 @@
         :modelValue="georgian_description"
         @update:modelValue="(newValue) => (georgian_description = newValue)"
         name="georgian_description"
+        rules="georgian"
         placeholder="ფილმის აღწერა"
         lang="ქარ"
       />
@@ -203,7 +205,6 @@ export default {
       if ((this.image && this.imageValid) || !this.image) {
         let formData = new FormData();
         formData.append("_method", "patch");
-        formData.append("id", this.movie.id);
         if (this.image) formData.append("img", this.image);
         formData.append("english_title", this.english_title);
         formData.append("georgian_title", this.georgian_title);
@@ -217,7 +218,7 @@ export default {
         formData.append("lang", this.$i18n.locale);
         formData.append("income", this.income);
         axios
-          .post("update-movie", formData, {
+          .post(`edit-movie/${this.movie.id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
