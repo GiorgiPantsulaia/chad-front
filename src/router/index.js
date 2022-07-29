@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "@/views/LandingPage.vue";
 import SignupForm from "@/components/forms/SignupForm.vue";
 import LoginForm from "@/components/forms/LoginForm.vue";
-import { useAuthStore } from "@/stores/auth.js";
 import NewsFeed from "@/views/NewsFeed.vue";
 import ViewForbidden from "@/views/ViewForbidden.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -101,16 +100,5 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach((to, _2, next) => {
-  const store = useAuthStore();
-  if (to.name === "not-found") {
-    next();
-  } else if (to.meta.requiresAuth && !store.isAuthenticated) {
-    next("/forbidden");
-  } else if (!to.meta.requiresAuth && store.isAuthenticated) {
-    next("/news-feed");
-  } else {
-    next();
-  }
-});
+
 export default router;
