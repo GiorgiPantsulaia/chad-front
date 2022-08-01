@@ -31,7 +31,7 @@ export default {
       if (this.isAuthenticated) {
         this.getNotifications();
         window.Echo = new Echo({
-          authEndpoint: "http://localhost:8000/api/broadcasting/auth",
+          authEndpoint: `${import.meta.env.VITE_API_BASE_URL}broadcasting/auth`,
           broadcaster: "pusher",
           key: "398d603e7fcaaee24a78",
           forceTLS: true,

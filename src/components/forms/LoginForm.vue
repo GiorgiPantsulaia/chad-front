@@ -116,7 +116,7 @@ export default {
     login() {
       this.isLoading = true;
       axios
-        .post("http://localhost:8000/api/login", {
+        .post(`${import.meta.env.VITE_API_BASE_URL}login`, {
           name: this.user,
           password: this.password,
           remember_me: this.remember_me,

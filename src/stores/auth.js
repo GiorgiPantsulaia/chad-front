@@ -55,7 +55,7 @@ export const useAuthStore = defineStore({
     },
     logout() {
       axios
-        .post("http://localhost:8000/api/logout")
+        .post(`${import.meta.env.VITE_API_BASE_URL}logout`)
         .then((response) => {
           if (response.status === 200) {
             localStorage.clear();
