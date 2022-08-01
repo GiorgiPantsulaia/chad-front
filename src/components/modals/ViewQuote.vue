@@ -10,7 +10,7 @@
       <side-bar class="hidden md:block"></side-bar>
       <div class="sm:w-8/12 w-full flex flex-col" v-if="!editQuote">
         <div
-          class="flex justify-between sm:w-7/12 w-full mx-auto text-white font-bold text-lg items-center rounded-t bg-[#11101A] border-b border-[#EFEFEF] border-opacity-20"
+          class="flex justify-between sm:w-7/12 py-2 w-full mx-auto text-white font-bold text-lg items-center rounded-t bg-[#11101A] border-b border-[#EFEFEF] border-opacity-20"
         >
           <div
             class="flex justify-evenly items-center h-16 ml-4"

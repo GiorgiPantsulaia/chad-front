@@ -22,7 +22,7 @@ defineRule("min_value", min_value);
 defineRule("max_value", max_value);
 
 defineRule("lowercase", (value) => {
-  if (!/^[a-z0-9]*$/.test(value)) {
+  if (!/^[a-z0-9 ]*$/.test(value)) {
     return false;
   }
   return true;

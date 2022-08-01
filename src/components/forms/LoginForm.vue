@@ -123,21 +123,20 @@ export default {
         })
         .then((response) => {
           this.isLoading = false;
-          if (response.data.error) {
-            this.errors = response.data.error;
-          } else {
-            this.storeLoginUser({
-              token: response.data.access_token,
-              username: response.data.username,
-              user_email: response.data.user_email,
-              expire_time: response.data.expires_in,
-              user_pfp: response.data.user_pfp,
-              user_id: response.data.user_id,
-              google_user: false,
-            });
-          }
+          this.storeLoginUser({
+            token: response.data.access_token,
+            username: response.data.username,
+            user_email: response.data.user_email,
+            expire_time: response.data.expires_in,
+            user_pfp: response.data.user_pfp,
+            user_id: response.data.user_id,
+            google_user: false,
+          });
         })
         .catch((error) => {
+          if (error.response.status === 403) {
+            this.errors = this.$t("account_not_activated");
+          }
           this.isLoading = false;
           if (error.response.data.error === "incorrect credentials")
             this.errors = this.$t("incorrect_credentials");

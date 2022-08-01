@@ -198,7 +198,11 @@ export default {
         formData.append("user_email", this.user_email);
         this.loading = true;
         axios
-          .post(`user/${parseInt(this.user_id)}`, formData)
+          .post(`user/${parseInt(this.user_id)}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
           .then((res) => {
             console.log(res);
             if (res.status === 200) {

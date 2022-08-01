@@ -123,7 +123,7 @@ export default {
         })
         .then((response) => {
           this.isLoading = false;
-          if (response.status === 200) {
+          if (response.status === 201) {
             this.registered = true;
           }
         })

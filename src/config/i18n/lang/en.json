@@ -80,5 +80,6 @@
   "email_changed": "Your email updated successfully.",
   "commented": "Commented to your movie quote",
   "liked": "Reacted to your quote",
-  "edit_movie": "Edit Movie"
+  "edit_movie": "Edit Movie",
+  "account_not_activated": "Check your email to activate account"
 }

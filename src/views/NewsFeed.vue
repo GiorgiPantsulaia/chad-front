@@ -203,6 +203,7 @@ export default {
       axios
         .get("all-quotes")
         .then((response) => {
+          console.log(response);
           this.quotes = response.data.data;
           this.page++;
         })
@@ -220,7 +221,6 @@ export default {
           .then((response) => {
             this.quotes.push.apply(this.quotes, response.data.data);
             this.page++;
-            // prevent from requesting after last page reached
             response.data.current_page === response.data.last_page
               ? (this.lastPage = true)
               : false;
