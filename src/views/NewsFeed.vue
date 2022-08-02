@@ -138,6 +138,7 @@ export default {
       if (this.search_keyword === "") {
         this.searched_movies = null;
         this.searched = false;
+        this.not_found = false;
         this.getInitialQuotes();
       }
     },

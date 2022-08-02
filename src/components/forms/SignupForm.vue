@@ -115,7 +115,7 @@ export default {
     submitForm() {
       this.isLoading = true;
       axios
-        .post(`${import.meta.env.VITE_API_BASE_URL}register`, {
+        .post("register", {
           name: this.name,
           email: this.email,
           password: this.password,
