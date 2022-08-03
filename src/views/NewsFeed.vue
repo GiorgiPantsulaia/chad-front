@@ -222,7 +222,7 @@ export default {
           .then((response) => {
             this.quotes.push.apply(this.quotes, response.data.data);
             this.page++;
-            response.data.current_page === response.data.last_page
+            response.data.meta.current_page === response.data.meta.last_page
               ? (this.lastPage = true)
               : false;
           })

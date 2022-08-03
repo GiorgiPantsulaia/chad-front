@@ -144,12 +144,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp", "user_email"]),
+    ...mapState(useAuthStore, ["user_pfp", "user_id"]),
     postLiked() {
       let liked = false;
       if (this.$props.quote.likes) {
         for (let i = 0; i < this.$props.quote.likes.length; i++) {
-          if (this.$props.quote.likes[i].email === this.user_email) {
+          if (this.$props.quote.likes[i].id === parseInt(this.user_id)) {
             liked = true;
           }
         }
@@ -162,6 +162,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  beforeMount() {
+    console.log(this.$props.quote);
   },
   methods: {
     addComment(quote_id) {
