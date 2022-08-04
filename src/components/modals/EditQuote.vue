@@ -15,7 +15,7 @@
         </h1>
         <button
           type="button"
-          @click="this.$emit('onClick')"
+          @click="this.$emit('onClose')"
           class="text-3xl text-white"
         >
           ✕
@@ -23,13 +23,13 @@
       </div>
       <div class="flex lg:w-full text-white items-center mx-10 mt-2">
         <img
-          :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
-          alt=""
+          :src="avatar ? back_url + avatar : '/default-pfp.png'"
+          alt="profile-picture"
           class="w-14 h-14 rounded-full mr-4"
         />
         <p>{{ username }}</p>
       </div>
-      <Form class="flex flex-col" @submit="postQuote">
+      <Form class="flex flex-col" @submit="postQuote" id="form">
         <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
         <Field
           as="textarea"
@@ -95,7 +95,7 @@ import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 export default {
-  emits: ["onClick", "onEdit"],
+  emits: ["onClose", "onEdit"],
   props: {
     quote: {
       type: Object,
@@ -113,7 +113,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp", "username"]),
+    ...mapState(useAuthStore, ["avatar", "username"]),
     imageValid() {
       if (this.image) {
         return this.image.type.slice(0, 5) === "image";
@@ -131,11 +131,9 @@ export default {
     },
     postQuote() {
       if (this.imageValid) {
-        let formData = new FormData();
+        const form = document.getElementById("form");
+        let formData = new FormData(form);
         formData.append("img", this.image);
-        formData.append("english_quote", this.english_quote);
-        formData.append("georgian_quote", this.georgian_quote);
-        formData.append("movie_id", this.$props.quote.movie.id);
         formData.append("_method", "patch");
         axios
           .post(`update-quote/${this.$props.quote.id}`, formData, {
@@ -163,7 +161,7 @@ export default {
     IconDelete,
     ConfirmDelete,
     IconUploadPhoto,
-    // eslint-disable-next-line vue/no-reserved-component-names
+
     Form,
     Field,
     ErrorMessage,

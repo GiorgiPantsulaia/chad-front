@@ -13,7 +13,7 @@
         <new-movie
           v-if="addNewMovie"
           :username="username"
-          @onClick="addNewMovie = false"
+          @on-close="addNewMovie = false"
           @on-Moviepost="handleMoviePost"
           @on-outside="handleClickOutside"
         >
@@ -125,7 +125,7 @@ export default {
       this.getMovies();
     },
     goToMovie(slug) {
-      this.$router.push("/movies/" + slug);
+      this.$router.push({ name: "movie-view", params: { slug: slug } });
     },
     getMovies() {
       axios

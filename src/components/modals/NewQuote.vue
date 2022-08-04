@@ -9,7 +9,7 @@
       </h1>
       <button
         type="button"
-        @click="this.$emit('onClick')"
+        @click="this.$emit('onClose')"
         class="text-3xl text-white"
       >
         ✕
@@ -17,13 +17,13 @@
     </div>
     <div class="flex w-full text-white items-center mx-10 mt-4">
       <img
-        :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
-        alt=""
+        :src="avatar ? back_url + avatar : '/default-pfp.png'"
+        alt="profile-picture"
         class="w-14 h-14 rounded-full mr-4"
       />
       <p>{{ username }}</p>
     </div>
-    <Form class="flex flex-col mt-4" @submit="postQuote">
+    <Form class="flex flex-col mt-4" @submit="postQuote" id="form">
       <label for="english_quote" class="text-white mx-10 mt-4">Eng</label>
       <Field
         as="textarea"
@@ -87,7 +87,7 @@
         <p>{{ $t("no_movies") }}</p>
         <button
           class="bg-[#E31221] h-10 font-black text-lg mt-10 w-48 mx-auto rounded-md"
-          @click="this.$router.push('/movies')"
+          @click="this.$router.push({ name: 'movies-list' })"
         >
           {{ $t("add_movie") }}
         </button>
@@ -112,7 +112,6 @@ import { Field, Form, ErrorMessage } from "vee-validate";
 import IconCamera from "@/components/icons/IconCamera.vue";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
   components: { Field, Form, ErrorMessage, IconCamera, IconUploadPhoto },
   props: {
     username: {
@@ -120,7 +119,7 @@ export default {
       required: true,
     },
   },
-  emits: ["onQuotepost", "onOutside"],
+  emits: ["onQuotepost", "onOutside", "onClose"],
   data() {
     return {
       english_quote: "",
@@ -133,7 +132,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp"]),
+    ...mapState(useAuthStore, ["avatar"]),
     imageValid() {
       return this.image.type.slice(0, 5) === "image";
     },
@@ -151,10 +150,9 @@ export default {
     },
     postQuote() {
       if (this.image && this.imageValid) {
-        let formData = new FormData();
+        const form = document.getElementById("form");
+        let formData = new FormData(form);
         formData.append("img", this.image);
-        formData.append("english_quote", this.english_quote);
-        formData.append("georgian_quote", this.georgian_quote);
         formData.append("movie_id", this.chosenMovie);
         axios
           .post("quotes", formData, {

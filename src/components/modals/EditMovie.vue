@@ -10,7 +10,7 @@
       </h1>
       <button
         type="button"
-        @click="this.$emit('onClick')"
+        @click="this.$emit('onClose')"
         class="text-3xl text-white"
       >
         ✕
@@ -20,13 +20,13 @@
       class="flex w-full text-white items-center sm:mx-10 px-10 sm:px-0 mt-4"
     >
       <img
-        :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
-        alt=""
+        :src="avatar ? back_url + avatar : '/default-pfp.png'"
+        alt="profile-picture"
         class="w-14 h-14 rounded-full mr-4"
       />
       <p>{{ username }}</p>
     </div>
-    <Form class="flex flex-col mt-4" @submit="postMovie">
+    <Form class="flex flex-col mt-4" @submit="postMovie" id="form">
       <movie-input
         :modelValue="english_title"
         @update:modelValue="(newValue) => (english_title = newValue)"
@@ -157,14 +157,14 @@
 </template>
 <script>
 import axios from "@/config/axios/index.js";
-import MovieInput from "@/components/inputs/MovieInput.vue";
-import MovieTextarea from "@/components/inputs/MovieTextarea.vue";
+import MovieInput from "@/components/UI/inputs/MovieInput.vue";
+import MovieTextarea from "@/components/UI/inputs/MovieTextarea.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 export default {
-  emits: ["onEdit"],
+  emits: ["onEdit", "onClose"],
   props: {
     movie: {
       type: Object,
@@ -191,7 +191,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp", "username"]),
+    ...mapState(useAuthStore, ["avatar", "username"]),
     imageValid() {
       return this.image.type.slice(0, 5) === "image";
     },
@@ -203,20 +203,13 @@ export default {
     postMovie() {
       console.log(this.chosen_genres);
       if ((this.image && this.imageValid) || !this.image) {
-        let formData = new FormData();
+        const form = document.getElementById("form");
+        let formData = new FormData(form);
         formData.append("_method", "patch");
+        formData.append("lang", this.$i18n.locale);
         if (this.image) formData.append("img", this.image);
-        formData.append("english_title", this.english_title);
-        formData.append("georgian_title", this.georgian_title);
         if (this.chosen_genres)
           formData.append("chosen_genres", this.chosen_genres);
-        formData.append("director_eng", this.director_eng);
-        formData.append("director_geo", this.director_geo);
-        formData.append("english_description", this.english_description);
-        formData.append("georgian_description", this.georgian_description);
-        formData.append("release_date", this.release_date);
-        formData.append("lang", this.$i18n.locale);
-        formData.append("income", this.income);
         axios
           .post(`edit-movie/${this.movie.id}`, formData, {
             headers: {
@@ -224,7 +217,7 @@ export default {
             },
           })
           .then(() => {
-            this.$router.replace("/movies");
+            this.$router.replace({ name: "movies-list" });
           })
           .catch((error) => {
             if (error.response.status === 500) {
@@ -246,8 +239,6 @@ export default {
         this.chosen_genres.push(this.genre[this.$i18n.locale]);
         this.genres = this.genres.filter((genre) => genre != this.genre);
         this.genre = null;
-      } else {
-        return;
       }
     },
     handleImageUpload(e) {
@@ -268,7 +259,7 @@ export default {
     MovieInput,
     MovieTextarea,
     Field,
-    // eslint-disable-next-line vue/no-reserved-component-names
+
     Form,
     IconUploadPhoto,
     ErrorMessage,

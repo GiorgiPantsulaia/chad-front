@@ -68,7 +68,6 @@ import IconEdit from "@/components/icons/IconEdit.vue";
 import EditQuote from "@/components/modals/EditQuote.vue";
 export default {
   components: {
-    // eslint-disable-next-line vue/no-reserved-component-names
     ConfirmDelete,
     PostCard,
     SideBar,
@@ -77,7 +76,7 @@ export default {
     IconEdit,
     EditQuote,
   },
-  emits: ["onClick", "handleClickEdit"],
+  emits: ["handleClickEdit"],
   props: {
     id: {
       type: Number,
@@ -106,7 +105,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_email", "user_pfp", "user_id"]),
+    ...mapState(useAuthStore, ["user_email", "avatar", "user_id"]),
   },
   methods: {
     handleEdit() {
@@ -115,7 +114,7 @@ export default {
     },
     deleteQuote(id) {
       axios.post(`quote/${id}`, { _method: "delete" }).then(() => {
-        this.$router.replace("/movies");
+        this.$router.replace({ name: "movies-list" });
       });
     },
     getQuote() {

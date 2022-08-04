@@ -60,11 +60,10 @@
 import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
-import PasswordInput from "@/components/inputs/PasswordInput.vue";
+import PasswordInput from "@/components/UI/inputs/PasswordInput.vue";
 import PasswordChanged from "@/components/modals/PasswordChanged.vue";
 
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
   components: { Form, LoadingBar, PasswordInput, PasswordChanged },
   data() {
     return {
@@ -94,7 +93,7 @@ export default {
         !this.$route.query.token ||
         (this.$route.query.token && this.$route.query.token.length !== 40)
       ) {
-        this.$router.replace("/");
+        this.$router.replace({ name: "home" });
       }
     },
   },

@@ -79,7 +79,7 @@
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
         {{ $t("have_account") }}
-        <router-link to="/login" class="text-blue-500 underline">{{
+        <router-link :to="{ name: 'login' }" class="text-blue-500 underline">{{
           $t("login")
         }}</router-link>
       </p>
@@ -92,12 +92,12 @@
   </div>
 </template>
 <script>
-import TextInput from "@/components/inputs/TextInput.vue";
+import TextInput from "@/components/UI/inputs/TextInput.vue";
 import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import UserRegistered from "@/components/modals/UserRegistered.vue";
-import PasswordInput from "@/components/inputs/PasswordInput.vue";
+import PasswordInput from "@/components/UI/inputs/PasswordInput.vue";
 import IconGoogle from "@/components/icons/IconGoogle.vue";
 export default {
   data() {
@@ -121,16 +121,15 @@ export default {
           password: this.password,
           password_confirmation: this.confirm_password,
         })
-        .then((response) => {
+        .then(() => {
           this.isLoading = false;
-          if (response.status === 201) {
-            this.registered = true;
-          }
+          this.registered = true;
         })
         .catch((error) => {
-          console.log(error);
-          this.isLoading = false;
           this.errors = error.response.data.errors;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
     googleAuth() {
@@ -143,7 +142,7 @@ export default {
   },
   components: {
     TextInput,
-    // eslint-disable-next-line vue/no-reserved-component-names
+
     Form,
     LoadingBar,
     UserRegistered,

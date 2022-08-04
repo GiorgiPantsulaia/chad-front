@@ -63,14 +63,14 @@
         </transition>
       </div>
       <router-link
-        to="/register"
+        :to="{ name: 'register' }"
         class="mx-4 bg-[#E31221] rounded-sm py-2 px-5 hidden sm:block w-36 text-center text-md"
         v-if="!isAuthenticated"
         >{{ $t("signup") }}</router-link
       >
       <router-link
         v-if="!isAuthenticated"
-        to="/login"
+        :to="{ name: 'login' }"
         class="py-2 px-5 sm:mx-4 mx-8 border border-white rounded-md whitespace-nowrap w-36 text-center text-md"
       >
         {{ $t("login") }}</router-link

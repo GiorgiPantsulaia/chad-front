@@ -8,23 +8,23 @@ export const useAuthStore = defineStore({
     token: null,
     username: null,
     user_email: null,
-    user_pfp: null,
+    avatar: null,
     user_id: null,
     google_user: null,
   }),
 
   actions: {
-    storeLoginUser(payload) {
+    storeLoggedUser(payload) {
       this.token = payload.token;
       this.username = payload.username;
       this.user_email = payload.user_email;
-      this.user_pfp = payload.user_pfp !== null ? payload.user_pfp : null;
+      this.avatar = payload.avatar !== null ? payload.avatar : null;
       this.user_id = payload.user_id;
       this.google_user = payload.google_user;
       localStorage.setItem("token", payload.token);
       localStorage.setItem("username", payload.username);
       localStorage.setItem("user_email", payload.user_email);
-      localStorage.setItem("user_pfp", this.user_pfp);
+      localStorage.setItem("avatar", this.avatar);
       localStorage.setItem("user_id", this.user_id);
       localStorage.setItem("google_user", this.google_user);
       localStorage.setItem(
@@ -37,7 +37,7 @@ export const useAuthStore = defineStore({
       const token = localStorage.getItem("token");
       const username = localStorage.getItem("username");
       const user_email = localStorage.getItem("user_email");
-      const user_pfp = localStorage.getItem("user_pfp");
+      const avatar = localStorage.getItem("avatar");
       const user_id = localStorage.getItem("user_id");
       const google_user = localStorage.getItem("google_user");
       let expire_time = localStorage.getItem("expire_time");
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore({
         this.user_email = user_email;
         this.user_id = user_id;
         this.google_user = google_user;
-        this.user_pfp = user_pfp === "null" ? null : user_pfp;
+        this.avatar = avatar === "null" ? null : avatar;
       } else {
         return;
       }
@@ -62,7 +62,7 @@ export const useAuthStore = defineStore({
             this.token = null;
             this.username = null;
             this.user_email = null;
-            this.user_pfp = null;
+            this.avatar = null;
             this.user_id = null;
             this.google_user = null;
             this.clearNotifications();
@@ -76,7 +76,7 @@ export const useAuthStore = defineStore({
     updateUser(payload) {
       this.username = payload.username;
       this.user_email = payload.user_email;
-      this.user_pfp = payload.user_pfp;
+      this.avatar = payload.avatar;
     },
     updateEmail(payload) {
       this.user_email = payload.email;

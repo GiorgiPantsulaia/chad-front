@@ -41,7 +41,7 @@
         {{ $t("send") }}
       </button>
       <router-link
-        to="/login"
+        :to="{ name: 'login' }"
         class="text-[#6C757D] flex mt-6 items-center self-center text-lg"
       >
         <icon-return class="mr-2" />
@@ -56,7 +56,7 @@
   <confirmation-sent message="close" v-else />
 </template>
 <script>
-import TextInput from "@/components/inputs/TextInput.vue";
+import TextInput from "@/components/UI/inputs/TextInput.vue";
 import axios from "@/config/axios/index.js";
 import { Form } from "vee-validate";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
@@ -64,7 +64,6 @@ import IconReturn from "@/components/icons/IconReturn.vue";
 import ConfirmationSent from "@/components/modals/ConfirmationSent.vue";
 
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
   components: { TextInput, Form, LoadingBar, IconReturn, ConfirmationSent },
   data() {
     return {

@@ -14,7 +14,7 @@
       {{ $t("confirmation_sent") }}
     </p>
     <button
-      @click="this.$router.replace('/login')"
+      @click="this.$router.replace({ name: 'login' })"
       target="_blank"
       class="py-1 px-4 bg-[#E31221] w-7/12 self-center rounded-sm text-xl"
     >

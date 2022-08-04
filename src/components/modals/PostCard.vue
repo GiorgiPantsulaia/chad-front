@@ -20,7 +20,12 @@
       <button
         type="button"
         class="text-[#DDCCAA] underline"
-        @click="this.$router.push('/movies/' + quote.movie.slug)"
+        @click="
+          this.$router.push({
+            name: 'movie-view',
+            params: { slug: quote.movie.slug },
+          })
+        "
       >
         {{ quote.movie.title[$i18n.locale] }} ({{ quote.movie.release_date }})
       </button>
@@ -102,8 +107,8 @@
     </transition>
     <div class="flex w-11/12 mx-auto items-center mt-4">
       <img
-        :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
-        alt=""
+        :src="avatar ? back_url + avatar : '/default-pfp.png'"
+        alt="profile-picture"
         class="w-12 h-12 rounded-full"
       />
       <Form @submit="addComment(quote.id)" class="w-full ml-6"
@@ -130,7 +135,7 @@ import IconComment from "@/components/icons/IconComment.vue";
 export default {
   components: {
     Field,
-    // eslint-disable-next-line vue/no-reserved-component-names
+
     Form,
     IconHeart,
     IconComment,
@@ -144,7 +149,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp", "user_id"]),
+    ...mapState(useAuthStore, ["avatar", "user_id"]),
     postLiked() {
       let liked = false;
       if (this.$props.quote.likes) {

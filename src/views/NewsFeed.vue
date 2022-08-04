@@ -13,7 +13,7 @@
         <new-quote
           v-if="addNewQuote"
           :username="username"
-          @onClick="addNewQuote = false"
+          @on-close="addNewQuote = false"
           @on-quotepost="handleNewQuote"
           @on-outside="handleClickOutside"
         >
@@ -90,7 +90,6 @@ import MovieCard from "@/components/UI/MovieCard.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import IconWrite from "@/components/icons/IconWrite.vue";
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
   components: {
     NavBar,
     SideBar,

@@ -89,7 +89,7 @@
       </section>
       <div v-else-if="addQuote && !editQuote">
         <add-quote-to-movie
-          @on-click="addQuote = false"
+          @on-close="addQuote = false"
           :movie="movie"
           @on-post="handleQuotePost"
         />
@@ -97,12 +97,12 @@
       <div v-else-if="editQuote">
         <edit-quote
           :quote="quoteToEdit"
-          @on-click="editQuote = false"
+          @on-close="editQuote = false"
           @on-edit="handleQuoteEdit"
         />
       </div>
       <div v-else>
-        <edit-movie :movie="movie" @on-click="editMovie = false" />
+        <edit-movie :movie="movie" @on-close="editMovie = false" />
       </div>
     </div>
     <confirm-delete
@@ -207,11 +207,14 @@ export default {
       this.editQuote = true;
     },
     showView(quote) {
-      this.$router.push("/view-quote/" + quote.id);
+      this.$router.push({
+        name: "view-quote",
+        params: { id: quote.id },
+      });
     },
     deleteMovie() {
       axios.post(`movie/${this.movie.id}`, { _method: "delete" }).then(() => {
-        this.$router.replace("/movies");
+        this.$router.replace({ name: "movies-list" });
       });
     },
   },

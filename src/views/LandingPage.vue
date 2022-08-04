@@ -36,7 +36,7 @@
     >
       <img
         src="@/assets/images/interstellar.png"
-        alt=""
+        alt="interstellar thumbnail"
         class="w-full h-full pointer-events-none"
       />
       <div class="text-white font-black relative bottom-[60%] pl-32">
@@ -57,7 +57,7 @@
     >
       <img
         src="@/assets/images/royal-tenenbaums.png"
-        alt=""
+        alt="royal-tenenbaums-thumbnail"
         class="w-full h-full pointer-events-none"
       />
       <div class="text-white font-black relative bottom-[60%] pl-32">
@@ -79,7 +79,7 @@
     >
       <img
         src="@/assets/images/third-movie.png"
-        alt=""
+        alt="movie-thumbnail"
         class="w-full h-full pointer-events-none"
       />
       <div class="text-white font-black relative bottom-[60%] pl-32">
@@ -118,7 +118,7 @@ export default {
   methods: {
     handleClose() {
       this.email_verified = false;
-      this.$router.replace("/");
+      this.$router.replace({ name: "home" });
     },
     getStarted() {
       this.$router.push({ name: "register" });

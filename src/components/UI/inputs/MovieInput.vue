@@ -52,4 +52,3 @@ export default {
   opacity: 1;
 }
 </style>
-<!-- @input="$emit('update:modelValue', $event.target.value)" -->

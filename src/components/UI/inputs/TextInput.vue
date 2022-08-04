@@ -17,7 +17,6 @@
 <script>
 import { Field, ErrorMessage } from "vee-validate";
 export default {
-  // eslint-disable-next-line vue/no-unused-components
   components: { Field, ErrorMessage },
 
   props: {

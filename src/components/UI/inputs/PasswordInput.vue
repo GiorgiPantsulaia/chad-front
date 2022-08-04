@@ -25,9 +25,8 @@
 </template>
 <script>
 import { Field, ErrorMessage } from "vee-validate";
-import IconShowPassword from "../icons/IconShowPassword.vue";
+import IconShowPassword from "@/components/icons/IconShowPassword.vue";
 export default {
-  // eslint-disable-next-line vue/no-unused-components
   components: { Field, ErrorMessage, IconShowPassword },
   data() {
     return {

@@ -4,7 +4,7 @@
   >
     <button
       class="text-white text-4xl self-end mr-2"
-      @click="this.$router.replace('/')"
+      @click="this.$router.replace({ name: 'home' })"
     >
       ✕
     </button>
@@ -14,7 +14,7 @@
     <button
       type="button"
       class="py-1 px-4 bg-[#E31221] w-7/12 self-center rounded-sm"
-      @click="this.$router.replace('/login')"
+      @click="this.$router.replace({ name: 'login' })"
     >
       {{ $t("login") }}
     </button>

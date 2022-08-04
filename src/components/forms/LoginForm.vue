@@ -28,12 +28,12 @@
       <text-input
         v-model="user"
         name="user"
-        rules="required|min:3"
+        rules="required"
         type="text"
         :placeholder="$t('username_email')"
         @focusout="errors = ''"
       />
-      <p v-if="errors !== ''" class="text-red-500 text-sm">{{ errors }}</p>
+      <p v-if="errors !== ''" class="text-[#D0342C] text-sm">{{ errors }}</p>
       <text-input
         v-model="password"
         name="password"
@@ -54,7 +54,7 @@
           <label for="remember_me">{{ $t("remember_me") }}</label>
         </div>
         <router-link
-          to="/forgot-password"
+          :to="{ name: 'forgot-password' }"
           class="text-[#0D6EFD] cursor-pointer"
           >{{ $t("forgot_password") }}</router-link
         >
@@ -72,7 +72,10 @@
       </button>
       <p class="text-center mt-6 text-[#6C757D]">
         {{ $t("no_account") }}
-        <router-link to="/register" class="text-[#0D6EFD] underline mx-1">
+        <router-link
+          :to="{ name: 'register' }"
+          class="text-[#0D6EFD] underline mx-1"
+        >
           {{ $t("signup") }}</router-link
         >
       </p>
@@ -84,17 +87,16 @@
   </div>
 </template>
 <script>
-import TextInput from "@/components/inputs/TextInput.vue";
+import TextInput from "@/components/UI/inputs/TextInput.vue";
 import axios from "@/config/axios/index.js";
 import { mapActions } from "pinia";
-import { Form } from "vee-validate";
+import { Form, ErrorMessage } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import IconGoogle from "@/components/icons/IconGoogle.vue";
 
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
-  components: { TextInput, Form, LoadingBar, IconGoogle },
+  components: { TextInput, Form, LoadingBar, IconGoogle, ErrorMessage },
   data() {
     return {
       user: "",
@@ -105,7 +107,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useAuthStore, ["storeLoginUser"]),
+    ...mapActions(useAuthStore, ["storeLoggedUser"]),
     googleAuth() {
       axios.post("auth-redirect").then((response) => {
         if (response.data.url) {
@@ -123,12 +125,12 @@ export default {
         })
         .then((response) => {
           this.isLoading = false;
-          this.storeLoginUser({
+          this.storeLoggedUser({
             token: response.data.access_token,
             username: response.data.username,
             user_email: response.data.user_email,
             expire_time: response.data.expires_in,
-            user_pfp: response.data.user_pfp,
+            avatar: response.data.avatar,
             user_id: response.data.user_id,
             google_user: false,
           });

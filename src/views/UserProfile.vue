@@ -17,7 +17,7 @@
           class="w-full h-full flex flex-col items-center mt-24 rounded-lg bg-[#11101A]"
         >
           <img
-            :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
+            :src="avatar ? back_url + avatar : '/default-pfp.png'"
             alt="profile picture"
             class="w-32 h-32 rounded-full -mt-16"
           />
@@ -129,12 +129,11 @@ import LoadingBar from "@/components/UI/LoadingBar.vue";
 import EmailUpdateSent from "@/components/modals/EmailUpdateSent.vue";
 import EmailChanged from "@/components/modals/EmailChanged.vue";
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
   computed: {
     ...mapState(useAuthStore, [
       "username",
       "user_email",
-      "user_pfp",
+      "avatar",
       "google_user",
       "user_id",
     ]),
@@ -209,11 +208,11 @@ export default {
               this.updateUser({
                 username: res.data.user.name,
                 user_email: res.data.user.email,
-                user_pfp: res.data.user.profile_pic,
+                avatar: res.data.user.profile_pic,
               });
               localStorage.setItem("username", res.data.user.name);
               localStorage.setItem("user_email", res.data.user.email);
-              localStorage.setItem("user_pfp", res.data.user.profile_pic);
+              localStorage.setItem("avatar", res.data.user.profile_pic);
               this.image = null;
               this.name = null;
               this.email = null;
@@ -235,11 +234,11 @@ export default {
       }
     },
   },
-  // eslint-disable-next-line vue/no-reserved-component-names
+
   components: {
     NavBar,
     SideBar,
-    // eslint-disable-next-line vue/no-reserved-component-names
+
     Form,
     Field,
     ErrorMessage,

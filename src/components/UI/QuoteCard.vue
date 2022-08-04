@@ -14,7 +14,7 @@
       <div class="flex mx-4 mb-4 border-b border-gray-600 pb-5">
         <img
           :src="back_url + quote.thumbnail"
-          alt=""
+          alt="quote-poster"
           class="w-44 h-28 rounded-md"
         />
         <p

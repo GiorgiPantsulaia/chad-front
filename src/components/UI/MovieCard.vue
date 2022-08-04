@@ -9,7 +9,9 @@
     />
     <h1
       class="pt-4 text-xl font-medium tracking-wide"
-      @click="this.$router.push('/movies/' + slug)"
+      @click="
+        this.$router.push({ name: 'movies-list', params: { slug: slug } })
+      "
     >
       {{ title[$i18n.locale] }}({{ releaseDate }})
     </h1>

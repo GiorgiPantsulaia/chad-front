@@ -19,10 +19,10 @@ export default {
           })
           .catch((err) => {
             console.log(err);
-            this.$router.replace("/");
+            this.$router.replace({ name: "home" });
           });
       } else {
-        this.$router.replace("/");
+        this.$router.replace({ name: "home" });
       }
     },
   },

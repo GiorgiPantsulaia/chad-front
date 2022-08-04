@@ -8,7 +8,7 @@
       </h1>
       <button
         type="button"
-        @click="this.$emit('onClick')"
+        @click="this.$emit('onClose')"
         class="text-3xl text-white"
       >
         ✕
@@ -16,8 +16,8 @@
     </div>
     <div class="flex sm:w-full text-white items-center mx-10 mt-4">
       <img
-        :src="user_pfp ? back_url + user_pfp : '/default-pfp.png'"
-        alt=""
+        :src="avatar ? back_url + avatar : '/default-pfp.png'"
+        alt="profile-picture"
         class="w-14 h-14 rounded-full mr-4"
       />
       <p>{{ username }}</p>
@@ -61,7 +61,7 @@
       >
         <img
           :src="back_url + movie.thumbnail"
-          alt=""
+          alt="movie-poster"
           class="h-24 w-36 rounded-md"
         />
         <div class="flex flex-col ml-4">
@@ -91,7 +91,7 @@ import IconCamera from "@/components/icons/IconCamera.vue";
 import IconUploadPhoto from "@/components/icons/IconUploadPhoto.vue";
 
 export default {
-  emits: ["onClick", "onPost"],
+  emits: ["onClose", "onPost"],
   props: {
     movie: {
       type: Object,
@@ -108,7 +108,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["user_pfp", "username"]),
+    ...mapState(useAuthStore, ["avatar", "username"]),
     imageValid() {
       return this.image.type.slice(0, 5) === "image";
     },
@@ -147,7 +147,7 @@ export default {
       }
     },
   },
-  // eslint-disable-next-line vue/no-reserved-component-names
+
   components: { IconCamera, IconUploadPhoto, Form, Field, ErrorMessage },
 };
 </script>

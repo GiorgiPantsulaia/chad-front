@@ -80,12 +80,15 @@ export default {
     goToPost(notification) {
       if (notification.state === "unread") {
         axios
-          .post("notification-read", { _method: "patch", id: notification.id })
+          .post(`notification-read/${notification.id}`, { _method: "patch" })
           .then((res) => {
             console.log(res);
           });
       }
-      this.$router.push("/view-quote/" + notification.quote_id);
+      this.$router.push({
+        name: "view-quote",
+        params: { id: notification.quote_id },
+      });
       const index = this.notifications.findIndex(
         (notif) => notif.id === notification.id
       );
