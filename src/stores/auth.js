@@ -56,18 +56,16 @@ export const useAuthStore = defineStore({
     logout() {
       axios
         .post(`${import.meta.env.VITE_API_BASE_URL}logout`)
-        .then((response) => {
-          if (response.status === 200) {
-            localStorage.clear();
-            this.token = null;
-            this.username = null;
-            this.user_email = null;
-            this.avatar = null;
-            this.user_id = null;
-            this.google_user = null;
-            this.clearNotifications();
-            this.router.push({ name: "home" });
-          }
+        .then(() => {
+          localStorage.clear();
+          this.token = null;
+          this.username = null;
+          this.user_email = null;
+          this.avatar = null;
+          this.user_id = null;
+          this.google_user = null;
+          this.clearNotifications();
+          this.router.push({ name: "home" });
         })
         .catch((error) => {
           console.log(error);

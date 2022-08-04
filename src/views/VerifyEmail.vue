@@ -12,10 +12,8 @@ export default {
           .post("verify-email", {
             token: this.$route.query.token,
           })
-          .then((response) => {
-            if (response.status === 200) {
-              this.$router.push("/?verified=true");
-            }
+          .then(() => {
+            this.$router.push("/?verified=true");
           })
           .catch((err) => {
             console.log(err);
