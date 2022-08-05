@@ -42,7 +42,13 @@
       <li>
         <router-link :to="{ name: 'movies-list' }" class="flex">
           <icon-camera
-            :fill="this.$route.name === 'movies-list' ? '#E31221' : 'white'"
+            :fill="
+              this.$route.name === 'movies-list'
+                ? '#E31221'
+                : this.$route.name === 'movie-view'
+                ? '#E31221'
+                : 'white'
+            "
           ></icon-camera>
           <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
         </router-link>
