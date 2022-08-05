@@ -4,6 +4,8 @@
 <script>
 import { useAuthStore } from "@/stores/auth.js";
 import { mapActions } from "pinia";
+import { setJwtToken } from "../helpers/jwt";
+
 export default {
   methods: {
     ...mapActions(useAuthStore, ["storeLoggedUser"]),
@@ -19,6 +21,7 @@ export default {
         user_id: this.$route.query.user_id,
         google_user: true,
       });
+      setJwtToken(this.$route.query.token);
     } else {
       this.$router.replace({ name: "home" });
     }

@@ -94,6 +94,7 @@ import { Form, ErrorMessage } from "vee-validate";
 import { useAuthStore } from "@/stores/auth.js";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import IconGoogle from "@/components/icons/IconGoogle.vue";
+import { setJwtToken } from "../../helpers/jwt";
 
 export default {
   components: { TextInput, Form, LoadingBar, IconGoogle, ErrorMessage },
@@ -134,6 +135,7 @@ export default {
             user_id: response.data.user_id,
             google_user: false,
           });
+          setJwtToken(response.data.access_token);
         })
         .catch((error) => {
           if (error.response.status === 403) {
