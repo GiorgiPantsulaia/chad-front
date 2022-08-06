@@ -217,10 +217,8 @@ export default {
           .then(() => {
             this.$emit("onMoviepost");
           })
-          .catch((error) => {
-            if (error.response.status === 500) {
-              this.movieExists = true;
-            }
+          .catch(() => {
+            this.movieExists = true;
           });
       } else if (this.chosen_genres.length == 0) {
         this.error = this.$t("choose_genres");

@@ -219,10 +219,8 @@ export default {
           .then(() => {
             this.$router.replace({ name: "movies-list" });
           })
-          .catch((error) => {
-            if (error.response.status === 500) {
-              this.movieExists = true;
-            }
+          .catch(() => {
+            this.movieExists = true;
           });
       }
     },

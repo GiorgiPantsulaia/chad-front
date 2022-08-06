@@ -225,9 +225,8 @@ export default {
             }
           })
           .catch((err) => {
-            if (err.response.status === 409) {
-              this.error = err.response.data;
-            }
+            this.error = err.response.data;
+
             this.loading = false;
             console.log(err);
           });
