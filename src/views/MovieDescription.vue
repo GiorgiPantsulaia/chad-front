@@ -1,6 +1,7 @@
 <template>
   <main
     class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen lg:overflow-hidden overflow-auto"
+    v-if="movie"
   >
     <nav-bar></nav-bar>
     <div
@@ -27,7 +28,7 @@
                 {{ movie.title[$i18n.locale] }} ({{ movie.release_date }})
               </p>
               <div
-                v-if="user_email === movie.author.email"
+                v-if="authStore.user_email === movie.author.email"
                 class="w-36 bg-[#24222F] py-2 items-center rounded-lg flex justify-center sm:mr-24 mr-4 text-gray-600 font-light"
               >
                 <button class="pr-4 mx-2" @click="editMovie = true">
@@ -67,7 +68,7 @@
           <p class="text-xl">{{ $t("quotes") }} {{ movie.quotes.length }})</p>
           <p class="text-gray-600 mx-2 text-2xl cursor-default">|</p>
           <button
-            v-if="user_email === movie.author.email"
+            v-if="authStore.user_email === movie.author.email"
             type="button"
             class="text-white bg-[#E31221] h-9 flex items-center justify-center rounded-md w-36 py-6 px-2"
             @click="addQuote = !addQuote"
@@ -120,105 +121,14 @@ import QuoteCard from "@/components/UI/QuoteCard.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.vue";
 import AddQuoteToMovie from "@/components/modals/AddQuoteToMovie.vue";
 import IconDelete from "@/components/icons/IconDelete.vue";
-import { mapState } from "pinia";
-import { useAuthStore } from "@/stores/auth.js";
 import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import EditQuote from "@/components/modals/EditQuote.vue";
 import EditMovie from "@/components/modals/EditMovie.vue";
+import { onMounted, onBeforeMount, ref } from "vue";
+import { useAuthStore } from "@/stores/auth.js";
+import { useRouter } from "vue-router";
 export default {
-  beforeMount() {
-    this.getMovie();
-  },
-  props: {
-    slug: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      back_url: import.meta.env.VITE_BACKEND_BASE_URL,
-      movie: null,
-      showConfirmation: false,
-      addQuote: false,
-      editQuote: false,
-      editMovie: false,
-      quoteToEdit: null,
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, ["user_email"]),
-  },
-  mounted() {
-    this.updateLikes();
-    this.updateComments();
-  },
-  methods: {
-    handleMovieEdit() {
-      this.editMovie = false;
-      this.getMovie();
-    },
-    handleQuotePost() {
-      this.addQuote = false;
-      this.getMovie();
-    },
-    handleQuoteEdit() {
-      this.editQuote = false;
-      this.getMovie();
-    },
-    removeQuote(id) {
-      this.movie.quotes = this.movie.quotes.filter((quote) => quote.id !== id);
-    },
-    updateLikes() {
-      window.Echo.channel("likes").listen("PostLiked", (data) => {
-        for (let i = 0; i < this.movie.quotes.length; i++) {
-          if (this.movie.quotes[i].id === data.quote.id) {
-            this.movie.quotes[i].likes = data.quote.likes;
-          }
-        }
-      });
-    },
-    updateComments() {
-      window.Echo.channel("comments").listen("PostCommented", (data) => {
-        for (let i = 0; i < this.movie.quotes.length; i++) {
-          if (this.movie.quotes[i].id === data.comment.quote_id) {
-            this.movie.quotes[i].comments.push(data.comment);
-          }
-        }
-      });
-    },
-    getMovie() {
-      axios
-        .post("movie-description", { slug: this.$props.slug })
-        .then((response) => {
-          if (response.status === 200) {
-            this.movie = response.data;
-          }
-        })
-        .catch((err) => {
-          if (err.response.status === 404) {
-            this.$router.go(-1);
-          }
-        });
-    },
-    showEdit(quote) {
-      this.quoteToEdit = quote;
-      this.editQuote = true;
-    },
-    showView(quote) {
-      this.$router.push({
-        name: "view-quote",
-        params: { id: quote.id },
-      });
-    },
-    deleteMovie() {
-      axios.post(`movie/${this.movie.id}`, { _method: "delete" }).then(() => {
-        this.$router.replace({ name: "movies-list" });
-      });
-    },
-  },
-
   components: {
     NavBar,
     SideBar,
@@ -230,6 +140,107 @@ export default {
     IconEdit,
     EditQuote,
     EditMovie,
+  },
+  props: {
+    slug: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    onBeforeMount(() => {
+      getMovie();
+    });
+    onMounted(() => {
+      updateLikes();
+      updateComments();
+    });
+    const back_url = ref(import.meta.env.VITE_BACKEND_BASE_URL);
+    const authStore = useAuthStore();
+    const router = useRouter();
+    let editMovie = ref(false);
+    let movie = ref(null);
+    let showConfirmation = ref(false);
+    let addQuote = ref(false);
+    let editQuote = ref(false);
+    let quoteToEdit = ref(null);
+    function updateLikes() {
+      window.Echo.channel("likes").listen("PostLiked", (data) => {
+        for (let i = 0; i < movie.value.quotes.length; i++) {
+          if (movie.value.quotes[i].id === data.quote.id) {
+            movie.value.quotes[i].likes = data.quote.likes;
+          }
+        }
+      });
+    }
+    function updateComments() {
+      window.Echo.channel("comments").listen("PostCommented", (data) => {
+        for (let i = 0; i < movie.value.quotes.length; i++) {
+          if (movie.value.quotes[i].id === data.comment.quote_id) {
+            movie.value.quotes[i].comments.push(data.comment);
+          }
+        }
+      });
+    }
+    function handleMovieEdit() {
+      editMovie.value = false;
+      getMovie();
+    }
+    function handleQuotePost() {
+      addQuote.value = false;
+      getMovie();
+    }
+    function handleQuoteEdit() {
+      editQuote.value = false;
+      getMovie();
+    }
+    function removeQuote(id) {
+      movie.value.quotes = movie.value.quotes.filter(
+        (quote) => quote.id !== id
+      );
+    }
+    async function getMovie() {
+      try {
+        const response = await axios.post("movie-description", {
+          slug: props.slug,
+        });
+        movie.value = response.data;
+      } catch (err) {
+        router.go(-1);
+      }
+    }
+    function showEdit(quote) {
+      quoteToEdit.value = quote;
+      editQuote.value = true;
+    }
+    function showView(quote) {
+      router.push({
+        name: "view-quote",
+        params: { id: quote.id },
+      });
+    }
+    function deleteMovie() {
+      axios.post(`movie/${movie.value.id}`, { _method: "delete" }).then(() => {
+        router.replace({ name: "movies-list" });
+      });
+    }
+    return {
+      handleQuoteEdit,
+      handleMovieEdit,
+      handleQuotePost,
+      removeQuote,
+      showEdit,
+      showView,
+      deleteMovie,
+      authStore,
+      back_url,
+      editMovie,
+      movie,
+      showConfirmation,
+      addQuote,
+      editQuote,
+      quoteToEdit,
+    };
   },
 };
 </script>

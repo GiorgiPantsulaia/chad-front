@@ -18,7 +18,7 @@
         type="button"
         class="ml-6 z-50 md:hidden block"
         v-if="isAuthenticated"
-        @click="burgerMenu = !burgerMenu"
+        @touchend="burgerMenu = !burgerMenu"
       >
         <icon-burger />
       </button>
@@ -30,7 +30,7 @@
           v-if="showNotifications"
           id="notification"
           class="absolute top-16 right-16"
-          @on-outside="showNotifications = !showNotifications"
+          @on-outside="showNotifications = false"
       /></transition>
       <button
         class="items-center md:flex absolute md:static right-6 top-5"
