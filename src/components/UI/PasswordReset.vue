@@ -83,9 +83,9 @@ export default {
           code: this.$route.query.token,
           password: this.password,
         })
-        .then((response) => {
+        .then(() => {
           this.isLoading = false;
-          if (response.status === 200) this.password_changed = true;
+          this.password_changed = true;
         });
     },
     checkToken() {
