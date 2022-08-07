@@ -38,6 +38,7 @@
                 <button
                   class="pl-4 mx-2"
                   type="button"
+                  name="delete"
                   @click="showConfirmation = !showConfirmation"
                 >
                   <icon-delete class="fill-white hover:fill-[#E31221]" />

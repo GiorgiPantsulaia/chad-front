@@ -4,7 +4,9 @@
     v-click-outside="handleClickOutside"
   >
     <div class="flex items-center w-full p-6 border-b border-gray-600">
-      <h1 class="text-white w-44 mx-auto font-semibold text-xl">
+      <h1
+        class="text-white w-44 mx-auto font-semibold text-xl whitespace-nowrap"
+      >
         {{ $t("add_movie") }}
       </h1>
       <button
@@ -136,7 +138,12 @@
       <label
         class="flex mx-10 pl-4 h-20 bg-black text-white items-center cursor-pointer rounded-md mt-6"
       >
-        <input type="file" class="hidden" @change="handleImageUpload" />
+        <input
+          type="file"
+          name="img_upload"
+          class="hidden"
+          @change="handleImageUpload"
+        />
         <icon-upload-photo class="mr-4" />
         {{ image ? image.name : $t("upload_photo") }}
       </label>
@@ -220,7 +227,7 @@ export default {
           .catch(() => {
             this.movieExists = true;
           });
-      } else if (this.chosen_genres.length == 0) {
+      } else if (this.chosen_genres.length === 0) {
         this.error = this.$t("choose_genres");
       } else if (!this.english_description || !this.georgian_description) {
         this.error = this.$t("add_description");

@@ -42,7 +42,7 @@ export const useAuthStore = defineStore({
       const google_user = localStorage.getItem("google_user");
       let expire_time = localStorage.getItem("expire_time");
       expire_time = expire_time > Date.now() ? expire_time : null;
-      if (token && expire_time && username && user_email) {
+      if (token && expire_time) {
         this.token = token;
         this.username = username;
         this.user_email = user_email;
@@ -50,7 +50,7 @@ export const useAuthStore = defineStore({
         this.google_user = google_user;
         this.avatar = avatar === "null" ? null : avatar;
       } else {
-        return;
+        localStorage.clear();
       }
     },
     logout() {
