@@ -78,8 +78,7 @@ export default {
     resetPassword() {
       this.isLoading = true;
       axios
-        .post("reset-password", {
-          _method: "patch",
+        .patch("reset-password", {
           code: this.$route.query.token,
           password: this.password,
         })

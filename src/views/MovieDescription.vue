@@ -221,7 +221,7 @@ export default {
       });
     }
     function deleteMovie() {
-      axios.post(`movie/${movie.value.id}`, { _method: "delete" }).then(() => {
+      axios.delete(`movie/${movie.value.id}`).then(() => {
         router.replace({ name: "movies-list" });
       });
     }

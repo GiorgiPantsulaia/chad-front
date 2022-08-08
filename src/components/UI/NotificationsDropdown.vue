@@ -79,11 +79,9 @@ export default {
     },
     goToPost(notification) {
       if (notification.state === "unread") {
-        axios
-          .post(`notification-read/${notification.id}`, { _method: "patch" })
-          .then((res) => {
-            console.log(res);
-          });
+        axios.patch(`notification-read/${notification.id}`).then((res) => {
+          console.log(res);
+        });
       }
       this.$router.push({
         name: "view-quote",

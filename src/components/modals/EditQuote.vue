@@ -150,11 +150,9 @@ export default {
       }
     },
     deleteQuote() {
-      axios
-        .post(`/quote/${this.$props.quote.id}`, { _method: "delete" })
-        .then(() => {
-          this.$router.go(-1);
-        });
+      axios.delete(`/quote/${this.$props.quote.id}`).then(() => {
+        this.$router.go(-1);
+      });
     },
   },
   components: {

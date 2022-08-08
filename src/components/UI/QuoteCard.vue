@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     deleteQuote(id) {
-      axios.post(`quote/${id}`, { _method: "delete" }).then(() => {
+      axios.delete(`quote/${id}`).then(() => {
         this.$emit("onDelete");
       });
     },

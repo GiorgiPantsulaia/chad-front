@@ -164,8 +164,7 @@ export default {
         this.$route.query.email
       ) {
         axios
-          .post("update-email", {
-            _method: "patch",
+          .patch("update-email", {
             verification_code: this.$route.query.token,
             email: this.$route.query.email,
           })

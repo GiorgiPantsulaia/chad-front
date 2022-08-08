@@ -113,7 +113,7 @@ export default {
       this.getQuote();
     },
     deleteQuote(id) {
-      axios.post(`quote/${id}`, { _method: "delete" }).then(() => {
+      axios.delete(`quote/${id}`).then(() => {
         this.$router.replace({ name: "movies-list" });
       });
     },
