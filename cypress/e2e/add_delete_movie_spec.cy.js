@@ -1,7 +1,7 @@
 before(() => {
   cy.login();
 });
-describe("user can add movie", () => {
+describe("user can add and delete a movie", () => {
   it("visits the movies list url and adds movie", () => {
     cy.viewport(1920, 1080);
 
