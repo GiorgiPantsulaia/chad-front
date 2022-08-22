@@ -13,6 +13,7 @@ import MovieDescription from "@/views/MovieDescription.vue";
 import ForgotPassword from "@/components/modals/ForgotPassword.vue";
 import PasswordReset from "@/components/UI/PasswordReset.vue";
 import ViewQuote from "@/components/modals/ViewQuote.vue";
+import GenreMovies from "@/views/GenreMovies.vue";
 import { isAuthenticated, redirectIfAuthenticated } from "./guards";
 const router = createRouter({
   history: createWebHistory(),
@@ -96,6 +97,13 @@ const router = createRouter({
       props: true,
       name: "view-quote",
       component: ViewQuote,
+      beforeEnter: [isAuthenticated],
+    },
+    {
+      path: "/genres/:genre",
+      props: true,
+      name: "genres",
+      component: GenreMovies,
       beforeEnter: [isAuthenticated],
     },
   ],

@@ -6,7 +6,7 @@
     <div class="flex pt-24 h-auto overflow-auto w-full">
       <side-bar
         id="sidebar"
-        class="hidden lg:block"
+        class="hidden lg:block w-96"
         :class="{ 'opacity-30 pointer-events-none': addNewMovie }"
       ></side-bar>
       <transition name="newMovie" mode="out-in">
@@ -23,32 +23,10 @@
         class="lg:w-9/12 w-full h-full flex flex-col md:mx-16 mx-4"
         :class="{ 'opacity-30 pointer-events-none': addNewMovie }"
       >
-        <div class="flex mb-4 justify-between mt-4 sm:mt-0">
-          <p type="button" class="text-white text-xl w-40 sm:w-auto">
-            {{ $t("movies_list") }} {{ movies.length }})
-          </p>
-          <div class="flex sm:flex-row">
-            <div
-              class="sm:w-32 w-8/12 items-center flex text-white mt-12 sm:mt-0 sm:static absolute left-4 top-32"
-            >
-              <icon-search />
-              <input
-                v-model="search"
-                type="text"
-                class="bg-inherit h-12 ml-4 w-full outline-none"
-                :placeholder="$t('search')"
-              />
-            </div>
-            <button
-              type="button"
-              class="text-white bg-[#E31221] h-12 flex items-center justify-center rounded-lg w-36 px-2 font-black self-end"
-              @click="addNewMovie = !addNewMovie"
-            >
-              <icon-add-plus class="mr-2" />
-              {{ $t("add_movie") }}
-            </button>
-          </div>
-        </div>
+        <h1 class="text-lg font-medium text-white">
+          {{ genre.charAt(0).toUpperCase() + genre.slice(1) }}
+          {{ $t("movies") }} :
+        </h1>
         <div
           class="mt-6 sm:flex sm:flex-row sm:flex-wrap flex-col justify-between sm:basis-1/3 w-full"
           v-if="search === null"
@@ -99,6 +77,12 @@ import IconSearch from "@/components/icons/IconSearch.vue";
 import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 export default {
   components: { NavBar, SideBar, MovieCard, NewMovie, IconSearch, IconAddPlus },
+  props: {
+    genre: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       movies: [],
@@ -129,9 +113,12 @@ export default {
     },
     getMovies() {
       axios
-        .get("user-movies")
+        .post("genre-movies", {
+          genre: this.genre.charAt(0).toUpperCase() + this.genre.slice(1),
+        })
         .then((response) => {
           this.movies = response.data;
+          console.log(this.movies[0]);
         })
         .catch((err) => {
           console.log(err);

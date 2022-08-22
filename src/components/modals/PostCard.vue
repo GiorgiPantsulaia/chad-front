@@ -69,7 +69,7 @@
           class="rounded-full w-12 h-12"
         />
         <div
-          class="flex flex-col mx-4 mt-2 w-10/12 md:w-11/12 break-words border-b border-gray-700"
+          class="flex flex-col mx-4 mt-2 w-10/12 md:w-11/12 break-words border-b border-gray-700 relative"
         >
           <h2 class="font-black">
             {{ quote.comments.length > 0 ? quote.comments[0].author.name : "" }}
@@ -77,6 +77,20 @@
           <p class="py-4 w-full">
             {{ quote.comments.length > 0 ? quote.comments[0].body : "" }}
           </p>
+          <button
+            class="text-3xl text-gray-400 font-black absolute right-0"
+            @click="showCommentOptions(quote.comments[0].id)"
+          >
+            ...
+          </button>
+          <comment-options
+            v-click-outside="hideCommentOptions"
+            @on-comment-delete="deleteComment(quote.comments[0].id)"
+            :comment="quote.comments[0]"
+            :quote="quote"
+            class="-right-9"
+            v-if="showOptionsForComment === quote.comments[0].id"
+          />
         </div>
       </div>
     </div>
@@ -85,7 +99,7 @@
         <div
           v-for="comment in quote.comments"
           :key="comment.id"
-          class="mt-1 flex pb-4"
+          class="mt-1 flex pb-4 relative"
         >
           <img
             :src="
@@ -102,6 +116,20 @@
             <h2 class="font-black">{{ comment.author.name }}</h2>
             <p class="py-4 w-full">{{ comment.body }}</p>
           </div>
+          <button
+            class="text-3xl text-gray-400 font-black absolute right-6 z-50"
+            @click="showCommentOptions(comment.id)"
+          >
+            ...
+          </button>
+          <comment-options
+            v-click-outside="hideCommentOptions"
+            @on-comment-delete="deleteComment(comment.id)"
+            :comment="comment"
+            :quote="quote"
+            class="-right-3"
+            v-if="showOptionsForComment === comment.id"
+          />
         </div>
       </div>
     </transition>
@@ -131,14 +159,15 @@ import axios from "@/config/axios/index.js";
 import { Form, Field } from "vee-validate";
 import IconHeart from "@/components/icons/IconHeart.vue";
 import IconComment from "@/components/icons/IconComment.vue";
+import CommentOptions from "@/components/UI/CommentOptions.vue";
 
 export default {
   components: {
     Field,
-
     Form,
     IconHeart,
     IconComment,
+    CommentOptions,
   },
   data() {
     return {
@@ -146,7 +175,11 @@ export default {
       newComment: "",
       showComments: false,
       loading: false,
+      showOptionsForComment: null,
     };
+  },
+  beforeMount() {
+    console.log(Date.now());
   },
   computed: {
     ...mapState(useAuthStore, ["avatar", "user_id"]),
@@ -168,10 +201,23 @@ export default {
       required: true,
     },
   },
-  beforeMount() {
-    console.log(this.$props.quote);
-  },
   methods: {
+    hideCommentOptions() {
+      this.showOptionsForComment = null;
+    },
+    showCommentOptions(id) {
+      this.showOptionsForComment =
+        this.showOptionsForComment === id ? null : id;
+    },
+    deleteComment(id) {
+      axios
+        .delete(`comment/${id}`)
+        .then(
+          (this.$props.quote.comments = this.$props.quote.comments.filter(
+            (comment) => comment.id !== id
+          ))
+        );
+    },
     addComment(quote_id) {
       document.getElementById("comment").blur();
       axios

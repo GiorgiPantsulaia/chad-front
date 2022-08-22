@@ -50,6 +50,12 @@
                 v-for="genre in movie.genres"
                 :key="genre.title"
                 class="px-2 m-0.5 py-1 bg-[#6C757D] font-black text-white rounded-md cursor-pointer"
+                @click="
+                  this.$router.push({
+                    name: 'genres',
+                    params: { genre: genre.title['en'].toLowerCase() },
+                  })
+                "
               >
                 {{ genre.title[$i18n.locale] }}
               </p>
