@@ -152,7 +152,6 @@ export default {
     },
     updateLikes() {
       window.Echo.channel("likes").listen("PostLiked", (data) => {
-        console.log(data);
         for (let i = 0; i < this.quotes.length; i++) {
           if (this.quotes[i].id === data.quote.id) {
             this.quotes[i].likes = data.quote.likes;
@@ -175,7 +174,6 @@ export default {
           search: this.search_keyword,
         })
         .then((response) => {
-          console.log(response);
           if (response.data.quotes) {
             this.not_found = null;
             this.searched_movies = null;
@@ -203,7 +201,6 @@ export default {
       axios
         .get("all-quotes")
         .then((response) => {
-          console.log(response);
           this.quotes = response.data.data;
           this.page++;
         })

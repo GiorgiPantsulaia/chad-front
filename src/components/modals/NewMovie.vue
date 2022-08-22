@@ -214,6 +214,7 @@ export default {
         const form = document.getElementById("form");
         let formData = new FormData(form);
         formData.append("img", this.image);
+        formData.append("chosen_genres", this.chosen_genres);
         formData.append("lang", this.$i18n.locale);
         axios
           .post("movies", formData, {
