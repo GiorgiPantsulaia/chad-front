@@ -178,9 +178,6 @@ export default {
       showOptionsForComment: null,
     };
   },
-  beforeMount() {
-    console.log(Date.now());
-  },
   computed: {
     ...mapState(useAuthStore, ["avatar", "user_id"]),
     postLiked() {
@@ -212,11 +209,11 @@ export default {
     deleteComment(id) {
       axios
         .delete(`comment/${id}`)
-        .then(
-          (this.$props.quote.comments = this.$props.quote.comments.filter(
-            (comment) => comment.id !== id
-          ))
-        );
+        .then
+        //   (this.$props.quote.comments = this.$props.quote.comments.filter(
+        //     (comment) => comment.id !== id
+        //   ))
+        ();
     },
     addComment(quote_id) {
       document.getElementById("comment").blur();

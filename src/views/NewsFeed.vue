@@ -128,6 +128,7 @@ export default {
 
     this.updateLikes();
     this.updateComments();
+    this.updateDeletedComments();
   },
   computed: {
     ...mapState(useAuthStore, ["username"]),
@@ -157,6 +158,17 @@ export default {
             this.quotes[i].likes = data.quote.likes;
           }
         }
+      });
+    },
+    updateDeletedComments() {
+      window.Echo.channel("comments").listen("CommentDeleted", (data) => {
+        console.log(data.comment);
+        let quote = this.quotes.find(
+          (quote) => quote.id === data.comment.quote_id
+        );
+        quote.comments = quote.comments.filter(
+          (comment) => comment.id !== data.comment.id
+        );
       });
     },
     updateComments() {
