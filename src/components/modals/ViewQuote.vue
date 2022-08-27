@@ -1,6 +1,6 @@
 <template>
   <main
-    class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen lg:overflow-hidden overflow-auto"
+    class="h-screen bg-[#1a1825] absolute top-0 left-0 w-screen overflow-auto"
   >
     <nav-bar />
     <div
@@ -10,6 +10,7 @@
       <side-bar class="hidden md:block"></side-bar>
       <div class="sm:w-8/12 w-full flex flex-col" v-if="!editQuote">
         <div
+          v-if="quote"
           class="flex justify-between sm:w-7/12 py-2 w-full mx-auto text-white font-bold text-lg items-center rounded-t bg-[#11101A] border-b border-[#EFEFEF] border-opacity-20"
         >
           <div
@@ -86,6 +87,7 @@ export default {
   mounted() {
     this.updateLikes();
     this.updateComments();
+    this.updateDeletedComments();
     this.$watch(
       () => this.$route.params,
       (toParams) => {
@@ -134,6 +136,13 @@ export default {
         if (this.quote.id === data.comment.quote_id) {
           this.quote.comments.push(data.comment);
         }
+      });
+    },
+    updateDeletedComments() {
+      window.Echo.channel("comments").listen("CommentDeleted", (data) => {
+        this.quote.comments = this.quote.comments.filter(
+          (comment) => comment.id !== data.comment.id
+        );
       });
     },
     updateLikes() {

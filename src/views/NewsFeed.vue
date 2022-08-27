@@ -52,7 +52,12 @@
           </form>
         </div>
         <div v-if="!searched_movies">
-          <post-card v-for="quote in quotes" :key="quote.id" :quote="quote" />
+          <post-card
+            v-for="quote in quotes"
+            :key="quote.id"
+            :quote="quote"
+            :commentDeleting="deleting"
+          />
         </div>
         <div
           v-else
@@ -111,6 +116,7 @@ export default {
       searched_movies: null,
       not_found: false,
       searched: false,
+      deleting: false,
     };
   },
   mounted() {
@@ -162,7 +168,6 @@ export default {
     },
     updateDeletedComments() {
       window.Echo.channel("comments").listen("CommentDeleted", (data) => {
-        console.log(data.comment);
         let quote = this.quotes.find(
           (quote) => quote.id === data.comment.quote_id
         );

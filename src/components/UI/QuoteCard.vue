@@ -1,16 +1,9 @@
 <template>
-  <main class="flex bg-[#11101A] rounded-lg my-4 w-full">
+  <main class="flex bg-[#11101A] rounded-lg my-4 w-full relative">
     <div
       class="flex flex-col w-full"
       :class="{ 'md:flex hidden': showOptions }"
     >
-      <button
-        class="items-center relative text-white font-black text-3xl self-end mr-6 tracking-wide"
-        type="button"
-        @click="showOptions = !showOptions"
-      >
-        ...
-      </button>
       <div class="flex mx-4 mb-4 border-b border-gray-600 pb-5">
         <img
           :src="back_url + quote.thumbnail"
@@ -72,6 +65,14 @@
         </li>
       </ul>
     </transition>
+    <button
+      class="text-white font-black text-3xl tracking-wide absolute right-4 transition-all"
+      :class="{ 'font-medium right-5': showOptions }"
+      type="button"
+      @click="showOptions = !showOptions"
+    >
+      {{ showOptions ? "⨉" : "..." }}
+    </button>
   </main>
 </template>
 

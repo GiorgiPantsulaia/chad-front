@@ -2,6 +2,7 @@
   <div
     class="lg:w-7/12 mx-auto w-full flex flex-col h-fit text-white bg-[#11101A] rounded-lg mb-10 pb-6"
     :class="{ 'rounded-none': this.$route.name === 'view-quote' }"
+    v-if="quote"
   >
     <div class="flex items-center w-11/12 mx-auto mt-6">
       <img
@@ -41,7 +42,12 @@
           {{ quote.comments.length }}
         </p>
         <button class="mx-2">
-          <icon-comment @click="showComments = !showComments" />
+          <icon-comment
+            @click="
+              showComments =
+                quote.comments.length > 1 ? !showComments : showComments
+            "
+          />
         </button>
       </div>
       <div class="flex mx-4 items-center">
@@ -58,7 +64,10 @@
       </div>
     </div>
     <div class="w-11/12 mx-auto" v-if="!showComments && quote.comments.length">
-      <div class="mt-4 flex pb-4">
+      <div
+        class="mt-4 flex pb-4 relative"
+        :class="{ 'opacity-30': quote.comments[0].id === deletedCommentId }"
+      >
         <img
           :src="
             quote.comments[0].author.profile_pic
@@ -95,11 +104,12 @@
       </div>
     </div>
     <transition name="comments" mode="out-in">
-      <div class="w-11/12 mx-auto" v-if="showComments">
+      <div class="w-11/12 mx-auto relative" v-if="showComments">
         <div
           v-for="comment in quote.comments"
           :key="comment.id"
           class="mt-1 flex pb-4 relative"
+          :class="{ 'opacity-30': comment.id === deletedCommentId }"
         >
           <img
             :src="
@@ -175,6 +185,7 @@ export default {
       newComment: "",
       showComments: false,
       loading: false,
+      deletedCommentId: null,
       showOptionsForComment: null,
     };
   },
@@ -207,13 +218,8 @@ export default {
         this.showOptionsForComment === id ? null : id;
     },
     deleteComment(id) {
-      axios
-        .delete(`comment/${id}`)
-        .then
-        //   (this.$props.quote.comments = this.$props.quote.comments.filter(
-        //     (comment) => comment.id !== id
-        //   ))
-        ();
+      this.deletedCommentId = id;
+      axios.delete(`comment/${id}`);
     },
     addComment(quote_id) {
       document.getElementById("comment").blur();

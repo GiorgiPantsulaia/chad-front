@@ -16,6 +16,7 @@
         class="absolute md:right-36 right-12 mt-1"
         @click="type = !type"
         type="button"
+        tabindex="1"
       >
         <icon-show-password />
       </button>
