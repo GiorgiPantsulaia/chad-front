@@ -8,12 +8,12 @@
         <img
           :src="back_url + quote.thumbnail"
           alt="quote-poster"
-          class="w-44 h-28 rounded-md"
+          class="w-44 h-32 rounded-md pt-3"
         />
         <p
-          class="text-white italic font-light ml-6 self-center sm:w-64 break-words w-4/12"
+          class="text-white italic font-light ml-6 self-center lg:w-6/12 break-words w-3/12 mt-3"
         >
-          "{{ quote.body[$i18n.locale].slice(0, 60)
+          "{{ quote.body[$i18n.locale].slice(0, 50)
           }}{{ quote.body[$i18n.locale].length > 60 ? "..." : "" }}"
         </p>
       </div>
@@ -34,14 +34,14 @@
         class="relative md:w-48 w-full bg-[#24222F] sm:h-full sm:text-lg text-2xl p-4 text-white rounded-lg flex flex-col justify-evenly"
       >
         <li
-          class="flex cursor-pointer items-center"
+          class="flex cursor-pointer items-center w-8/12 md:w-auto"
           @click="this.$emit('handleView')"
         >
           <icon-eye class="mr-2 w-6" />
           View Post
         </li>
         <li
-          class="flex cursor-pointer items-center"
+          class="flex cursor-pointer items-center w-8/12 md:w-auto"
           @click="this.$emit('handleEdit')"
           v-if="user_email === quote.author.email"
         >
@@ -49,7 +49,7 @@
           Edit
         </li>
         <li
-          class="flex cursor-pointer items-center"
+          class="flex cursor-pointer items-center w-8/12 md:w-auto"
           @click="deleteQuote(quote.id)"
           v-if="user_email === quote.author.email"
         >
@@ -57,7 +57,7 @@
           Delete
         </li>
         <li
-          :class="{ 'sm:hidden flex': showOptions }"
+          :class="{ 'sm:hidden flex w-8/12 md:w-auto': showOptions }"
           @click="showOptions = false"
         >
           <icon-return width="20" />

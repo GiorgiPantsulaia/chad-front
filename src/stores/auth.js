@@ -42,7 +42,6 @@ export const useAuthStore = defineStore({
       const google_user = localStorage.getItem("google_user");
       let expire_time = localStorage.getItem("expire_time");
       expire_time = expire_time > Date.now() ? expire_time : null;
-      console.log(expire_time > Date.now());
       if (expire_time) {
         this.token = token;
         this.username = username;

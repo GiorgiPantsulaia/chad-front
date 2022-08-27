@@ -9,7 +9,7 @@
     <h1
       class="uppercase sm:ml-12 ml-6 text-[#DDCCAA] cursor-pointer self-center font-bold whitespace-nowrap sm:whitespace-normal"
       :class="{ 'hidden md:block': isAuthenticated }"
-      @click="this.$router.push({ name: 'home' })"
+      @click="scrollToTop"
     >
       Movie Quotes
     </h1>
@@ -138,6 +138,11 @@ export default {
       this.storeLocale({ locale: this.$i18n.locale });
       this.showLang = false;
       setLocale(this.$i18n.locale);
+    },
+    scrollToTop() {
+      this.$route.name !== "feed"
+        ? this.$router.push({ name: "home" })
+        : document.getElementById("new_quote").scrollIntoView();
     },
   },
   computed: {

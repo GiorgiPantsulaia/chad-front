@@ -16,6 +16,9 @@ import ViewQuote from "@/components/modals/ViewQuote.vue";
 import GenreMovies from "@/views/GenreMovies.vue";
 import { isAuthenticated, redirectIfAuthenticated } from "./guards";
 const router = createRouter({
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  },
   history: createWebHistory(),
   routes: [
     {

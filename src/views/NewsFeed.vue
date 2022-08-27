@@ -28,6 +28,7 @@
             type="button"
             class="text-white bg-[#24222F] h-12 flex items-center justify-center px-4 rounded-lg w-full transition-all"
             :class="{ 'md:w-2/5': openSearch }"
+            id="new_quote"
             @click="addNewQuote = !addNewQuote"
           >
             <icon-write class="mr-3" />
@@ -228,6 +229,7 @@ export default {
     goToMovie(slug) {
       this.$router.push("/movies/" + slug);
     },
+
     addQuotes() {
       if (!this.lastPage) {
         axios
