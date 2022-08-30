@@ -39,7 +39,7 @@
           <p class="text-xl ml-6">{{ $t("news_feed") }}</p>
         </router-link>
       </li>
-      <li>
+      <li class="my-8">
         <router-link :to="{ name: 'movies-list' }" class="flex">
           <icon-camera
             :fill="
@@ -53,6 +53,15 @@
           <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
         </router-link>
       </li>
+      <li>
+        <router-link
+          :to="{ name: 'profile', query: { tab: 'friends' } }"
+          class="flex"
+        >
+          <icon-friends class="" />
+          <p class="text-xl ml-8">{{ $t("friends") }}</p>
+        </router-link>
+      </li>
       <slot></slot>
     </ul>
   </div>
@@ -62,6 +71,7 @@ import IconCamera from "@/components/icons/IconCamera.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
 import IconHome from "@/components/icons/IconHome.vue";
+import IconFriends from "../icons/IconFriends.vue";
 export default {
   computed: {
     ...mapState(useAuthStore, ["username", "avatar"]),
@@ -71,6 +81,6 @@ export default {
       back_url: import.meta.env.VITE_BACKEND_BASE_URL,
     };
   },
-  components: { IconCamera, IconHome },
+  components: { IconCamera, IconHome, IconFriends },
 };
 </script>
