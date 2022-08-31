@@ -2,7 +2,7 @@
   <img
     :src="avatar ? back_url + avatar : '/default-pfp.png'"
     alt="profile picture"
-    class="w-32 h-32 rounded-full -mt-16"
+    class="w-32 h-32 rounded-full -mt-24"
   />
   <form class="text-white text-center">
     <label class="cursor-pointer" :class="{ 'text-gray-500 ': image }">
@@ -15,7 +15,10 @@
     >
     <p v-if="image" class="text-sm text-red-300">{{ image.name }}</p>
   </form>
-  <Form @submit="updateProfile" class="flex flex-col sm:w-6/12 w-9/12 pb-24">
+  <Form
+    @submit="updateProfile"
+    class="flex flex-col sm:w-6/12 w-9/12 pb-24 relative"
+  >
     <label for="username" class="text-white mt-4">{{ $t("username") }}</label>
     <Field
       type="text"
@@ -71,7 +74,7 @@
       /><ErrorMessage name="confirm password" class="text-[#D0342C] text-sm" />
     </div>
     <button
-      class="bg-[#E31221] px-3 w-auto h-9 rounded-md text-white self-end relative sm:top-40 top-14 sm:left-48 left-0 right-0 mx-auto sm:mx-0 whitespace-nowrap"
+      class="bg-[#E31221] w-36 h-9 rounded-md text-white self-end sm:-right-[199px] absolute top-80 whitespace-nowrap"
     >
       {{ $t("save") }}
     </button>

@@ -1,16 +1,16 @@
 <template>
   <div class="bg-[#1a1825] h-full">
     <side-bar class="h-full pt-28">
-      <li class="my-8 ml-2 flex" @click="signOut">
+      <li class="ml-1 my-8 flex gap-[3px]" @click="signOut">
         <icon-logout class="" />
         <button type="button" class="py-1 rounded-sm text-xl ml-8">
           {{ $t("logout") }}
         </button>
       </li>
       <li @click="showLang = !showLang">
-        <div class="ml-1.5 cursor-pointer text-xl flex">
+        <div class="cursor-pointer text-xl flex">
           <icon-earth />
-          <div class="ml-7 flex text-xl items-center">
+          <div class="ml-[31px] flex text-xl items-center">
             {{ $i18n.locale === "en" ? "Eng" : "ქარ" }}
             <icon-arrow-down
               class="ml-2 transition-all"

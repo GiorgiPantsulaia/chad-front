@@ -77,70 +77,76 @@
           alt="user profile picture"
           class="rounded-full w-12 h-12"
         />
-        <div
-          class="flex flex-col mx-4 mt-2 w-10/12 md:w-11/12 break-words border-b border-gray-700 relative"
-        >
-          <h2 class="font-black">
-            {{ quote.comments.length > 0 ? quote.comments[0].author.name : "" }}
-          </h2>
-          <p class="py-4 w-full">
-            {{ quote.comments.length > 0 ? quote.comments[0].body : "" }}
-          </p>
-          <button
-            class="text-3xl text-gray-400 font-black absolute right-0"
-            @click="showCommentOptions(quote.comments[0].id)"
+        <transition name="comment" mode="out-in" appear>
+          <div
+            class="flex flex-col mx-4 mt-2 w-10/12 md:w-11/12 break-words border-b border-gray-700 relative"
           >
-            ...
-          </button>
-          <comment-options
-            v-click-outside="hideCommentOptions"
-            @on-comment-delete="deleteComment(quote.comments[0].id)"
-            :comment="quote.comments[0]"
-            :quote="quote"
-            class="-right-9"
-            v-if="showOptionsForComment === quote.comments[0].id"
-          />
-        </div>
+            <h2 class="font-black">
+              {{
+                quote.comments.length > 0 ? quote.comments[0].author.name : ""
+              }}
+            </h2>
+            <p class="py-4 w-full">
+              {{ quote.comments.length > 0 ? quote.comments[0].body : "" }}
+            </p>
+            <button
+              class="text-3xl text-gray-400 font-black absolute right-0"
+              @click="showCommentOptions(quote.comments[0].id)"
+            >
+              ...
+            </button>
+            <comment-options
+              v-click-outside="hideCommentOptions"
+              @on-comment-delete="deleteComment(quote.comments[0].id)"
+              :comment="quote.comments[0]"
+              :quote="quote"
+              class="-right-9"
+              v-if="showOptionsForComment === quote.comments[0].id"
+            />
+          </div>
+        </transition>
       </div>
     </div>
     <transition name="comments" mode="out-in">
       <div class="w-11/12 mx-auto relative" v-if="showComments">
-        <div
-          v-for="comment in quote.comments"
-          :key="comment.id"
-          class="mt-1 flex pb-4 relative"
-          :class="{ 'opacity-30': comment.id === deletedCommentId }"
-        >
-          <img
-            :src="
-              comment.author.profile_pic
-                ? back_url + comment.author.profile_pic
-                : '/default-pfp.png'
-            "
-            alt="user profile picture"
-            class="rounded-full w-10 h-10"
-          />
-          <div
-            class="flex flex-col mx-4 mt-2 border-b border-gray-700 w-10/12 md:w-11/12 break-words"
+        <transition-group name="comment" tag="ul">
+          <li
+            v-for="comment in quote.comments"
+            :key="comment.id"
+            class="mt-1 flex pb-4 relative"
+            :class="{ 'opacity-30': comment.id === deletedCommentId }"
           >
-            <h2 class="font-black">{{ comment.author.name }}</h2>
-            <p class="py-4 w-full">{{ comment.body }}</p>
-          </div>
-          <button
-            class="text-3xl text-gray-400 font-black absolute right-6 z-50"
-            @click="showCommentOptions(comment.id)"
-          >
-            ...
-          </button>
-          <comment-options
-            v-click-outside="hideCommentOptions"
-            @on-comment-delete="deleteComment(comment.id)"
-            :comment="comment"
-            :quote="quote"
-            class="-right-3"
-            v-if="showOptionsForComment === comment.id"
-          />
-        </div>
+            <img
+              :src="
+                comment.author.profile_pic
+                  ? back_url + comment.author.profile_pic
+                  : '/default-pfp.png'
+              "
+              alt="user profile picture"
+              class="rounded-full w-10 h-10"
+            />
+            <div
+              class="flex flex-col mx-4 mt-2 border-b border-gray-700 w-10/12 md:w-11/12 break-words"
+            >
+              <h2 class="font-black">{{ comment.author.name }}</h2>
+              <p class="py-4 w-full">{{ comment.body }}</p>
+            </div>
+            <button
+              class="text-3xl text-gray-400 font-black absolute right-6 z-50"
+              @click="showCommentOptions(comment.id)"
+            >
+              ...
+            </button>
+            <comment-options
+              v-click-outside="hideCommentOptions"
+              @on-comment-delete="deleteComment(comment.id)"
+              :comment="comment"
+              :quote="quote"
+              class="-right-3"
+              v-if="showOptionsForComment === comment.id"
+            />
+          </li>
+        </transition-group>
       </div>
     </transition>
     <div class="flex w-11/12 mx-auto items-center mt-4">
@@ -262,5 +268,22 @@ export default {
 .comments-enter-from,
 .comments-leave-to {
   opacity: 0;
+}
+.comment-move,
+.comment-enter-active,
+.comment-leave-active {
+  transition: all 0.5s ease;
+  width: 100%;
+}
+
+.comment-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.comment-leave-to {
+  opacity: 0;
+}
+.comment-leave-active {
+  position: absolute;
 }
 </style>
