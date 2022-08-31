@@ -33,7 +33,7 @@
     <email-changed v-if="emailChanged" @on-close="emailChanged = false" />
     <loading-bar
       v-if="loading"
-      class="absolute top-0 bottom-0 my-auto left-0 right-0 mx-auto"
+      class="absolute top-0 bottom-0 my-auto left-0 right-0"
     />
   </section>
 </template>
