@@ -56,9 +56,11 @@
       <li>
         <router-link
           :to="{ name: 'profile', query: { tab: 'friends' } }"
-          class="flex"
+          class="flex items-center"
         >
-          <icon-friends class="" />
+          <icon-friends
+            :fill="this.$route.query.tab === 'friends' ? '#E31221' : 'white'"
+          />
           <p class="text-xl ml-8">{{ $t("friends") }}</p>
         </router-link>
       </li>
