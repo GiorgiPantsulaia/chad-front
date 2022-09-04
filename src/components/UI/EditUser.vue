@@ -2,9 +2,9 @@
   <img
     :src="avatar ? back_url + avatar : '/default-pfp.png'"
     alt="profile picture"
-    class="w-32 h-32 rounded-full -mt-24"
+    class="w-32 h-32 rounded-full absolute -top-16"
   />
-  <form class="text-white text-center">
+  <form class="text-white text-center mt-16">
     <label class="cursor-pointer" :class="{ 'text-gray-500 ': image }">
       <input
         type="file"
@@ -74,7 +74,7 @@
       /><ErrorMessage name="confirm password" class="text-[#D0342C] text-sm" />
     </div>
     <button
-      class="bg-[#E31221] w-36 h-9 rounded-md text-white self-end sm:-right-[199px] absolute top-80 whitespace-nowrap"
+      class="bg-[#E31221] w-32 h-9 rounded-md text-white sm:self-end self-center relative top-40 sm:-right-[200px] whitespace-nowrap"
     >
       {{ $t("save") }}
     </button>
@@ -187,7 +187,13 @@ export default {
       }
     },
   },
-  emits: ["onEmailChange", "onLoading", "onStopLoading", "onConfirmationSend"],
+  emits: [
+    "onEmailChange",
+    "onLoading",
+    "onStopLoading",
+    "onConfirmationSend",
+    "onConfirmationClose",
+  ],
   components: {
     // eslint-disable-next-line vue/no-reserved-component-names
     Form,
