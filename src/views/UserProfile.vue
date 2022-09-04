@@ -19,7 +19,7 @@
           <button
             class="flex absolute self-start text-white ml-4 mt-4 items-center gap-1"
             @click="this.$router.push({ path: 'profile' })"
-            v-if="inSettings"
+            v-if="tab === 'settings'"
           >
             <icon-go-back></icon-go-back>
             <p class="text-base font-medium">Back</p>
@@ -28,26 +28,29 @@
             :src="avatar ? back_url + avatar : '/default-pfp.png'"
             alt="profile picture"
             class="w-32 h-32 rounded-full -mt-16"
-            v-if="!inSettings"
+            v-if="tab !== 'settings'"
           />
           <h2 class="tracking-wider text-white font-bold text-2xl">
             {{ username }}
           </h2>
           <ul
-            class="text-white mt-12 text-center gap-10 flex flex-col w-52 text-xl font-semibold pb-10"
-            v-if="!inSettings"
+            class="text-white mt-12 text-center gap-10 flex flex-col w-52 text-lg font-semibold pb-10"
+            v-if="tab !== 'settings'"
           >
             <li
               class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-5"
             >
-              <icon-profile-friends></icon-profile-friends>
-              Friends
+              <icon-profile-friends
+                class="flex-shrink-0"
+              ></icon-profile-friends>
+              {{ $t("friends") }}
             </li>
             <li
-              class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-[22px]"
+              class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-5 whitespace-normal"
+              :class="{ 'gap-2': $i18n.locale === 'ka' }"
             >
-              <icon-heart fill="#fff"></icon-heart>
-              Liked posts
+              <icon-heart fill="#fff" class="flex-shrink-0"></icon-heart>
+              {{ $t("liked_posts") }}
             </li>
             <li
               class="border-b border-gray-700 pb-2 pl-3 cursor-pointer tracking-widest flex items-center gap-5"
@@ -58,8 +61,8 @@
                 })
               "
             >
-              <icon-settings></icon-settings>
-              Settings
+              <icon-settings class="flex-shrink-0"></icon-settings>
+              {{ $t("settings") }}
             </li>
           </ul>
           <edit-user
@@ -93,16 +96,16 @@ import EmailUpdateSent from "@/components/modals/EmailUpdateSent.vue";
 import EmailChanged from "@/components/modals/EmailChanged.vue";
 import LoadingBar from "@/components/UI/LoadingBar.vue";
 import { mapState } from "pinia";
-import { useAuthStore } from "../stores/auth";
-import IconGoBack from "../components/icons/IconGoBack.vue";
-import IconProfileFriends from "../components/icons/IconProfileFriends.vue";
-import IconHeart from "../components/icons/IconHeart.vue";
-import IconSettings from "../components/icons/IconSettings.vue";
+import { useAuthStore } from "@/stores/auth.js";
+import IconGoBack from "@/components/icons/IconGoBack.vue";
+import IconProfileFriends from "@/components/icons/IconProfileFriends.vue";
+import IconHeart from "@/components/icons/IconHeart.vue";
+import IconSettings from "@/components/icons/IconSettings.vue";
 export default {
   computed: {
     ...mapState(useAuthStore, ["avatar", "username"]),
-    inSettings() {
-      return this.$route.query.tab === "settings";
+    tab() {
+      return this.$route.query.tab;
     },
   },
   data() {

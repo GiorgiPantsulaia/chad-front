@@ -73,10 +73,8 @@ import MovieCard from "@/components/UI/MovieCard.vue";
 import NewMovie from "@/components/modals/NewMovie.vue";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
-import IconSearch from "@/components/icons/IconSearch.vue";
-import IconAddPlus from "@/components/icons/IconAddPlus.vue";
 export default {
-  components: { NavBar, SideBar, MovieCard, NewMovie, IconSearch, IconAddPlus },
+  components: { NavBar, SideBar, MovieCard, NewMovie },
   props: {
     genre: {
       type: String,
@@ -118,7 +116,6 @@ export default {
         })
         .then((response) => {
           this.movies = response.data;
-          console.log(this.movies[0]);
         })
         .catch((err) => {
           console.log(err);

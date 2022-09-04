@@ -83,5 +83,7 @@
   "edit_movie": "Edit Movie",
   "account_not_activated": "Check your email to activate account",
   "movies": "movies",
-  "friends":"Friends"
+  "friends": "Friends",
+  "settings": "Settings",
+  "liked_posts": "Liked posts"
 }
