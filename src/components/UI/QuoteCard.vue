@@ -2,9 +2,15 @@
   <main class="flex bg-[#11101A] rounded-lg my-4 w-full relative">
     <div
       class="flex flex-col w-full"
-      :class="{ 'md:flex hidden': showOptions }"
+      :class="{
+        'md:flex hidden': showOptions,
+      }"
     >
-      <div class="flex mx-4 mb-4 border-b border-gray-600 pb-5">
+      <div
+        class="flex mx-4 mb-4 border-b border-gray-600 pb-5"
+        :class="{ 'cursor-pointer': this.$route.query.tab === 'liked-posts' }"
+        @click="viewLikedPost"
+      >
         <img
           :src="back_url + quote.thumbnail"
           alt="quote-poster"
@@ -24,14 +30,21 @@
         </div>
         <div class="flex mx-4">
           {{ quote.likes.length }}
-          <icon-heart class="mx-2" fill="#fff" />
+          <icon-heart
+            class="mx-2"
+            :class="{
+              'cursor-pointer': this.$route.query.tab === 'liked-posts',
+            }"
+            :fill="this.$route.query.tab === 'liked-posts' ? 'red' : '#fff'"
+            @click="unlikePost"
+          />
         </div>
       </div>
     </div>
-    <transition name="options" mode="out-in">
+    <transition name="options" mode="in-out">
       <ul
         v-if="showOptions"
-        class="relative md:w-48 w-full bg-[#24222F] sm:h-full sm:text-lg text-2xl p-4 text-white rounded-lg flex flex-col justify-evenly"
+        class="relative md:w-48 w-full bg-[#24222F] h-48 sm:text-lg text-2xl p-4 text-white rounded-lg flex flex-col justify-evenly"
       >
         <li
           class="flex cursor-pointer items-center w-8/12 md:w-auto"
@@ -66,6 +79,7 @@
       </ul>
     </transition>
     <button
+      v-if="this.$route.name === 'movie-view'"
       class="text-white font-black text-3xl tracking-wide absolute right-4 transition-all"
       :class="{ 'font-medium right-5': showOptions }"
       type="button"
@@ -99,7 +113,7 @@ export default {
       required: true,
     },
   },
-  emits: ["onClick", "handleEdit", "handleView", "onDelete"],
+  emits: ["onClick", "handleEdit", "handleView", "onDelete", "onPostUnlike"],
   computed: {
     ...mapState(useAuthStore, ["user_email"]),
   },
@@ -108,6 +122,19 @@ export default {
       axios.delete(`quote/${id}`).then(() => {
         this.$emit("onDelete");
       });
+    },
+    viewLikedPost(id) {
+      if (this.$route.query.tab === "liked-posts") {
+        this.$router.push({
+          name: "view-quote",
+          params: { id: this.quote.id },
+        });
+      }
+    },
+    unlikePost() {
+      axios
+        .post(`unlike/${this.quote.id}`)
+        .then(this.$emit("onPostUnlike", this.quote.id));
     },
   },
   components: {
@@ -123,7 +150,7 @@ export default {
 <style scoped>
 .options-enter-active,
 .options-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .options-enter-from,

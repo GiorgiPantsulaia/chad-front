@@ -74,7 +74,7 @@
       /><ErrorMessage name="confirm password" class="text-[#D0342C] text-sm" />
     </div>
     <button
-      class="bg-[#E31221] w-32 h-9 rounded-md text-white sm:self-end self-center relative top-40 sm:-right-[200px] whitespace-nowrap"
+      class="bg-[#E31221] w-40 h-9 rounded-md text-white sm:self-end self-center relative top-40 sm:-right-[200px] whitespace-nowrap font-medium"
     >
       {{ $t("save") }}
     </button>

@@ -10,7 +10,7 @@
         <button type="button" @click="showConfirmation = !showConfirmation">
           <icon-delete class="fill-white hover:fill-[#E31221] w-4" />
         </button>
-        <h1 class="text-white w-56 mx-auto font-semibold text-xl">
+        <h1 class="text-white font-semibold text-xl">
           {{ $t("edit_quote") }}
         </h1>
         <button

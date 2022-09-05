@@ -1,19 +1,31 @@
 <template>
-  <div class="w-8/12 flex flex-col items-center">
+  <div class="sm:w-8/12 w-11/12 flex flex-col items-center">
     <h1 class="text-xl text-white font-black">{{ $t("liked_posts") }}</h1>
-    <quote-card
-      class="border border-gray-600 mt-10"
-      v-for="quote in quotes"
-      :key="quote.id"
-      :quote="quote"
-    ></quote-card>
+    <div v-if="fetched && quotes" class="w-full">
+      <quote-card
+        class="border border-gray-600 mt-10"
+        v-for="quote in quotes"
+        :key="quote.id"
+        :quote="quote"
+        @handle-view="
+          this.$router.push({ name: 'view-quote', params: { id: quote.id } })
+        "
+        @on-post-unlike="(id) => handlePostUnlike(id)"
+      ></quote-card>
+    </div>
+    <p
+      v-if="fetched && quotes.length < 1"
+      class="py-24 text-white font-black text-lg"
+    >
+      {{ $t("no_posts_liked") }}
+    </p>
   </div>
 </template>
 <script>
 import QuoteCard from "@/components/UI/QuoteCard.vue";
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
-import { useAuthStore } from "../../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
 export default {
   components: { QuoteCard },
   computed: {
@@ -21,17 +33,23 @@ export default {
   },
   mounted() {
     this.getQuotes();
+    setTimeout(() => console.log(this.quotes), 4000);
   },
   data() {
     return {
       quotes: null,
+      fetched: false,
     };
   },
   methods: {
     getQuotes() {
-      axios
-        .get(`${parseInt(this.user_id)}/liked-posts`)
-        .then((res) => (this.quotes = res.data));
+      axios.get(`${parseInt(this.user_id)}/liked-posts`).then((res) => {
+        this.quotes = res.data;
+        this.fetched = true;
+      });
+    },
+    handlePostUnlike(id) {
+      this.quotes = this.quotes.filter((quote) => quote.id !== id);
     },
   },
 };

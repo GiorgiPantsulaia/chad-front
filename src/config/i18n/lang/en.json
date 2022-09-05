@@ -85,5 +85,7 @@
   "movies": "movies",
   "friends": "Friends",
   "settings": "Settings",
-  "liked_posts": "Liked posts"
+  "liked_posts": "Liked posts",
+  "no_posts_liked":"You haven't liked any posts yet.",
+  "back":"Back"
 }

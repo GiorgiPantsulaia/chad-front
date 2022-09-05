@@ -15,7 +15,7 @@
         >
           <div
             class="flex justify-evenly items-center h-16 ml-4"
-            v-if="quote.user_id == user_id"
+            v-if="quote.user_id === parseInt(user_id)"
           >
             <button type="button" class="mr-2" @click="editQuote = true">
               <icon-edit class="fill-white hover:fill-[#E31221] w-4" />
@@ -29,7 +29,7 @@
               <icon-delete class="fill-white hover:fill-[#E31221] w-4" />
             </button>
           </div>
-          <h1 class="text-xl" :class="{ 'ml-80': quote.user_id != user_id }">
+          <h1 class="text-xl px-4">
             {{ $t("view_quote") }}
           </h1>
           <button
@@ -45,7 +45,7 @@
       <edit-quote
         :quote="quote"
         v-if="editQuote"
-        @on-click="editQuote = false"
+        @on-close="editQuote = false"
         @on-edit="handleEdit"
       />
     </div>

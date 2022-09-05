@@ -23,7 +23,7 @@
             v-if="tab"
           >
             <icon-go-back :fill="white"></icon-go-back>
-            <p class="text-base font-medium">Back</p>
+            <p class="text-base font-medium">{{ $t("back") }}</p>
           </button>
           <div class="flex flex-col items-center relative" v-if="!tab">
             <img
@@ -52,7 +52,7 @@
                 :class="{ 'gap-2': $i18n.locale === 'ka' }"
                 @click="
                   this.$router.push({
-                    path: 'profile',
+                    name: 'profile',
                     query: { tab: 'liked-posts' },
                   })
                 "
@@ -145,26 +145,28 @@ export default {
 };
 </script>
 <style scoped>
-div {
-  scrollbar-color: #d4aa70 #e4e4e4;
-  scrollbar-width: thin;
-}
+@media only screen and (min-width: 760px) {
+  div {
+    scrollbar-color: #d4aa70 #e4e4e4;
+    scrollbar-width: thin;
+  }
 
-div::-webkit-scrollbar {
-  width: 10px;
-}
+  div::-webkit-scrollbar {
+    width: 10px;
+  }
 
-div::-webkit-scrollbar-track {
-  background-color: #e4e4e4;
-  border-radius: 50px;
-}
+  div::-webkit-scrollbar-track {
+    background-color: #4d4d4d;
+    border-radius: 50px;
+  }
 
-div::-webkit-scrollbar-thumb {
-  border-radius: 50px;
-  background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
-  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
-}
-* {
-  box-sizing: border-box;
+  div::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background-image: linear-gradient(180deg, #27243f 0%, #26355a 99%);
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+  }
+  * {
+    box-sizing: border-box;
+  }
 }
 </style>
