@@ -31,9 +31,14 @@ export default {
   computed: {
     ...mapState(useAuthStore, ["user_id"]),
   },
+  props: {
+    userId: {
+      type: Number,
+      required: false,
+    },
+  },
   mounted() {
     this.getQuotes();
-    setTimeout(() => console.log(this.quotes), 4000);
   },
   data() {
     return {
@@ -43,10 +48,14 @@ export default {
   },
   methods: {
     getQuotes() {
-      axios.get(`${parseInt(this.user_id)}/liked-posts`).then((res) => {
-        this.quotes = res.data;
-        this.fetched = true;
-      });
+      axios
+        .get(
+          `${this.userId ? this.userId : parseInt(this.user_id)}/liked-posts`
+        )
+        .then((res) => {
+          this.quotes = res.data;
+          this.fetched = true;
+        });
     },
     handlePostUnlike(id) {
       this.quotes = this.quotes.filter((quote) => quote.id !== id);

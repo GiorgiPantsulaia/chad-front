@@ -14,7 +14,9 @@
         alt="quote author"
         class="w-12 h-12 rounded-full"
       />
-      <p class="mx-4 text-base">{{ quote.author.name }}</p>
+      <p class="mx-4 text-base cursor-pointer" @click="navigateToUser">
+        {{ quote.author.name }}
+      </p>
     </div>
     <p class="text-base w-11/12 mx-auto py-6 break-words">
       "{{ quote.body[$i18n.locale] }}" {{ $t("movie") }} -
@@ -242,6 +244,14 @@ export default {
           console.log(err);
         });
       this.newComment = null;
+    },
+    navigateToUser() {
+      this.quote.user_id === parseInt(this.user_id)
+        ? this.$router.push({ name: "profile" })
+        : this.$router.push({
+            name: "profile-view",
+            params: { id: this.quote.user_id },
+          });
     },
     likeOrUnlikePost(quote) {
       if (!this.postLiked) {

@@ -142,6 +142,7 @@ export default {
   },
   watch: {
     search_keyword() {
+      console.log(this.search_keyword);
       if (this.search_keyword === "") {
         this.searched_movies = null;
         this.searched = false;

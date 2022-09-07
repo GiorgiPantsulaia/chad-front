@@ -2,7 +2,7 @@
   <div
     class="bg-inherit text-white md:pl-12 px-10 self-start"
     :class="{
-      'md:fixed': this.$route.fullPath === '/news-feed',
+      'md:fixed': this.$route.name === 'feed',
       'sm:w-96':
         this.$route.name === 'movies-list' ||
         this.$route.name === 'movie-view' ||
