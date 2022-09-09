@@ -40,9 +40,9 @@
         <icon-notification />
         <p
           class="bg-[#E33812] rounded-full w-6 h-6 relative md:bottom-2 md:right-4 bottom-10 left-3 md:left-auto"
-          v-if="notifications.length > 0"
+          v-if="filteredNotifications.length > 0"
         >
-          {{ notifications.length }}
+          {{ filteredNotifications.length }}
         </p>
       </button>
       <div
@@ -147,7 +147,7 @@ export default {
   },
   computed: {
     ...mapState(useAuthStore, ["isAuthenticated", "logout", "user_id"]),
-    ...mapState(useNotificationsStore, ["notifications"]),
+    ...mapState(useNotificationsStore, ["filteredNotifications"]),
     active() {
       return (
         this.$route.fullPath === "/register" ||

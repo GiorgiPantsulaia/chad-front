@@ -9,6 +9,16 @@ export const useNotificationsStore = defineStore({
     storeNotifications(payload) {
       this.notifications.unshift(payload.notification);
     },
+    updateNotificationState(payload){
+      const index = this.notifications.findIndex((notification)=>
+        notification.id===payload.id);
+      this.notifications[index].state=payload.state;
+    },
+    updateNotificationStatus(payload){
+      const index = this.notifications.findIndex((notification)=>
+        notification.id===payload.id);
+      this.notifications[index].status=payload.status;
+    },
     markAllAsRead() {
       this.notifications.forEach((notification) => {
         notification.state = "read";
@@ -16,4 +26,11 @@ export const useNotificationsStore = defineStore({
       this.allMarked = true;
     },
   },
+  getters:{
+    filteredNotifications(){
+      return this.notifications.filter((notification)=> 
+      notification.state!=='read');
+
+    }
+  }
 });

@@ -6,7 +6,8 @@
       'sm:w-96':
         this.$route.name === 'movies-list' ||
         this.$route.name === 'movie-view' ||
-        this.$route.name === 'profile',
+        this.$route.name === 'profile' ||
+        this.$route.name === 'profile-view',
     }"
   >
     <ul>

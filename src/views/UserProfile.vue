@@ -11,6 +11,13 @@
         <icon-go-back fill="white"></icon-go-back>
         <p class="text-base font-medium">{{ $t("back") }}</p>
       </button>
+      <button
+        class="flex fixed self-end text-white mr-4 mt-4 items-center gap-1"
+        @click="sendFriendRequest"
+      >
+        <icon-add-friend></icon-add-friend>
+        <p class="text-base font-medium">{{ $t("add_friend") }}</p>
+      </button>
       <div class="flex flex-col items-center relative" v-if="user">
         <img
           :src="
@@ -55,6 +62,7 @@ import axios from "@/config/axios/index.js";
 import IconHeart from "@/components/icons/IconHeart.vue";
 import IconGoBack from "@/components/icons/IconGoBack.vue";
 import IconProfileFriends from "@/components/icons/IconProfileFriends.vue";
+import IconAddFriend from "../components/icons/IconAddFriend.vue";
 export default {
   props: {
     id: {
@@ -80,7 +88,16 @@ export default {
     getUser() {
       axios.get(`users/${this.id}`).then((res) => (this.user = res.data));
     },
+    sendFriendRequest() {
+      axios.post(`/friends/${this.id}`).then((res) => console.log(res));
+    },
   },
-  components: { ProfileLayout, IconGoBack, IconHeart, IconProfileFriends },
+  components: {
+    ProfileLayout,
+    IconGoBack,
+    IconHeart,
+    IconProfileFriends,
+    IconAddFriend,
+  },
 };
 </script>
