@@ -71,6 +71,7 @@
         @on-stop-loading="loading = false"
       ></edit-user>
       <liked-posts v-if="tab === 'liked-posts'" class="mt-10"></liked-posts>
+      <user-friends v-if="tab === 'friends'"></user-friends>
     </div>
   </profile-layout>
 </template>
