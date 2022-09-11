@@ -59,6 +59,8 @@
                     ? $t("liked")
                     : notification.type === "comment"
                     ? $t("commented")
+                    : notification.status === "accepted"
+                    ? $t("friend_accepted")
                     : $t("incoming_friend_request")
                 }}
                 <div
@@ -66,10 +68,10 @@
                     notification.type === 'friends' &&
                     notification.status !== 'accepted'
                   "
-                  class="flex flex-col sm:flex-row ml-8 gap-5 font-medium"
+                  class="flex flex-col sm:absolute gap-3 font-medium sm:right-40 sm:bottom-3"
                 >
                   <button
-                    class="bg-sky-600 flex p-1 w-20 justify-center hover:bg-blue-600"
+                    class="bg-sky-600 flex px-2 w-20 items-center justify-center text-center hover:bg-blue-600"
                     @click="
                       acceptFriendRequest(
                         notification.sender.id,
@@ -80,7 +82,7 @@
                     Accept
                   </button>
                   <button
-                    class="items-center gap-1 p-1 bg-red-500 w-20 justify-center hover:bg-red-700"
+                    class="items-center gap-1 px-2 bg-red-500 text-center justify-center hover:bg-red-700"
                   >
                     Deny
                   </button>

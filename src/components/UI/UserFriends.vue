@@ -1,11 +1,14 @@
 <template>
-  <div class="sm:w-8/12 w-11/12 flex flex-col items-center">
-    <h1 class="text-xl text-white font-black">
-      {{ $t("friends") }}({{ friends.length }})
+  <div class="w-full flex flex-col items-center pb-10">
+    <h1 class="text-xl text-white font-black sm:-mt-5">
+      {{ $t("friends") }} ({{ friends ? friends.length : 0 }})
     </h1>
-    <div v-if="fetched && friends" class="w-full">
+    <div
+      v-if="fetched && friends"
+      class="w-full flex flex-col sm:flex-row items-center sm:flex-wrap sm:gap-10 gap-6 text-center px-5 mt-10"
+    >
       <friend-card
-        class="border border-gray-600 mt-10"
+        class="cursor-pointer hover:opacity-80"
         v-for="friend in friends"
         :key="friend.id"
         :friend="friend"
@@ -18,18 +21,23 @@
 </template>
 <script>
 import axios from "@/config/axios/index.js";
-import FriendCard from "./FriendCard.vue";
+import FriendCard from "@/components/UI/FriendCard.vue";
 export default {
   data() {
     return {
       friends: null,
+      fetched: false,
     };
+  },
+  mounted() {
+    this.fetchFriends();
   },
   methods: {
     fetchFriends() {
-      axios
-        .get(`${parseInt(this.user_id)}/friends`)
-        .then((res) => (this.friends = res.data));
+      axios.get("friends").then((res) => {
+        this.friends = res.data;
+        this.fetched = true;
+      });
     },
   },
   components: { FriendCard },

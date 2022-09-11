@@ -87,7 +87,8 @@
   "settings": "Settings",
   "liked_posts": "Liked posts",
   "no_posts_liked":"You haven't liked any posts yet.",
-  "back":"Back",
+  "back":"Profile",
   "add_friend":"Add friend",
-  "incoming_friend_request" : "Sent you a friend request"
+  "incoming_friend_request" : "Sent you a friend request",
+  "friend_accepted" : "Friend request accepted"
 }

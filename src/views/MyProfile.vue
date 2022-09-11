@@ -5,14 +5,18 @@
     </h1>
     <div
       class="w-full h-full max-h-[600px] mt-24 rounded-lg bg-[#11101A] flex flex-col items-center relative"
-      :class="{ 'overflow-y-auto': tab === 'liked-posts' }"
+      :class="{
+        'overflow-y-auto': tab === 'liked-posts',
+        'max-h-fit': tab === 'friends',
+      }"
     >
       <button
         class="flex fixed self-start text-white ml-4 mt-4 items-center gap-1"
+        :class="{ relative: tab === 'friends' }"
         @click="this.$router.push({ path: 'profile' })"
         v-if="tab"
       >
-        <icon-go-back :fill="white"></icon-go-back>
+        <icon-go-back fill="white"></icon-go-back>
         <p class="text-base font-medium">{{ $t("back") }}</p>
       </button>
       <div class="flex flex-col items-center relative" v-if="!tab">
@@ -31,6 +35,12 @@
         >
           <li
             class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-5"
+            @click="
+              this.$router.push({
+                name: 'profile',
+                query: { tab: 'friends' },
+              })
+            "
           >
             <icon-profile-friends class="flex-shrink-0"></icon-profile-friends>
             {{ $t("friends") }}
@@ -86,6 +96,7 @@ import LikedPosts from "@/components/UI/LikedPosts.vue";
 import EditUser from "@/components/UI/EditUser.vue";
 import ProfileLayout from "@/components/layout/ProfileLayout.vue";
 
+import UserFriends from "../components/UI/UserFriends.vue";
 export default {
   computed: {
     ...mapState(useAuthStore, ["avatar", "username"]),
@@ -103,13 +114,13 @@ export default {
   },
   components: {
     EditUser,
-
     IconGoBack,
     IconProfileFriends,
     IconHeart,
     IconSettings,
     LikedPosts,
     ProfileLayout,
+    UserFriends,
   },
 };
 </script>

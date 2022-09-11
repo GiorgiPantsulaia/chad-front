@@ -66,7 +66,7 @@ import IconAddFriend from "../components/icons/IconAddFriend.vue";
 export default {
   props: {
     id: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
