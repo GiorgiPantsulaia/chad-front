@@ -22,7 +22,7 @@
             }"
           />
           <div class="flex flex-col ml-6">
-            <h2 class="text-2xl font-medium">{{ username }}</h2>
+            <h2 class="text-2xl font-medium w-48">{{ username }}</h2>
             <router-link
               :to="{ name: 'profile' }"
               class="text-[#CED4DA] self-start"

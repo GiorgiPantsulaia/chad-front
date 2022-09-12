@@ -1,5 +1,12 @@
 <template>
-  <div class="sm:w-8/12 w-11/12 flex flex-col items-center">
+  <div class="sm:w-8/12 w-11/12 flex flex-col items-center relative">
+    <button
+      class="flex absolute self-start text-white mt-1 items-center gap-1"
+      @click="this.$router.go(-1)"
+    >
+      <icon-go-back fill="white"></icon-go-back>
+      <p class="text-base font-medium">{{ $t("back") }}</p>
+    </button>
     <h1 class="text-xl text-white font-black">{{ $t("liked_posts") }}</h1>
     <div v-if="fetched && quotes" class="w-full">
       <quote-card
@@ -26,8 +33,9 @@ import QuoteCard from "@/components/UI/QuoteCard.vue";
 import axios from "@/config/axios/index.js";
 import { mapState } from "pinia";
 import { useAuthStore } from "@/stores/auth.js";
+import IconGoBack from "../icons/IconGoBack.vue";
 export default {
-  components: { QuoteCard },
+  components: { QuoteCard, IconGoBack },
   computed: {
     ...mapState(useAuthStore, ["user_id"]),
   },
@@ -58,7 +66,8 @@ export default {
         });
     },
     handlePostUnlike(id) {
-      this.quotes = this.quotes.filter((quote) => quote.id !== id);
+      if (!this.userId)
+        this.quotes = this.quotes.filter((quote) => quote.id !== id);
     },
   },
 };

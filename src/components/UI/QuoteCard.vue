@@ -33,9 +33,9 @@
           <icon-heart
             class="mx-2"
             :class="{
-              'cursor-pointer': this.$route.query.tab === 'liked-posts',
+              'cursor-pointer': quoteInteraction,
             }"
-            :fill="this.$route.query.tab === 'liked-posts' ? 'red' : '#fff'"
+            :fill="quoteInteraction ? 'red' : '#fff'"
             @click="unlikePost"
           />
         </div>
@@ -116,6 +116,9 @@ export default {
   emits: ["onClick", "handleEdit", "handleView", "onDelete", "onPostUnlike"],
   computed: {
     ...mapState(useAuthStore, ["user_email"]),
+    quoteInteraction() {
+      return this.$route.name === "profile";
+    },
   },
   methods: {
     deleteQuote(id) {
@@ -132,9 +135,11 @@ export default {
       }
     },
     unlikePost() {
-      axios
-        .post(`unlike/${this.quote.id}`)
-        .then(this.$emit("onPostUnlike", this.quote.id));
+      if (this.quoteInteraction) {
+        axios
+          .post(`unlike/${this.quote.id}`)
+          .then(this.$emit("onPostUnlike", this.quote.id));
+      }
     },
   },
   components: {

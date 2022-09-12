@@ -2,8 +2,8 @@
   <svg
     class="svg-icon"
     style="
-      width: 1em;
-      height: 1em;
+      width: 1.7em;
+      height: 1.7em;
       vertical-align: middle;
       fill: white;
       overflow: hidden;
