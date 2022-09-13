@@ -3,6 +3,7 @@
     <button
       class="flex absolute self-start text-white mt-1 items-center gap-1"
       @click="this.$router.go(-1)"
+      v-if="this.$route.name !== 'profile'"
     >
       <icon-go-back fill="white"></icon-go-back>
       <p class="text-base font-medium">{{ $t("back") }}</p>
@@ -67,7 +68,9 @@ export default {
     },
     handlePostUnlike(id) {
       if (!this.userId)
-        this.quotes = this.quotes.filter((quote) => quote.id !== id);
+        setTimeout(() => {
+          this.quotes = this.quotes.filter((quote) => quote.id !== id);
+        }, 500);
     },
   },
 };

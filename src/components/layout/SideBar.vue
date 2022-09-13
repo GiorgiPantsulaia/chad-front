@@ -22,17 +22,19 @@
             }"
           />
           <div class="flex flex-col ml-6">
-            <h2 class="text-2xl font-medium w-48">{{ username }}</h2>
             <router-link
               :to="{ name: 'profile' }"
               class="text-[#CED4DA] self-start"
             >
+              <h2 class="text-2xl font-medium w-fit text-white">
+                {{ username }}
+              </h2>
               {{ $t("edit_profile") }}
             </router-link>
           </div>
         </div>
       </li>
-      <li class="my-8">
+      <li class="my-8 w-fit">
         <router-link :to="{ name: 'feed' }" class="flex">
           <icon-home
             :fill="this.$route.name === 'feed' ? '#E31221' : 'white'"
@@ -40,7 +42,7 @@
           <p class="text-xl ml-6">{{ $t("news_feed") }}</p>
         </router-link>
       </li>
-      <li class="my-8">
+      <li class="my-8 w-fit">
         <router-link :to="{ name: 'movies-list' }" class="flex">
           <icon-camera
             :fill="
@@ -54,7 +56,7 @@
           <p class="text-xl ml-6">{{ $t("my_movies") }}</p>
         </router-link>
       </li>
-      <li>
+      <li class="w-fit">
         <router-link
           :to="{ name: 'profile', query: { tab: 'friends' } }"
           class="flex items-center"

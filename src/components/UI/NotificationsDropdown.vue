@@ -61,12 +61,14 @@
                     ? $t("commented")
                     : notification.status === "accepted"
                     ? $t("friend_accepted")
+                    : notification.status === "denied"
+                    ? $t("friend_denied")
                     : $t("incoming_friend_request")
                 }}
                 <div
                   v-if="
                     notification.type === 'friends' &&
-                    notification.status !== 'accepted'
+                    notification.state !== 'read'
                   "
                   class="flex flex-col sm:absolute gap-3 font-medium sm:right-40 sm:bottom-3"
                 >
@@ -83,6 +85,9 @@
                   </button>
                   <button
                     class="items-center gap-1 px-2 bg-red-500 text-center justify-center hover:bg-red-700"
+                    @click="
+                      denyFriendRequest(notification.sender.id, notification.id)
+                    "
                   >
                     Deny
                   </button>
@@ -130,6 +135,16 @@ export default {
           this.updateNotificationStatus({
             id: notification_id,
             status: "accepted",
+          })
+        );
+    },
+    denyFriendRequest(id, notification_id) {
+      axios
+        .post(`/friends/${id}/deny`, { notificationId: notification_id })
+        .then(
+          this.updateNotificationStatus({
+            id: notification_id,
+            status: "denied",
           })
         );
     },

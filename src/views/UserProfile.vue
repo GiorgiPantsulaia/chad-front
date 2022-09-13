@@ -21,7 +21,11 @@
           v-if="user"
         >
           <icon-add-friend
-            v-if="!user.friend || user.friend === 'pending'"
+            v-if="
+              !user.friend ||
+              user.friend === 'pending' ||
+              user.friend === 'incoming'
+            "
           ></icon-add-friend>
           <icon-friends-with v-else></icon-friends-with>
           <p class="text-base font-medium">
@@ -30,6 +34,8 @@
                 ? $t("add_friend")
                 : user.friend === "pending"
                 ? $t("pending")
+                : user.friend === "incoming"
+                ? $t("accept")
                 : $t("unfriend")
             }}
           </p>
@@ -117,12 +123,17 @@ export default {
   methods: {
     getUser() {
       axios.get(`users/${this.id}`).then((res) => {
+        console.log(res.data);
         this.user = res.data.user;
         this.user.friend = res.data.friend;
       });
     },
     addOrRemoveFriend() {
-      if (!this.user.friend || this.user.friend === "pending") {
+      if (this.user.friend === "incoming") {
+        axios
+          .post(`/friends/${this.id}/accept`)
+          .then((this.user.friend = true));
+      } else if (!this.user.friend) {
         axios.post(`/friends/${this.id}`).then((this.user.friend = "pending"));
       } else {
         axios
