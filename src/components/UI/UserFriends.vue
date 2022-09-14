@@ -1,5 +1,17 @@
 <template>
   <div class="w-full flex flex-col items-center pb-10">
+    <button
+      class="flex self-start text-white ml-4 mt-4 items-center gap-1"
+      :class="{ relative: tab === 'friends' }"
+      @click="this.$router.go(-1)"
+      v-if="
+        this.$route.query.tab === 'friends' &&
+        this.$route.name === 'profile-view'
+      "
+    >
+      <icon-go-back fill="white"></icon-go-back>
+      <p class="text-base font-medium">{{ $t("back") }}</p>
+    </button>
     <h1 class="text-xl text-white font-black sm:-mt-5">
       {{ $t("friends") }} ({{ friends ? friends.length : 0 }})
     </h1>
@@ -22,7 +34,14 @@
 <script>
 import axios from "@/config/axios/index.js";
 import FriendCard from "@/components/UI/FriendCard.vue";
+import IconGoBack from "../icons/IconGoBack.vue";
 export default {
+  props: {
+    userId: {
+      type: Number,
+      required: false,
+    },
+  },
   data() {
     return {
       friends: null,
@@ -34,12 +53,14 @@ export default {
   },
   methods: {
     fetchFriends() {
-      axios.get("friends").then((res) => {
-        this.friends = res.data;
-        this.fetched = true;
-      });
+      axios
+        .get(this.userId ? `/${this.userId}/friends` : "friends")
+        .then((res) => {
+          this.friends = res.data;
+          this.fetched = true;
+        });
     },
   },
-  components: { FriendCard },
+  components: { FriendCard, IconGoBack },
 };
 </script>

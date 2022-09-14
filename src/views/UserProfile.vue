@@ -59,6 +59,18 @@
             <li
               class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-5"
             >
+              <icon-chat></icon-chat>
+              Chat
+            </li>
+            <li
+              class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-5"
+              @click="
+                this.$router.push({
+                  name: 'profile-view',
+                  query: { tab: 'friends' },
+                })
+              "
+            >
               <icon-profile-friends
                 class="flex-shrink-0"
               ></icon-profile-friends>
@@ -85,7 +97,10 @@
         class="mt-10"
         :userId="user.id"
       ></liked-posts>
-      <user-friends v-if="tab === 'friends'"></user-friends>
+      <user-friends
+        v-if="tab === 'friends' && user"
+        :userId="id"
+      ></user-friends>
     </div>
   </profile-layout>
 </template>
@@ -99,6 +114,7 @@ import IconAddFriend from "@/components/icons/IconAddFriend.vue";
 import IconFriendsWith from "@/components/icons/IconFriendsWith.vue";
 import LikedPosts from "../components/UI/LikedPosts.vue";
 import UserFriends from "../components/UI/UserFriends.vue";
+import IconChat from "../components/icons/IconChat.vue";
 export default {
   props: {
     id: {
@@ -151,6 +167,7 @@ export default {
     IconFriendsWith,
     LikedPosts,
     UserFriends,
+    IconChat,
   },
 };
 </script>

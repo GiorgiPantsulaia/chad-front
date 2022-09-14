@@ -15,6 +15,7 @@ import PasswordReset from "@/components/UI/PasswordReset.vue";
 import ViewQuote from "@/components/modals/ViewQuote.vue";
 import GenreMovies from "@/views/GenreMovies.vue";
 import UserProfile from "@/views/UserProfile.vue";
+import ChatWithUser from '@/views/ChatWithUser.vue';
 import { isAuthenticated, redirectIfAuthenticated } from "./guards";
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
@@ -115,6 +116,13 @@ const router = createRouter({
       props: true,
       name: "profile-view",
       component: UserProfile,
+      beforeEnter: [isAuthenticated]
+    },
+    {
+      path: "/users/:id/chat",
+      props: true,
+      name: "chat",
+      component: ChatWithUser,
       beforeEnter: [isAuthenticated]
     }
   ],

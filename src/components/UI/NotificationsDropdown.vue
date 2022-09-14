@@ -68,7 +68,7 @@
                 <div
                   v-if="
                     notification.type === 'friends' &&
-                    notification.state !== 'read'
+                    notification.status === 'pending'
                   "
                   class="flex flex-col sm:absolute gap-3 font-medium sm:right-40 sm:bottom-3"
                 >
@@ -131,22 +131,24 @@ export default {
     acceptFriendRequest(id, notification_id) {
       axios
         .post(`/friends/${id}/accept`, { notificationId: notification_id })
-        .then(
+        .then(() => {
           this.updateNotificationStatus({
             id: notification_id,
             status: "accepted",
-          })
-        );
+          });
+          this.updateNotificationState({ id: notification_id, state: "read" });
+        });
     },
     denyFriendRequest(id, notification_id) {
       axios
         .post(`/friends/${id}/deny`, { notificationId: notification_id })
-        .then(
+        .then(() => {
           this.updateNotificationStatus({
             id: notification_id,
             status: "denied",
-          })
-        );
+          });
+          this.updateNotificationState({ id: notification_id, state: "read" });
+        });
     },
     goToPost(notification) {
       if (notification.state === "unread") {

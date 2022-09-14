@@ -217,15 +217,10 @@ export default {
         });
     },
     getInitialQuotes() {
-      axios
-        .get("all-quotes")
-        .then((response) => {
-          this.quotes = response.data.data;
-          this.page++;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.get("all-quotes").then((response) => {
+        this.quotes = response.data.data;
+        this.page++;
+      });
     },
     goToMovie(slug) {
       this.$router.push("/movies/" + slug);
