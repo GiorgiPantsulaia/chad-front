@@ -34,7 +34,7 @@
 <script>
 import axios from "@/config/axios/index.js";
 import FriendCard from "@/components/UI/FriendCard.vue";
-import IconGoBack from "../icons/IconGoBack.vue";
+import IconGoBack from "@/components/icons/IconGoBack.vue";
 export default {
   props: {
     userId: {

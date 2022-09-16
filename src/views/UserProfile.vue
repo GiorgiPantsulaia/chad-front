@@ -7,7 +7,7 @@
           tab === 'liked-posts',
       }"
     >
-      <div class="flex flex-col items-center relative" v-if="!tab">
+      <div class="flex flex-col items-center relative" v-if="!tab && user">
         <button
           class="flex fixed self-start text-white ml-4 mt-4 items-center gap-1"
           @click="this.$router.go(-1)"
@@ -58,6 +58,9 @@
           >
             <li
               class="border-b border-gray-700 pb-2 pl-3 tracking-widest cursor-pointer flex items-center gap-5"
+              @click="
+                this.$router.push({ name: 'chat', params: { id: user.id } })
+              "
             >
               <icon-chat></icon-chat>
               Chat
@@ -112,9 +115,9 @@ import IconGoBack from "@/components/icons/IconGoBack.vue";
 import IconProfileFriends from "@/components/icons/IconProfileFriends.vue";
 import IconAddFriend from "@/components/icons/IconAddFriend.vue";
 import IconFriendsWith from "@/components/icons/IconFriendsWith.vue";
-import LikedPosts from "../components/UI/LikedPosts.vue";
-import UserFriends from "../components/UI/UserFriends.vue";
-import IconChat from "../components/icons/IconChat.vue";
+import LikedPosts from "@/components/UI/LikedPosts.vue";
+import UserFriends from "@/components/UI/UserFriends.vue";
+import IconChat from "@/components/icons/IconChat.vue";
 export default {
   props: {
     id: {
